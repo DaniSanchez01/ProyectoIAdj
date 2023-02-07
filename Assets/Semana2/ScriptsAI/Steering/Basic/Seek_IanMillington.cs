@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Seek_IanMillington : SteeringBehaviour
 {
-
+    public Agent target;
 
     public virtual void Awake()
     {
@@ -20,17 +20,13 @@ public class Seek_IanMillington : SteeringBehaviour
         // siguientes pasos.
         //
         // 1. Calcula la diferencia de las posiciones
-        // Vector3 direction = 
+        steer.linear = target.Position - agent.Position;
 
         // 2. Modifica el vector para que su módulo coincida con agente._maxAcceleration
-        // Vector3 newAcceleration = 
-
-
-        // Asignamos valores a la variable de salida
-        // steer.linear = newAcceleration;  // Descomenta
-        steer.angular = 0; // NO genera acleración angular
-
-
+        steer.linear = steer.linear.normalized;
+        steer.linear *= agent.MaxAcceleration;
+        steer.angular = 0.0f;
+        // Retornamos el resultado final.
         return steer;
     }
 }
