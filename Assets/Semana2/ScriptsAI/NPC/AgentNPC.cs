@@ -45,7 +45,7 @@ public class AgentNPC : Agent
         // Actualizar las propiedades para Time.deltaTime según NewtonEuler
         Acceleration = this.steer.linear;
         AngularAcc = this.steer.angular;
-        Velocity += Acceleration * deltaTime; 
+        Velocity += Acceleration * deltaTime;
         Rotation += AngularAcc * deltaTime; 
         Position += Velocity * deltaTime; 
         Orientation += Rotation * deltaTime; 

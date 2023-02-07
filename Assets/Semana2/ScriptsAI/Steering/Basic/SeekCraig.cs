@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Seek : SteeringBehaviour
+public class SeekCraig : SteeringBehaviour
 {
 
     // Declara las variables que necesites para este SteeringBehaviour
@@ -10,7 +10,7 @@ public class Seek : SteeringBehaviour
     
     void Start()
     {
-        this.nameSteering = "Seek";
+        this.nameSteering = "Seek Craig";
     }
 
 
@@ -19,9 +19,8 @@ public class Seek : SteeringBehaviour
         Steering steer = new Steering();
 
         // Calcula el steering.
-        steer.linear = target.Position - agent.Position;
-        steer.linear = steer.linear.normalized;
-        steer.linear *= agent.MaxAcceleration;
+        Vector3 desired_velocity = (target.Position - agent.Position).normalized * agent.MaxAcceleration;
+        steer.linear = desired_velocity - agent.Velocity;
         steer.angular = 0.0f;
         // Retornamos el resultado final.
         return steer;
