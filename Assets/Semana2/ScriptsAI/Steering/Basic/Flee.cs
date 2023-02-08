@@ -19,9 +19,8 @@ public class Flee : SteeringBehaviour
         Steering steer = new Steering();
 
         // Calcula el steering.
-        steer.linear = agent.Position - target.Position;
-        steer.linear = steer.linear.normalized;
-        steer.linear *= agent.MaxAcceleration;
+        Vector3 desired_velocity = ( agent.Position - target.Position).normalized * agent.MaxAcceleration;
+        steer.linear = desired_velocity - agent.Velocity;
         steer.angular = 0.0f;
         // Retornamos el resultado final.
         return steer;

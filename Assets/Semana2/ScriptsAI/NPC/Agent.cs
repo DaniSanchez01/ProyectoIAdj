@@ -17,8 +17,7 @@ public class Agent : Bodi
     [SerializeField] protected float _interiorAngle = 5f; // ángulo sexagesimal.
 
     [Tooltip("Ángulo exterior de la IA")]
-    [SerializeField] protected float _exteriorAngle = 30f; // ángulo sexagesimal.
-
+    [SerializeField] protected float _exteriorAngle = 50f; // ángulo sexagesimal.
 
     // AÑADIR LAS PROPIEDADES PARA ESTOS ATRIBUTOS. SI LO VES NECESARIO.
 
@@ -43,7 +42,7 @@ public class Agent : Bodi
     public float exteriorAngle
     {
         get { return _exteriorAngle; }
-        set { _exteriorAngle = Mathf.Max(_interiorAngle, value); }
+        set { _exteriorAngle = Mathf.Clamp(value,_interiorRadius, 180.0f); }
     }
     
     // AÑADIR MÉTODS FÁBRICA, SI LO VES NECESARIO.
@@ -90,6 +89,19 @@ public class Agent : Bodi
         Gizmos.DrawWireSphere(transform.position, _arrivalRadius);
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position,transform.position+2*Vector3.forward);
+        Gizmos.color = Color.black;
+        Vector3 exteriorPos = OrientationToVector(exteriorAngle+Orientation);
+        Vector3 exteriorNeg = OrientationToVector(-exteriorAngle+Orientation);
+        Gizmos.DrawLine(transform.position,transform.position + 5*exteriorPos);
+        Gizmos.DrawLine(transform.position,transform.position + 5*exteriorNeg);
+        Gizmos.color = Color.red;
+        Vector3 interiorPos = OrientationToVector(interiorAngle+Orientation);
+        Vector3 interiorNeg = OrientationToVector(-interiorAngle+Orientation);
+        Gizmos.DrawLine(transform.position,transform.position + 5*interiorPos);
+        Gizmos.DrawLine(transform.position,transform.position + 5*interiorNeg);
+        Gizmos.color = Color.green;
+        Vector3 forward = OrientationToVector(Orientation);
+        Gizmos.DrawLine(transform.position,transform.position + 5*forward);
 
     }
 }

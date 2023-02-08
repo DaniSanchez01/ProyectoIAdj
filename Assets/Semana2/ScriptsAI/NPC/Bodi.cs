@@ -158,20 +158,28 @@ public class Bodi : MonoBehaviour
         Vector3 pos = Position.normalized;
         //u.v = ||u||*||v||*sin(alpha) (en unity)
         //sin(alpha) = (u.v)/(||u||*||v||)
-        float angle = Mathf.Asin(Vector3.Dot(ejeZ,pos)) * 180 / Mathf.PI;
+        float angle = Mathf.Acos(Vector3.Dot(ejeZ,pos)) * 180 / Mathf.PI;
         return angle;
     }
 
+    //target.Position-agent.Position = distance
     public float PositionToAngle(Vector3 distance) {
         Vector3 ejeZ = Vector3.forward;
         Vector3 pos = distance.normalized;
         //u.v = ||u||*||v||*sin(alpha) (en unity)
         //sin(alpha) = (u.v)/(||u||*||v||)
-        float angle = Mathf.Acos(Vector3.Dot(ejeZ,pos)) * 180 / Mathf.PI;
+        float angle = Mathf.Acos(Vector3.Dot(ejeZ,pos)) * 180.0f /Mathf.PI;
         return angle;
     }
-    // public Vector3 OrientationToVector()
-    //      Retorna un vector a partir de una orientación usando Z como primer eje
+    //Retorna un vector a partir de una orientación usando Z como primer eje
+    public Vector3 OrientationToVector(float angle) {
+        angle = MapToRange(angle,Range.radianes);
+        float coordX = Mathf.Sin(angle);
+        float coordZ = Mathf.Cos(angle);
+        Vector3 nuevo = new Vector3(coordX,0,coordZ);
+        return nuevo;
+    }
+
     // public Vector3 VectorHeading()  // Nombre alternativo
     //      Retorna un vector a partir de una orientación usando Z como primer eje
     // public float GetMiniminAngleTo(Vector3 rotation)

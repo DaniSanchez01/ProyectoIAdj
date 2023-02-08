@@ -237,7 +237,7 @@ MonoBehaviour:
   _maxForce: 1
   _interiorRadius: 1
   _arrivalRadius: 3
-  _interiorAngle: 20
+  _interiorAngle: 5
   _exteriorAngle: 50
 --- !u!1001 &925446245
 PrefabInstance:
@@ -321,7 +321,7 @@ MonoBehaviour:
   _maxForce: 1
   _interiorRadius: 1
   _arrivalRadius: 3
-  _interiorAngle: 20
+  _interiorAngle: 5
   _exteriorAngle: 50
   steer:
     angular: 0
@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.34
+      value: 3.18
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 18.91
+      value: 15.01
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalRotation.w
