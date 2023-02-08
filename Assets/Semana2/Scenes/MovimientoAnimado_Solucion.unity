@@ -237,8 +237,8 @@ MonoBehaviour:
   _maxForce: 1
   _interiorRadius: 1
   _arrivalRadius: 3
-  _interiorAngle: 3
-  _exteriorAngle: 8
+  _interiorAngle: 20
+  _exteriorAngle: 50
 --- !u!1001 &925446245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,12 +321,12 @@ MonoBehaviour:
   _maxForce: 1
   _interiorRadius: 1
   _arrivalRadius: 3
-  _interiorAngle: 3
-  _exteriorAngle: 8
+  _interiorAngle: 20
+  _exteriorAngle: 50
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
---- !u!114 &925446252
+--- !u!114 &925446249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,10 +335,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 925446246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8f4b3c3cf58348468f247297e9591b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 482ff725f5b413b4cb2dfa3aa8dffcc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 915775713}
+  timeToTarget: 0.2
 --- !u!1001 &1611408440
 PrefabInstance:
   m_ObjectHideFlags: 0

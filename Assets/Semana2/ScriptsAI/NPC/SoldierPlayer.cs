@@ -12,6 +12,7 @@ public class SoldierPlayer : AgentPlayer
         this.MaxRotation = 20f;
         this.MaxForce = 30f;
         this._maxAngularAcc = 20f;
+        this.Orientation = 190f;
     }
 
     // Update is called once per frame

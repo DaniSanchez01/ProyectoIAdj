@@ -1,5 +1,9 @@
 using UnityEngine;
 
+public enum Range {
+    grados180,
+    radianes
+}
 public class Bodi : MonoBehaviour
 {
 
@@ -107,7 +111,10 @@ public class Bodi : MonoBehaviour
     public float Orientation
     {
         get { return _orientation; }
-        set { _orientation = value; }
+        set { _orientation = MapToRange(value,Range.grados180);
+            transform.rotation = new Quaternion();
+            transform.Rotate(Vector3.up, _orientation);         
+            }
     }
 
     // TE PUEDEN INTERESAR LOS SIGUIENTES MÉTODOS.
@@ -115,10 +122,36 @@ public class Bodi : MonoBehaviour
 
     // public float Heading()
     //      Retorna el ángulo heading en (-180, 180) en grado o radianes. Lo que consideres
-    // public static float MapToRange(float rotation, Range r)
-    //      Retorna un ángulo de (-180, 180) a (0, 360) expresado en grado or radianes
-    // public float MapToRange(Range r)
-    //      Retorna la orientación de este bodi, un ángulo de (-180, 180), a (0, 360) expresado en grado or radianes
+    
+    // Retorna un ángulo de (-180, 180) a (0, 360) expresado en grado or radianes
+    public static float MapToRange(float rotation, Range r) {
+        if (r == Range.grados180) {
+            rotation = rotation % 360;
+            if (rotation <= -180)
+                rotation += 360;
+            if (rotation > 180)
+                rotation -= 360;
+        }
+        if (r == Range.radianes) {
+            rotation = rotation % 360;
+            if (rotation <= -180)
+                rotation += 360;
+            if (rotation > 180)
+                rotation -= 360;
+            rotation = Mathf.PI * rotation / 180.0f;
+        }
+        return rotation;
+    }
+    
+    //Retorna la orientación de este bodi, un ángulo de (-180, 180), a (0, 360) expresado en grado or radianes
+    public float MapToRange(Range r) {
+        float angle = Orientation;
+        if (r == Range.radianes) {
+            angle = Mathf.PI * angle / 180.0f;
+        }
+        return angle;
+    }
+    
     // public float PositionToAngle()
     //      Retorna el ángulo de una posición usando el eje Z como el primer eje
     // public Vector3 OrientationToVector()

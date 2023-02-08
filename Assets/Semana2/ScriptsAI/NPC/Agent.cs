@@ -14,10 +14,10 @@ public class Agent : Bodi
     [SerializeField] protected float _arrivalRadius = 3f;
 
     [Tooltip("Ángulo interior de la IA")]
-    [SerializeField] protected float _interiorAngle = 3.0f; // ángulo sexagesimal.
+    [SerializeField] protected float _interiorAngle = 5f; // ángulo sexagesimal.
 
     [Tooltip("Ángulo exterior de la IA")]
-    [SerializeField] protected float _exteriorAngle = 8.0f; // ángulo sexagesimal.
+    [SerializeField] protected float _exteriorAngle = 30f; // ángulo sexagesimal.
 
 
     // AÑADIR LAS PROPIEDADES PARA ESTOS ATRIBUTOS. SI LO VES NECESARIO.
