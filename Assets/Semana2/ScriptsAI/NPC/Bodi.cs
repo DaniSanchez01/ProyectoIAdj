@@ -152,8 +152,24 @@ public class Bodi : MonoBehaviour
         return angle;
     }
     
-    // public float PositionToAngle()
-    //      Retorna el ángulo de una posición usando el eje Z como el primer eje
+    //Retorna el ángulo de una posición usando el eje Z como el primer eje
+    public float PositionToAngle() {
+        Vector3 ejeZ = Vector3.forward;
+        Vector3 pos = Position.normalized;
+        //u.v = ||u||*||v||*sin(alpha) (en unity)
+        //sin(alpha) = (u.v)/(||u||*||v||)
+        float angle = Mathf.Asin(Vector3.Dot(ejeZ,pos)) * 180 / Mathf.PI;
+        return angle;
+    }
+
+    public float PositionToAngle(Vector3 distance) {
+        Vector3 ejeZ = Vector3.forward;
+        Vector3 pos = distance.normalized;
+        //u.v = ||u||*||v||*sin(alpha) (en unity)
+        //sin(alpha) = (u.v)/(||u||*||v||)
+        float angle = Mathf.Acos(Vector3.Dot(ejeZ,pos)) * 180 / Mathf.PI;
+        return angle;
+    }
     // public Vector3 OrientationToVector()
     //      Retorna un vector a partir de una orientación usando Z como primer eje
     // public Vector3 VectorHeading()  // Nombre alternativo

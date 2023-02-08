@@ -19,9 +19,11 @@ public class Align : SteeringBehaviour
     {
         float targetRotation = 0f;
         Steering steer = new Steering();
+        targetRotation = target.PositionToAngle(target.Position-agent.Position);
+        Debug.Log(targetRotation);
 
         // Calcula el steering.
-        float rotation = target.Orientation - agent.Orientation;
+        /*float rotation = target.Orientation - agent.Orientation;
         rotation = Bodi.MapToRange(rotation,Range.grados180);
 
         float rotationSize = Mathf.Abs(rotation);
@@ -48,7 +50,7 @@ public class Align : SteeringBehaviour
         }
 
         steer.linear = Vector3.zero;
-        // Retornamos el resultado final.
+        // Retornamos el resultado final.*/
         return steer;
     }
 }

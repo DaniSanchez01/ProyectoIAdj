@@ -88,6 +88,8 @@ public class Agent : Bodi
         Gizmos.DrawWireSphere(transform.position, _interiorRadius);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _arrivalRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position,transform.position+2*Vector3.forward);
 
     }
 }
