@@ -7,8 +7,8 @@ public class SoldierPlayer : AgentPlayer
     // Start is called before the first frame update
     void Start()
     {
-        this.MaxSpeed = 30f;
-        this.MaxAcceleration = 5f;
+        this.MaxSpeed = 23f;
+        this.MaxAcceleration = 7f;
         this.MaxRotation = 20f;
         this.MaxForce = 30f;
         this._maxAngularAcc = 20f;

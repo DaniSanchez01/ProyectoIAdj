@@ -19,7 +19,12 @@ public class SeekCraig : SteeringBehaviour
         Steering steer = new Steering();
 
         // Calcula el steering.
-        Vector3 desired_velocity = (target.Position - agent.Position).normalized * agent.MaxAcceleration;
+        Vector3 distance = target.Position - agent.Position;
+        if (distance.magnitude<agent.interiorRadius) {
+            agent.Velocity = Vector3.zero;
+            return steer;
+        }
+        Vector3 desired_velocity = distance.normalized * agent.MaxSpeed;
         steer.linear = desired_velocity - agent.Velocity;
         steer.angular = 0.0f;
         // Retornamos el resultado final.

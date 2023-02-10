@@ -60,6 +60,8 @@ public class Agent : Bodi
         Agent cuerpo = virt.AddComponent<Agent>();
         cuerpo.interiorRadius = interiorRadius;
         cuerpo.arrivalRadius = arrivalRadius;
+        cuerpo.exteriorAngle = exteriorAngle;
+        cuerpo.interiorAngle = interiorAngle;
         cuerpo.Acceleration = Vector3.zero;
         cuerpo.AngularAcc = 0.0f;
         cuerpo.Velocity = Vector3.zero;

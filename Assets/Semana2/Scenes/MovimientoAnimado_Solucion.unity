@@ -336,7 +336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.11
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -344,7 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.358143
+      value: 14.91
       objectReference: {fileID: 0}
     - target: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -419,11 +419,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 925446246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e38aec3b853263745ab56a893d8e3e7e, type: 3}
+  m_Script: {fileID: 11500000, guid: a75cbc0fb6cd6af43900ec58a8d4b5b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 915775713}
-  timeToTarget: 0.3
+  target: {fileID: 0}
+  pursueTarget: {fileID: 915775713}
+  maxPrediction: 0
 --- !u!1001 &1611408440
 PrefabInstance:
   m_ObjectHideFlags: 0
