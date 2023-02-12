@@ -15,9 +15,9 @@ public class AgentPlayer : Agent
     {
         // Mientras que no definas las propiedades en Bodi esto seguirá dando error.
 
-        Vector3 Velocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 vel = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-        Velocity *= MaxSpeed;  // DESCOMENTA !!
+        Velocity = vel * MaxSpeed;  // DESCOMENTA !!
         Vector3 translation = Velocity * Time.deltaTime;
         transform.Translate(translation, Space.World);
 

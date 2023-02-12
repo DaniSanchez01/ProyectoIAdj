@@ -5,8 +5,11 @@ using UnityEngine;
 public class Evade : Flee
 {
     
-    public Agent evadeTarget; 
+    public Agent fleeTarget; 
+    private Agent virt;
     public float maxPrediction;
+
+    private Vector3 newPosition;
 
     void Start()
     {
@@ -19,7 +22,7 @@ public class Evade : Flee
         Steering steer = new Steering();
 
         // Calcula la distancia al target
-        Vector3 direction = evadeTarget.Position - agent.Position;
+        Vector3 direction = fleeTarget.Position - agent.Position;
         float distance = direction.magnitude;
 
         //Coge nuestra velocidad.
@@ -31,9 +34,16 @@ public class Evade : Flee
         else {
             prediction = distance / speed;
         }
-        target = evadeTarget;
-        target.Position += target.Velocity * prediction;
-
+        
+        newPosition = fleeTarget.Position + fleeTarget.Velocity * prediction;
+        if (virt == null) {
+            virt = fleeTarget.CreateVirtual(newPosition);
+        }
+        else {
+            fleeTarget.UpdateVirtual(virt,newPosition);
+        }
+        
+        target = virt;
         return base.GetSteering(agent);
     }
 }

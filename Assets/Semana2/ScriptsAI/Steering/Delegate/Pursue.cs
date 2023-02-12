@@ -6,7 +6,10 @@ public class Pursue : SeekCraig
 {
     
     public Agent pursueTarget; 
+    private Agent virt;
     public float maxPrediction;
+
+    private Vector3 newPosition;
 
     void Start()
     {
@@ -31,9 +34,16 @@ public class Pursue : SeekCraig
         else {
             prediction = distance / speed;
         }
-        target = pursueTarget;
-        target.Position += target.Velocity * prediction;
-
+        
+        newPosition = pursueTarget.Position + pursueTarget.Velocity * prediction;
+        if (virt == null) {
+            virt = pursueTarget.CreateVirtual(newPosition);
+        }
+        else {
+            pursueTarget.UpdateVirtual(virt,newPosition);
+        }
+        
+        target = virt;
         return base.GetSteering(agent);
     }
 }
