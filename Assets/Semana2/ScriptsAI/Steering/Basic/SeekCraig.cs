@@ -21,7 +21,7 @@ public class SeekCraig : SteeringBehaviour
         // Calcula el steering.
         Vector3 distance = target.Position - agent.Position;
         if (distance.magnitude<agent.interiorRadius) {
-            agent.Velocity = Vector3.zero;
+            steer.linear =-agent.Velocity/Time.deltaTime;
             return steer;
         }
         Vector3 desired_velocity = distance.normalized * agent.MaxSpeed;

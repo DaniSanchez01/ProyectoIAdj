@@ -22,7 +22,7 @@ public class Seek_IanMillington : SteeringBehaviour
         // 1. Calcula la diferencia de las posiciones
         Vector3 distance = target.Position - agent.Position;
         if (distance.magnitude<agent.interiorRadius) {
-            agent.Velocity = Vector3.zero;
+            steer.linear =-agent.Velocity/Time.deltaTime;
             return steer;
         }
         // 2. Modifica el vector para que su módulo coincida con agente._maxAcceleration

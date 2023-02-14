@@ -47,19 +47,20 @@ public class Bodi : MonoBehaviour
     public float Speed
     {
         get { return _speed; }
-        set { /*float sp*/_speed = Mathf.Max(0, _maxSpeed);
-            /*if (sp < 0.03) _speed = 0f;
-            else _speed = sp;*/
+        set { float sp = Mathf.Max(0, _maxSpeed);
+                if (sp < 0.03) _speed = 0f;
+                else _speed = sp;
         }
+        /*set { _speed = Mathf.Max(0, _maxSpeed); }*/
     }
     public Vector3 Velocity
     {
         get { return new Vector3(_velocity.x, _velocity.y, _velocity.z); } // Devuelve una copia del vector
-        set {  
-                /*Vector3 vel*/ _velocity = Vector3.ClampMagnitude(value, _maxSpeed);
-                /*if (vel.magnitude < 0.03) _velocity = Vector3.zero;
-                else _velocity = vel;*/
+        set {  Vector3 vel = Vector3.ClampMagnitude(value, _maxSpeed);
+                if (vel.magnitude < 0.03) _velocity = Vector3.zero;
+                else _velocity = vel;
         }
+        /*set { _velocity = Vector3.ClampMagnitude(value, _maxSpeed); }*/
     }
     public float MaxRotation
     {
@@ -69,10 +70,11 @@ public class Bodi : MonoBehaviour
     public float Rotation
     {
         get { return _rotation; }
-        set { /*float rot*/_rotation = Mathf.Clamp(value, -_maxRotation, _maxRotation);
-            /*if (rot < 0.01) _rotation = 0f;
-            else _rotation = rot;*/
+        set { float rot = Mathf.Clamp(value, -_maxRotation, _maxRotation);
+                if (rot < 0.03 && rot > -0.03) _rotation = 0f;
+                else _rotation = rot;
         }
+        /*set {_rotation = Mathf.Clamp(value, -_maxRotation, _maxRotation);}*/
     }
     public float MaxAcceleration
     {
@@ -82,10 +84,11 @@ public class Bodi : MonoBehaviour
     public Vector3 Acceleration
     {
         get { return new Vector3(_acceleration.x, _acceleration.y, _acceleration.z); } // Devuelve una copia del vector
-        set { /*Vector3 acc*/_acceleration = Vector3.ClampMagnitude(value, _maxAcceleration);
-            /*if (acc.magnitude < 0.03) _acceleration = Vector3.zero;
-            else _acceleration = acc;*/
-        }       // Solo se acepta una aceleración nueva no mayor a max (magnitud)
+        set { Vector3 acc = Vector3.ClampMagnitude(value, _maxAcceleration);
+                if (acc.magnitude < 0.03) _acceleration = Vector3.zero;
+                else _acceleration = acc;
+        }       
+        /*set {_acceleration = Vector3.ClampMagnitude(value, _maxAcceleration);}*/
     }
     
     public float MaxAngularAcc
@@ -97,10 +100,11 @@ public class Bodi : MonoBehaviour
     public float AngularAcc
     {
         get { return _angularAcc; }
-        set { /*float ang*/ _angularAcc= Mathf.Clamp(value,-_maxAngularAcc, _maxAngularAcc);
-            /*if (ang < 0.05) _angularAcc = 0f;
-            else _angularAcc = ang;*/
-        } // Podría existir una aceleración angular negativa
+        set { float ang= Mathf.Clamp(value,-_maxAngularAcc, _maxAngularAcc);
+                if (ang < 0.03 && ang > -0.03) _angularAcc = 0f;
+                else _angularAcc = ang;
+        }
+        /*set { _angularAcc= Mathf.Clamp(value,-_maxAngularAcc, _maxAngularAcc); }*/
     }
     // public Vector3 Position. Recuerda. Esta es la única propiedad que trabaja sobre transform.
     public Vector3 Position

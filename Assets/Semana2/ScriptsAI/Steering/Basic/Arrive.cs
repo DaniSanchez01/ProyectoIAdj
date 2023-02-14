@@ -13,6 +13,10 @@ public class Arrive : SteeringBehaviour
         this.nameSteering = "Arrive";
     }
 
+    public void NewTarget(Agent t) {
+        target = t;
+    }
+
     public override Steering GetSteering(Agent agent)
     {
         Steering steer = new Steering();
@@ -22,17 +26,18 @@ public class Arrive : SteeringBehaviour
         float distance = direction.magnitude;
 
         // Calcular la velocidad dentro del radio de llegada
-        float targetSpeed = target.MaxSpeed;
         if (distance < target.interiorRadius){
             steer.linear =-agent.Velocity/Time.deltaTime;
             return steer;
 
         }
+        float targetSpeed;
+        
         if (distance > target.arrivalRadius){
-            targetSpeed = target.MaxSpeed;
+            targetSpeed = agent.MaxSpeed;
         }
         else {
-            targetSpeed = target.MaxSpeed * distance / (target.arrivalRadius);
+            targetSpeed = agent.MaxSpeed * distance / (target.arrivalRadius);
         }
         
         // Calcular la velocidad deseada

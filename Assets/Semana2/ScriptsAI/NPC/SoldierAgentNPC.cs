@@ -8,7 +8,7 @@ public class SoldierAgentNPC : AgentNPC
     void Start()
     {
         this.MaxSpeed = 16f;
-        this.MaxAcceleration = 7f;
+        this.MaxAcceleration = 15f;
         this.MaxRotation = 50f;
         this.MaxForce = 30f;
         this._maxAngularAcc = 40f;
