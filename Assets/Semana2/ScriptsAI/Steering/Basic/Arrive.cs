@@ -18,16 +18,23 @@ public class Arrive : SteeringBehaviour
         Steering steer = new Steering();
 
         // Calcular la dirección hacia el objetivo
-        Vector3 direction = target.Position - agent.transform.position; // podríamos usar la Transform del target?
+        Vector3 direction = target.Position - agent.Position; // podríamos usar la Transform del target?
         float distance = direction.magnitude;
 
         // Calcular la velocidad dentro del radio de llegada
         float targetSpeed = target.MaxSpeed;
-        if (distance < target.arrivalRadius)
-        {
-            targetSpeed = target.MaxSpeed * distance / target.arrivalRadius;
+        if (distance < target.interiorRadius){
+            targetSpeed = 0;
+            // target.MaxAcceleration = -target.MaxAcceleration/8;
+        }
+        if (distance > target.arrivalRadius){
+            targetSpeed = target.MaxSpeed;
+        }
+        else {
+            targetSpeed = target.MaxSpeed * distance / (target.arrivalRadius);
         }
 
+        
         // Calcular la velocidad deseada
         Vector3 targetVelocity = direction;
         targetVelocity.Normalize();
@@ -35,6 +42,8 @@ public class Arrive : SteeringBehaviour
 
         steer.linear = targetVelocity - agent.Velocity;
         steer.linear /= timeToTarget;
+
+        
 
         if (steer.linear.magnitude > target.MaxAcceleration)
         {
