@@ -166,7 +166,7 @@ public class Bodi : MonoBehaviour
     public float PositionToAngle(Vector3 distance) {
         Vector3 ejeZ = Vector3.forward;
         Vector3 pos = distance.normalized;
-        //u.v = ||u||*||v||*sin(alpha) (en unity)
+        //u.v = ||u||*||v||*cos(alpha) (en unity)
         //sin(alpha) = (u.v)/(||u||*||v||)
         float angle = Mathf.Acos(Vector3.Dot(ejeZ,pos)) * 180.0f /Mathf.PI;
         return angle;

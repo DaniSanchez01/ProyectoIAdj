@@ -24,8 +24,9 @@ public class Arrive : SteeringBehaviour
         // Calcular la velocidad dentro del radio de llegada
         float targetSpeed = target.MaxSpeed;
         if (distance < target.interiorRadius){
-            targetSpeed = 0;
-            // target.MaxAcceleration = -target.MaxAcceleration/8;
+            steer.linear =-agent.Velocity/Time.deltaTime;
+            return steer;
+
         }
         if (distance > target.arrivalRadius){
             targetSpeed = target.MaxSpeed;
@@ -33,7 +34,6 @@ public class Arrive : SteeringBehaviour
         else {
             targetSpeed = target.MaxSpeed * distance / (target.arrivalRadius);
         }
-
         
         // Calcular la velocidad deseada
         Vector3 targetVelocity = direction;
@@ -45,10 +45,10 @@ public class Arrive : SteeringBehaviour
 
         
 
-        if (steer.linear.magnitude > target.MaxAcceleration)
+        if (steer.linear.magnitude > agent.MaxAcceleration)
         {
             steer.linear.Normalize();
-            steer.linear *= target.MaxAcceleration;
+            steer.linear *= agent.MaxAcceleration;
         }
 
         // Devolver el resultado final
