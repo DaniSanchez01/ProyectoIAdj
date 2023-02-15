@@ -419,11 +419,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 925446246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 482ff725f5b413b4cb2dfa3aa8dffcc8, type: 3}
+  m_Script: {fileID: 11500000, guid: c88f7f5bc6bca194fbdd66a59c561ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 915775713}
+  target: {fileID: 0}
   timeToTarget: 0.3
+  FaceTarget: {fileID: 915775713}
 --- !u!1001 &1611408440
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,21 +31,19 @@ public class Face : Align
         newOrientation = agent.PositionToAngle(direccion); //se obtiene el angulo respecto
         //al ejeZ del vector va del agente al target
 
-        //Me faltan implementar los metodos comentados
-
-        if(virt!=null) //tenemos ya el objetivo virtual
+        if(virt==null) //no tenemos el objetivo virtual
         {
-            return null;
-            //virt.CreateVirtual(FaceTarget.Position,newOrientation);
+           
+            virt = FaceTarget.CreateVirtual(FaceTarget.Position); //toma radio por defecto -1
+            virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
         }
-        else
+        else //lo tenemos ya creado
         {
-            return null;
             //virt.UpdateVirtual(virt,FaceTarget.Position,newOrientation);
+            virt.Position = FaceTarget.Position; //se pueden usar los metodos set directamente para actualizar
+            virt.Orientation = newOrientation; //nueva orientacion
         }
 
-        //da warning porque detecta codigo innacesible porque he puesto 2
-        //Returns arriba
         target = virt;
         return base.GetSteering(agent);
 
