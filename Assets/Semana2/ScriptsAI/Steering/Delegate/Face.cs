@@ -30,17 +30,18 @@ public class Face : Align
         //positionToAngle deberia ser mejor un metodo estatico
         newOrientation = agent.PositionToAngle(direccion); //se obtiene el angulo respecto
         //al ejeZ del vector va del agente al target
+        if (direccion.x < 0) newOrientation = -newOrientation;
 
         if(virt==null) //no tenemos el objetivo virtual
         {
            
-            virt = FaceTarget.CreateVirtual(FaceTarget.Position); //toma radio por defecto -1
+            virt = agent.CreateVirtual(agent.Position); //toma radio por defecto -1
             virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
         }
         else //lo tenemos ya creado
         {
             //virt.UpdateVirtual(virt,FaceTarget.Position,newOrientation);
-            virt.Position = FaceTarget.Position; //se pueden usar los metodos set directamente para actualizar
+            virt.Position = agent.Position; //se pueden usar los metodos set directamente para actualizar
             virt.Orientation = newOrientation; //nueva orientacion
         }
 

@@ -14,6 +14,7 @@ public class PathFollowingNoOffset : SeekCraig
     // Start is called before the first frame update
     void Start()
     {
+        base.nameSteering = "PathFollowing";
         path.Add(new Vector3(30f,0f,0f));
         path.Add(new Vector3(30f,0f,-40f));
         path.Add(new Vector3(-10f,0f,-20f));
