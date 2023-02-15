@@ -19,8 +19,6 @@ public class Pursue : SeekCraig
     public override Steering GetSteering(Agent agent)
     {
         
-        Steering steer = new Steering();
-
         // Calcula la distancia al target
         Vector3 direction = pursueTarget.Position - agent.Position;
         float distance = direction.magnitude;

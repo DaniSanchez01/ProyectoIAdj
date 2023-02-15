@@ -52,13 +52,14 @@ public class Agent : Bodi
     // solo tienen que ser "sensible" - si fuera necesario - a que lo tocan.
     // Planteate la posibilidad de crear aquí métodos fábrica (estáticos) para
     // crear esos agentes. Para ello crea un GameObject y usa:
-    public Agent CreateVirtual(Vector3 pos)
+    public Agent CreateVirtual(Vector3 pos, float intRadius = -1)
     {
         GameObject virt = new GameObject();
         virt.AddComponent<BoxCollider>();
         virt.GetComponent<Collider>().isTrigger = true;
         Agent cuerpo = virt.AddComponent<Agent>();
-        cuerpo.interiorRadius = interiorRadius;
+        if (intRadius == -1) intRadius = interiorRadius;
+        cuerpo.interiorRadius = intRadius;
         cuerpo.arrivalRadius = arrivalRadius;
         cuerpo.exteriorAngle = exteriorAngle;
         cuerpo.interiorAngle = interiorAngle;
