@@ -5,17 +5,21 @@ using UnityEngine;
 public class Wander : Face
 {
     // Suponemos un circulo
-    public float wanderRadius = 5.0f;
-    public Vector3 wanderOffset = new Vector3(1.0f,0f,1.0f);
+    public float wanderRadius = 2f;
+    public float wanderOffset = 5f;
     // Establece nuestro máximo, en que rango se va a ir moviendo
-    public float wanderRate = 0.05f;
+    public float wanderRate =5f;
     // Orientacion del target
-    private float wanderOrientation;
-    public float maxAcceleration = 0.01f;
+    float wanderOrientation = 0f;
+    private Agent virtWander; //agente virtual ficticio para llevar acabo el align
 
+
+    Vector3 centerCircle = Vector3.zero;
+    Vector3 offsetLine = Vector3.zero;
     private void Start()
     {
         this.nameSteering = "Wander";
+        FaceTarget = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0,arrRadius: 1,paint: false);
     }
 
     // Valor aleatorio entre -1 y 1
@@ -33,16 +37,28 @@ public class Wander : Face
         float targetOrientation = wanderOrientation + agent.Orientation;
 
         // Calculamos targetPosition
-        Vector3 targetPosition = agent.Position + wanderOffset; // * new Vector3(Mathf.Cos(agent.Orientation), 0f, Mathf.Sin(agent.Orientation));
-        targetPosition += wanderRadius * new Vector3(Mathf.Cos(targetOrientation), 0f, Mathf.Sin(targetOrientation));
+        offsetLine = wanderOffset * agent.OrientationToVector(agent.Orientation);
+        centerCircle = agent.Position + offsetLine;
+        Vector3 targetPosition = centerCircle + wanderRadius * agent.OrientationToVector(targetOrientation);
 
         // Face
-        FaceTarget.Position = targetPosition;
+        FaceTarget.Position = targetPosition; 
         steering = base.GetSteering(agent);
 
         // maxAcceleration en la orientación del agente
-        steering.linear = new Vector3(maxAcceleration * Mathf.Cos(agent.Orientation), 0f, maxAcceleration * Mathf.Sin(agent.Orientation));
+        steering.linear = agent.MaxAcceleration * agent.OrientationToVector(agent.Orientation);
 
         return steering;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(centerCircle, wanderRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(FaceTarget.Position, 0.2f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(centerCircle,centerCircle-offsetLine);
+
     }
 }

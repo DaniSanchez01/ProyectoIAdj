@@ -20,7 +20,7 @@ public class Agent : Bodi
     [SerializeField] protected float _exteriorAngle = 50f; // ángulo sexagesimal.
 
     // AÑADIR LAS PROPIEDADES PARA ESTOS ATRIBUTOS. SI LO VES NECESARIO.
-
+    public bool giz = true;
     public float interiorRadius
     {
         get { return _interiorRadius; }
@@ -52,7 +52,26 @@ public class Agent : Bodi
     // solo tienen que ser "sensible" - si fuera necesario - a que lo tocan.
     // Planteate la posibilidad de crear aquí métodos fábrica (estáticos) para
     // crear esos agentes. Para ello crea un GameObject y usa:
-    public Agent CreateVirtual(Vector3 pos, float intRadius = -1)
+    
+    public static Agent CreateStaticVirtual(Vector3 pos, float intRadius = 1f, float arrRadius = 3f, bool paint = true) {
+        GameObject virt = new GameObject();
+        virt.AddComponent<BoxCollider>();
+        virt.GetComponent<Collider>().isTrigger = true;
+        Agent cuerpo = virt.AddComponent<Agent>();
+        cuerpo.interiorRadius = intRadius;
+        cuerpo.arrivalRadius = arrRadius;
+        cuerpo.exteriorAngle = 50f;
+        cuerpo.interiorAngle = 5f;
+        cuerpo.Acceleration = Vector3.zero;
+        cuerpo.AngularAcc = 0.0f;
+        cuerpo.Velocity = Vector3.zero;
+        cuerpo.Rotation = 0.0f;
+        cuerpo.Position = pos;
+        cuerpo.Orientation = 0f;
+        cuerpo.giz = paint;
+        return cuerpo;
+    }
+    public Agent CreateVirtual(Vector3 pos, float intRadius = -1, float arrRadius = -1)
     {
         GameObject virt = new GameObject();
         virt.AddComponent<BoxCollider>();
@@ -60,7 +79,8 @@ public class Agent : Bodi
         Agent cuerpo = virt.AddComponent<Agent>();
         if (intRadius == -1) intRadius = interiorRadius;
         cuerpo.interiorRadius = intRadius;
-        cuerpo.arrivalRadius = arrivalRadius;
+        if (arrRadius == -1) arrRadius = arrivalRadius;
+        cuerpo.arrivalRadius = arrRadius;
         cuerpo.exteriorAngle = exteriorAngle;
         cuerpo.interiorAngle = interiorAngle;
         cuerpo.Acceleration = Vector3.zero;
@@ -101,26 +121,27 @@ public class Agent : Bodi
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _interiorRadius);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, _arrivalRadius);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position,transform.position+2*Vector3.forward);
-        Gizmos.color = Color.black;
-        Vector3 exteriorPos = OrientationToVector(exteriorAngle+Orientation);
-        Vector3 exteriorNeg = OrientationToVector(-exteriorAngle+Orientation);
-        Gizmos.DrawLine(transform.position,transform.position + 5*exteriorPos);
-        Gizmos.DrawLine(transform.position,transform.position + 5*exteriorNeg);
-        Gizmos.color = Color.red;
-        Vector3 interiorPos = OrientationToVector(interiorAngle+Orientation);
-        Vector3 interiorNeg = OrientationToVector(-interiorAngle+Orientation);
-        Gizmos.DrawLine(transform.position,transform.position + 5*interiorPos);
-        Gizmos.DrawLine(transform.position,transform.position + 5*interiorNeg);
-        Gizmos.color = Color.green;
-        Vector3 forward = OrientationToVector(Orientation);
-        Gizmos.DrawLine(transform.position,transform.position + 5*forward);
-
+        if (giz) {        
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _interiorRadius);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, _arrivalRadius);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position,transform.position+2*Vector3.forward);
+            Gizmos.color = Color.black;
+            Vector3 exteriorPos = OrientationToVector(exteriorAngle+Orientation);
+            Vector3 exteriorNeg = OrientationToVector(-exteriorAngle+Orientation);
+            Gizmos.DrawLine(transform.position,transform.position + 5*exteriorPos);
+            Gizmos.DrawLine(transform.position,transform.position + 5*exteriorNeg);
+            Gizmos.color = Color.red;
+            Vector3 interiorPos = OrientationToVector(interiorAngle+Orientation);
+            Vector3 interiorNeg = OrientationToVector(-interiorAngle+Orientation);
+            Gizmos.DrawLine(transform.position,transform.position + 5*interiorPos);
+            Gizmos.DrawLine(transform.position,transform.position + 5*interiorNeg);
+            Gizmos.color = Color.green;
+            Vector3 forward = OrientationToVector(Orientation);
+            Gizmos.DrawLine(transform.position,transform.position + 5*forward);
+        }
     }
 }
 
