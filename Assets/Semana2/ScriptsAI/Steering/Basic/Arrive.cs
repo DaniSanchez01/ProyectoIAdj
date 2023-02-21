@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Arrive : SteeringBehaviour
 {
-    public Vector3 targetPosition; // El objetivo hacia el que nos estamos acercando
-    public float maxSpeed; // Velocidad máxima que puede tener el agente
-    public float arrivalRadius; // Radio de satisfacción
-    public float timeToTarget = 0.1f; // Tiempo para llegar al objetivo ?
-    public float maxAcceleration; // Aceleración máxima que puede tener el agente
 
     public Agent target;
     public float timeToTarget = 0.1f; // Tiempo para llegar al objetivo ?
-
 
     void Start()
     {
@@ -46,7 +40,6 @@ public class Arrive : SteeringBehaviour
             targetSpeed = agent.MaxSpeed * distance / (target.arrivalRadius);
         }
         
-
         // Calcular la velocidad deseada
         Vector3 targetVelocity = direction;
         targetVelocity.Normalize();
@@ -61,7 +54,6 @@ public class Arrive : SteeringBehaviour
         {
             steer.linear.Normalize();
             steer.linear *= agent.MaxAcceleration;
-
         }
 
         // Devolver el resultado final
