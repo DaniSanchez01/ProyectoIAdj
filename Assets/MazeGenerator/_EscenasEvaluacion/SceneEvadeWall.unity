@@ -228,6 +228,10 @@ PrefabInstance:
       propertyPath: m_NormalizedViewPortRect.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 925446248, guid: 2b46ac3967176594db9d131039fdec48, type: 3}
+      propertyPath: giz
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2051837216282457207, guid: 2b46ac3967176594db9d131039fdec48, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -486,7 +490,7 @@ MonoBehaviour:
   _arrivalRadius: 3
   _interiorAngle: 5
   _exteriorAngle: 50
-  giz: 1
+  giz: 0
 --- !u!4 &1557573031 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2686890238580842728, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
@@ -578,7 +582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4621291737449474972, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.15
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4621291737449474972, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
       propertyPath: m_LocalPosition.z

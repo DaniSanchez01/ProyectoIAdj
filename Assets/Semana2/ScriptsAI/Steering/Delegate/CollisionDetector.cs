@@ -18,9 +18,12 @@ public class CollisionDetector : MonoBehaviour
         RaycastHit hitInfo;
         if (Physics.Raycast(rayo, out hitInfo))
             {
-                if (hitInfo.distance <= moveAmount.magnitude) {
+                if (hitInfo.distance <= moveAmount.magnitude && hitInfo.point.y ==0f) {
                     answer.position = hitInfo.point;
                     answer.normal = hitInfo.normal;
+                    if (answer.normal.y != 0f) answer.normal.y =0f;
+                    if (answer.position.y != 0f) answer.position.y =0f;
+
                     return answer;
                 }
             }

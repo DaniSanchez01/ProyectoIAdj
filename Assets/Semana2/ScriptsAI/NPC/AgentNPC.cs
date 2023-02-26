@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+
 public class AgentNPC : Agent
 { 
     // Este será el steering final que se aplique al personaje.
@@ -85,4 +86,5 @@ public class AgentNPC : Agent
         // El resultado final se guarda para ser aplicado en el siguiente frame.
         this.steer = kinematicFinal;
     }
+    
 }

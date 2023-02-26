@@ -6,9 +6,6 @@ public class WallAvoidance : SeekCraig
 {
     public bool gizmos = false;
     Agent virt;
-    public float lookahead = 4f;
-    public float avoidDistance = 2f;
-
     private Vector3 agentPos;
     private Vector3 collisionPos;
 
@@ -29,16 +26,14 @@ public class WallAvoidance : SeekCraig
         agentPos = agent.Position;
         Vector3 rayVector = agent.Velocity;
         rayVector = rayVector.normalized;
-        rayVector *= lookahead;
+        rayVector *= agent.lookahead;
 
         CollisionDetector.Collision collision = CollisionDetector.getCollision(agentPos, rayVector);
         if (collision.normal == Vector3.zero) {
-            Debug.Log("Sigue");
             return base.GetSteering(agent); 
         }
-        Debug.Log("Choque");
         collisionPos=collision.position;
-        virt.Position = collision.position + collision.normal * avoidDistance;
+        virt.Position = collision.position + collision.normal * agent.avoidDistance;
         target = virt;
         return base.GetSteering(agent);
 

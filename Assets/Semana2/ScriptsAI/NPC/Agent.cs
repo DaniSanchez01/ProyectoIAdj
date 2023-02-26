@@ -7,6 +7,9 @@ using UnityEngine;
 [AddComponentMenu("Steering/InteractiveObject/Agent")]
 public class Agent : Bodi
 {
+    public float lookahead = 5f;
+    public float avoidDistance = 2f;
+    
     [Tooltip("Radio interior de la IA")]
     [SerializeField] protected float _interiorRadius = 1f;
 
@@ -121,7 +124,7 @@ public class Agent : Bodi
 
     void OnDrawGizmos()
     {
-        if (giz) {        
+        if (giz == true) {        
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, _interiorRadius);
             Gizmos.color = Color.blue;
@@ -141,6 +144,8 @@ public class Agent : Bodi
             Gizmos.color = Color.green;
             Vector3 forward = OrientationToVector(Orientation);
             Gizmos.DrawLine(transform.position,transform.position + 5*forward);
+            Gizmos.color = Color.black;
+            Gizmos.DrawLine(Position,Position+Velocity.normalized*lookahead);
         }
     }
 }

@@ -110,7 +110,8 @@ public class Bodi : MonoBehaviour
     public Vector3 Position
     {
         get { return transform.position; }
-        set { transform.position = value; }
+        set {   value.y = 0;
+                transform.position = value; }
     }
     public float Orientation
     {
