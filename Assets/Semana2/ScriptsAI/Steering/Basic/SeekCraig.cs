@@ -22,6 +22,7 @@ public class SeekCraig : SteeringBehaviour
         Vector3 distance = target.Position - agent.Position;
         if (distance.magnitude<agent.interiorRadius) {
             steer.linear =-agent.Velocity/Time.deltaTime;
+            steer.linear = Vector3.ClampMagnitude(steer.linear, agent.MaxAcceleration);
             return steer;
         }
         Vector3 desired_velocity = distance.normalized * agent.MaxSpeed;

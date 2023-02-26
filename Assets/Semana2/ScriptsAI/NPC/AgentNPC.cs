@@ -63,15 +63,17 @@ public class AgentNPC : Agent
 
     public virtual void LateUpdate()
     {
-        Steering kinematicFinal = new Steering();
-        Steering kinematic = new Steering();
+        //Steering kinematicFinal = new Steering();
+        //Steering kinematic = new Steering();
 
         // Reseteamos el steering final.
         this.steer = new Steering();
 
+        IArbitraje arbitro = FactoriaArbitros.GetArbitraje("ArbitroSimple");
+        this.steer = arbitro.calcula(listSteerings,this);
         // Recorremos cada steering
-        foreach (SteeringBehaviour behavior in listSteerings)
-            kinematicFinal = behavior.GetSteering(this);
+        //foreach (SteeringBehaviour behavior in listSteerings)
+        //    kinematicFinal = behavior.GetSteering(this);
         //// La cinemática de este SteeringBehaviour se tiene que combinar
         //// con las cinemáticas de los demás SteeringBehaviour.
         //// Debes usar kinematic con el árbitro desesado para combinar todos
@@ -84,7 +86,7 @@ public class AgentNPC : Agent
 
 
         // El resultado final se guarda para ser aplicado en el siguiente frame.
-        this.steer = kinematicFinal;
+        //this.steer = kinematicFinal;
     }
     
 }

@@ -9,9 +9,9 @@ public class SoldierAgentNPC : AgentNPC
     {
         this.MaxSpeed = 16f;
         this.MaxAcceleration = 15f;
-        this.MaxRotation = 50f;
+        this.MaxRotation = 90f;
         this.MaxForce = 30f;
-        this._maxAngularAcc = 40f;
+        this.MaxAngularAcc = 70f;
     }
 
     // Update is called once per frame

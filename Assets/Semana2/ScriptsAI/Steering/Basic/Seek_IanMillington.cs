@@ -23,6 +23,7 @@ public class Seek_IanMillington : SteeringBehaviour
         Vector3 distance = target.Position - agent.Position;
         if (distance.magnitude<agent.interiorRadius) {
             steer.linear =-agent.Velocity/Time.deltaTime;
+            steer.linear = Vector3.ClampMagnitude(steer.linear, agent.MaxAcceleration);
             return steer;
         }
         // 2. Modifica el vector para que su módulo coincida con agente._maxAcceleration

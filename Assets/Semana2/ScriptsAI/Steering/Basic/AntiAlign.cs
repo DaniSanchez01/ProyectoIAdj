@@ -31,6 +31,7 @@ public class AntiAlign : SteeringBehaviour
         //Si la diferencia entre las orientaciones es menor que el angulo interior del target
         if (rotationSize<target.interiorAngle) {
             steer.angular =-agent.Rotation/Time.deltaTime;
+            steer.angular = Mathf.Clamp(steer.angular,-agent.MaxAngularAcc, agent.MaxAngularAcc);
             return steer;
         }
 

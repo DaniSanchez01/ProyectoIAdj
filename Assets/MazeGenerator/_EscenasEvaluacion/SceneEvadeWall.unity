@@ -447,7 +447,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2051837216282814871, guid: 2b46ac3967176594db9d131039fdec48, type: 3}
   m_PrefabInstance: {fileID: 950680298}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1510847518
+--- !u!114 &1510847524
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -456,13 +456,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1510847517}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f66b9195ee250e941851f348a8ea7274, type: 3}
+  m_Script: {fileID: 11500000, guid: 482ff725f5b413b4cb2dfa3aa8dffcc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weight: 1
   target: {fileID: 1557573029}
-  gizmos: 1
-  lookahead: 4
-  avoidDistance: 2
+  timeToTarget: 0.3
+--- !u!114 &1510847525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510847517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f4b3c3cf58348468f247297e9591b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  target: {fileID: 1557573029}
 --- !u!1 &1557573028 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2686890238580948232, guid: 7856c197eb4c77840878eba92e1c48b7, type: 3}
@@ -486,6 +499,8 @@ MonoBehaviour:
   _maxAcceleration: 1
   _maxAngularAcc: 1
   _maxForce: 1
+  lookahead: 5
+  avoidDistance: 2
   _interiorRadius: 1
   _arrivalRadius: 3
   _interiorAngle: 5

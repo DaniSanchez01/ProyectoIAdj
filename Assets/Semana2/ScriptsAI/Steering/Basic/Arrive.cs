@@ -28,6 +28,7 @@ public class Arrive : SteeringBehaviour
         // Calcular la velocidad dentro del radio de llegada
         if (distance < target.interiorRadius){
             steer.linear =-agent.Velocity/Time.deltaTime;
+            steer.linear = Vector3.ClampMagnitude(steer.linear, agent.MaxAcceleration);
             return steer;
 
         }

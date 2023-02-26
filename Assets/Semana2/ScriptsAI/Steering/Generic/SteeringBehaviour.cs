@@ -8,7 +8,7 @@ public class SteeringBehaviour : MonoBehaviour
 {
 
     protected string nameSteering = "no steering";
-    protected float weight = 1; //es el peso correspondiente al steering de base todos tienen 1 
+    public float weight = 1; //es el peso correspondiente al steering de base todos tienen 1 
 
     public string NameSteering
     {
