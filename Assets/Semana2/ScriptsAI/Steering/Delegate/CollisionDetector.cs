@@ -12,19 +12,20 @@ public class CollisionDetector : MonoBehaviour
 
     }
 
-    public static Collision getCollision(Vector3 position, Vector3 moveAmount) {
+    public static Collision getCollision(Vector3 position, Vector3 bigote) {
         Collision answer = new Collision();
-        Ray rayo= new Ray(position, moveAmount);
+        answer.position = Vector3.zero;
+        answer.normal = Vector3.zero;
+        Ray rayo= new Ray(position, bigote);
         RaycastHit hitInfo;
         if (Physics.Raycast(rayo, out hitInfo))
             {
-                if (hitInfo.distance <= moveAmount.magnitude && hitInfo.point.y ==0f) {
+                if (hitInfo.distance <= bigote.magnitude) {
                     answer.position = hitInfo.point;
                     answer.normal = hitInfo.normal;
                     if (answer.normal.y != 0f) answer.normal.y =0f;
                     if (answer.position.y != 0f) answer.position.y =0f;
-
-                    return answer;
+                    return answer;     
                 }
             }
         return answer;

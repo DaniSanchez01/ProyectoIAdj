@@ -74,7 +74,7 @@ public class Agent : Bodi
         cuerpo.giz = paint;
         return cuerpo;
     }
-    public Agent CreateVirtual(Vector3 pos, float intRadius = -1, float arrRadius = -1)
+    public Agent CreateVirtual(Vector3 pos, float intRadius = -1, float arrRadius = -1, bool paint = true)
     {
         GameObject virt = new GameObject();
         virt.AddComponent<BoxCollider>();
@@ -92,6 +92,7 @@ public class Agent : Bodi
         cuerpo.Rotation = 0.0f;
         cuerpo.Position = pos;
         cuerpo.Orientation = Orientation;
+        cuerpo.giz = paint;
         return cuerpo;
     }
 
@@ -144,7 +145,7 @@ public class Agent : Bodi
             Gizmos.color = Color.green;
             Vector3 forward = OrientationToVector(Orientation);
             Gizmos.DrawLine(transform.position,transform.position + 5*forward);
-            Gizmos.color = Color.black;
+            Gizmos.color = Color.magenta;
             Gizmos.DrawLine(Position,Position+Velocity.normalized*lookahead);
         }
     }

@@ -7,11 +7,12 @@ public class SoldierAgentNPC : AgentNPC
     // Start is called before the first frame update
     void Start()
     {
-        this.MaxSpeed = 16f;
-        this.MaxAcceleration = 15f;
-        this.MaxRotation = 90f;
+        this.MaxSpeed = 10f;
+        this.MaxAcceleration = 20f;
+        this.MaxRotation = 180f;
         this.MaxForce = 30f;
-        this.MaxAngularAcc = 70f;
+        this.MaxAngularAcc = 180f;
+        this.interiorAngle = 8f;
     }
 
     // Update is called once per frame
