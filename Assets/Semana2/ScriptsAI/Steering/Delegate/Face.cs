@@ -7,6 +7,7 @@ public class Face : Align
     public Agent FaceTarget;
     private Agent virt; //agente virtual ficticio para llevar acabo el align
     private float newOrientation; //nueva orientacion del NPC virtual
+    public bool giz = false;
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class Face : Align
         if(virt==null) //no tenemos el objetivo virtual
         {
            
-            virt = agent.CreateVirtual(agent.Position); //toma radio por defecto -1
+            virt = agent.CreateVirtual(agent.Position,paint:giz); //toma radio por defecto -1
             virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
         }
         else //lo tenemos ya creado

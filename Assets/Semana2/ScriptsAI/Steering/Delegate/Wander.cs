@@ -40,7 +40,6 @@ public class Wander : Face
         offsetLine = wanderOffset * agent.OrientationToVector(agent.Orientation);
         centerCircle = agent.Position + offsetLine;
         Vector3 targetPosition = centerCircle + wanderRadius * agent.OrientationToVector(targetOrientation);
-
         // Face
         FaceTarget.Position = targetPosition; 
         steering = base.GetSteering(agent);
