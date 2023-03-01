@@ -8,7 +8,7 @@ using UnityEngine;
 public class Agent : Bodi
 {
     public float lookahead = 5f;
-    public float avoidDistance = 2f;
+    public float avoidDistance = 3.5f;
     
     [Tooltip("Radio interior de la IA")]
     [SerializeField] protected float _interiorRadius = 1f;

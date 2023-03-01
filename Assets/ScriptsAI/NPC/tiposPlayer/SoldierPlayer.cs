@@ -11,7 +11,7 @@ public class SoldierPlayer : AgentPlayer
         this.MaxAcceleration = 7f;
         this.MaxRotation = 20f;
         this.MaxForce = 30f;
-        this._maxAngularAcc = 20f;
+        this.MaxAngularAcc = 20f;
         this.Orientation = 240f;
         this.arrivalRadius = 6f;
     }

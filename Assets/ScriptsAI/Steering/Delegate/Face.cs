@@ -41,8 +41,6 @@ public class Face : Align
         //al ejeZ del vector va del agente al target
         if (direccion.x < 0) newOrientation = -newOrientation;
 
-        Debug.Log(agent.Position);
-        Debug.Log(newOrientation);
         virt.Position = agent.Position; //se pueden usar los metodos set directamente para actualizar
         virt.Orientation = newOrientation; //nueva orientacion
         virt.giz = this.giz;

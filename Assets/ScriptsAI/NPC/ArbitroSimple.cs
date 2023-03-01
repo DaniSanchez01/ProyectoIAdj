@@ -6,7 +6,7 @@ using UnityEngine;
  * Este arbitro calcula dado una lista de steerings que tiene un agente determinado el steering final sumando los pesosrespectivos de estos.
  */
 
-public class ArbitroSimple : IArbitraje
+public class ArbitroSimple : MonoBehaviour
 {
 
     public Steering calcula(List<SteeringBehaviour> steerings,Agent agente)

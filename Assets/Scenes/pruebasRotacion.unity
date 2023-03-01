@@ -387,6 +387,7 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
+  gestion: 0
 --- !u!1 &299888153 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2669339974552896402, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1383,6 +1384,7 @@ GameObject:
   - component: {fileID: 1187952187}
   - component: {fileID: 1187952186}
   - component: {fileID: 1187952185}
+  - component: {fileID: 1187952188}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1456,6 +1458,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 28.29, y: 180, z: 0}
+--- !u!114 &1187952188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187952184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f72fd7161c763e4ab69edcab5d8fafc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 837623765}
 --- !u!1 &1231212443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4816338363731442422, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1630,6 +1645,7 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
+  gestion: 0
 --- !u!1 &1539415627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7774960780965274391, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1806,6 +1822,7 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
+  gestion: 0
 --- !u!1 &1771595872 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4382317869749611819, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}

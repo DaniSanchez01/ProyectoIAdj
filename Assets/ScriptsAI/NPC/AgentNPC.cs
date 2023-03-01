@@ -10,6 +10,7 @@ public class AgentNPC : Agent
     [SerializeField] protected Steering steer;
     // Todos los steering que tiene que calcular el agente.
     private List<SteeringBehaviour> listSteerings;
+    public bool gestion = false;
 
 
     protected void Awake()
@@ -29,7 +30,7 @@ public class AgentNPC : Agent
     void Start()
     {
         this.Velocity = Vector3.zero;
-        listSteerings = GestorArbitros.GetArbitraje("vagante",this,null); //he puesto vagante
+        if (gestion) listSteerings = GestorArbitros.GetArbitraje("vagante",this,null); //he puesto vagante
     }
 
     // Update is called once per frame

@@ -7,7 +7,7 @@ public class Evade : Flee
     
     public Agent fleeTarget; 
     private Agent virt;
-    public float maxPrediction;
+    public float maxPrediction = 0.6f;
 
     private Vector3 newPosition;
 

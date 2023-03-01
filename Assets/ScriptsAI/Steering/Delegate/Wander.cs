@@ -16,6 +16,7 @@ public class Wander : Face
 
     Vector3 centerCircle = Vector3.zero;
     Vector3 offsetLine = Vector3.zero;
+    private Vector3 targetPosition;
     private void Start()
     {
         this.nameSteering = "Wander";
@@ -41,7 +42,7 @@ public class Wander : Face
         // Calculamos targetPosition
         offsetLine = wanderOffset * agent.OrientationToVector(agent.Orientation);
         centerCircle = agent.Position + offsetLine;
-        Vector3 targetPosition = centerCircle + wanderRadius * agent.OrientationToVector(targetOrientation);
+        targetPosition = centerCircle + wanderRadius * agent.OrientationToVector(targetOrientation);
         // Face
         FaceTarget.Position = targetPosition; 
         steering = base.GetSteering(agent);
@@ -57,7 +58,7 @@ public class Wander : Face
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(centerCircle, wanderRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(FaceTarget.Position, 0.2f);
+        Gizmos.DrawSphere(targetPosition, 0.2f);
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(centerCircle,centerCircle-offsetLine);
 
