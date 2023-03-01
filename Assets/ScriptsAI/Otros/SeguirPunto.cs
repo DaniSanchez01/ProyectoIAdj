@@ -46,7 +46,6 @@ public class SeguirPunto : MonoBehaviour
                         //Si este NPC todavia no se encuentra en la lista
                         if (!selectedUnits.Contains(hitInfo.transform.gameObject))
                         {
-                            Debug.Log("Aqui");
                             //Añadirlos a la lista
                             selectedUnits.Add(hitInfo.transform.gameObject);
                             hitInfo.transform.gameObject.GetComponent<Cubo>().enable();
