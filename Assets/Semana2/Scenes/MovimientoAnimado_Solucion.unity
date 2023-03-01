@@ -168,7 +168,7 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0
     y: 0
     width: 1
     height: 1
@@ -323,7 +323,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2051837216282814871, guid: 2b46ac3967176594db9d131039fdec48, type: 3}
   m_PrefabInstance: {fileID: 4120889849790817530}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1211580342
+--- !u!114 &1211580335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,28 +332,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1211580334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9745fac341ac4f74eb885b80cba42cc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weight: 1
-  target: {fileID: 915775713}
-  timeToTarget: 0.1
---- !u!114 &1211580343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1211580334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88f7f5bc6bca194fbdd66a59c561ffd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0576ce1d3749aa746a77ab5b6e19d927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
   target: {fileID: 0}
-  timeToTarget: 0.2
+  timeToTarget: 0.3
   FaceTarget: {fileID: 915775713}
+  giz: 1
+  wanderRadius: 2
+  wanderOffset: 5
+  wanderRate: 5
 --- !u!1001 &1611408440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -416,7 +405,7 @@ PrefabInstance:
     - target: {fileID: 8850385204896241647, guid: 3366832b7a3a3544e9177466e038aa9f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1b992557fd6102749a3e32f688d08e2e, type: 2}
+      objectReference: {fileID: 2100000, guid: 07dcdb05584b2c04098bc47e34f991b6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3366832b7a3a3544e9177466e038aa9f, type: 3}
 --- !u!1001 &1919888471

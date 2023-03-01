@@ -7,13 +7,16 @@ public class Pursue : SeekCraig
     
     public Agent pursueTarget; 
     private Agent virt;
-    public float maxPrediction;
+    public float maxPrediction = 0.6f;
 
     private Vector3 newPosition;
+
+    public bool giz = false;
 
     void Start()
     {
         this.nameSteering = "Pursue";
+        virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);
     }
 
     public override Steering GetSteering(Agent agent)
@@ -34,13 +37,9 @@ public class Pursue : SeekCraig
         }
         
         newPosition = pursueTarget.Position + pursueTarget.Velocity * prediction;
-        if (virt == null) {
-            virt = pursueTarget.CreateVirtual(newPosition);
-        }
-        else {
-            pursueTarget.UpdateVirtual(virt,newPosition);
-        }
-        
+         
+        virt.Position = newPosition;
+        virt.giz = this.giz;       
         target = virt;
         return base.GetSteering(agent);
     }

@@ -11,9 +11,12 @@ public class Evade : Flee
 
     private Vector3 newPosition;
 
+    public bool giz = false;
+
     void Start()
     {
         this.nameSteering = "Evade";
+        virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);
     }
 
     public override Steering GetSteering(Agent agent)
@@ -36,13 +39,8 @@ public class Evade : Flee
         }
         
         newPosition = fleeTarget.Position + fleeTarget.Velocity * prediction;
-        if (virt == null) {
-            virt = fleeTarget.CreateVirtual(newPosition);
-        }
-        else {
-            fleeTarget.UpdateVirtual(virt,newPosition);
-        }
-        
+        virt.Position = newPosition;
+        virt.giz = this.giz;
         target = virt;
         return base.GetSteering(agent);
     }

@@ -310,10 +310,13 @@ MonoBehaviour:
   _maxAcceleration: 1
   _maxAngularAcc: 1
   _maxForce: 1
+  lookahead: 5
+  avoidDistance: 2
   _interiorRadius: 1
   _arrivalRadius: 3
   _interiorAngle: 5
   _exteriorAngle: 50
+  giz: 1
 --- !u!1001 &925446245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -394,10 +397,13 @@ MonoBehaviour:
   _maxAcceleration: 1
   _maxAngularAcc: 1
   _maxForce: 1
+  lookahead: 5
+  avoidDistance: 2
   _interiorRadius: 1
   _arrivalRadius: 3
   _interiorAngle: 5
   _exteriorAngle: 50
+  giz: 1
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
@@ -413,9 +419,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88f7f5bc6bca194fbdd66a59c561ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weight: 1
   target: {fileID: 0}
   timeToTarget: 0.3
   FaceTarget: {fileID: 915775713}
+  giz: 0
 --- !u!1001 &1611408440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -474,7 +482,7 @@ PrefabInstance:
     - target: {fileID: 8850385204896241647, guid: 3366832b7a3a3544e9177466e038aa9f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1b992557fd6102749a3e32f688d08e2e, type: 2}
+      objectReference: {fileID: 2100000, guid: 07dcdb05584b2c04098bc47e34f991b6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3366832b7a3a3544e9177466e038aa9f, type: 3}
 --- !u!1001 &1919888471

@@ -11,7 +11,7 @@ public class Wander : Face
     public float wanderRate =5f;
     // Orientacion del target
     float wanderOrientation = 0f;
-    private Agent virtWander; //agente virtual ficticio para llevar acabo el align
+    private Agent virtWander;
 
 
     Vector3 centerCircle = Vector3.zero;
@@ -20,6 +20,8 @@ public class Wander : Face
     {
         this.nameSteering = "Wander";
         FaceTarget = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0,arrRadius: 1,paint: false);
+        virt = Agent.CreateStaticVirtual(Vector3.zero); 
+
     }
 
     // Valor aleatorio entre -1 y 1
@@ -50,7 +52,7 @@ public class Wander : Face
         return steering;
     }
 
-    void OnDrawGizmos()
+    new void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(centerCircle, wanderRadius);
