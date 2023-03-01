@@ -17,10 +17,12 @@ using UnityEngine;
 public class SeguirPunto : MonoBehaviour
 {
     List<GameObject> selectedUnits = new List<GameObject>();
-    public GameObject virt;
+    private Agent virt;
+
+    public bool giz = true;
 
     void Start() {
-        virt.AddComponent<Agent>();
+        virt = Agent.CreateStaticVirtual(Vector3.zero,paint:false);
     }
     // Update is called once per frame
     void Update()
@@ -44,6 +46,7 @@ public class SeguirPunto : MonoBehaviour
                         //Si este NPC todavia no se encuentra en la lista
                         if (!selectedUnits.Contains(hitInfo.transform.gameObject))
                         {
+                            Debug.Log("Aqui");
                             //Añadirlos a la lista
                             selectedUnits.Add(hitInfo.transform.gameObject);
                             hitInfo.transform.gameObject.GetComponent<Cubo>().enable();
@@ -59,6 +62,9 @@ public class SeguirPunto : MonoBehaviour
             foreach (var npc in selectedUnits)
             {
                 npc.GetComponent<Cubo>().enable();
+                AgentNPC a = npc.GetComponent<AgentNPC>();
+                npc.GetComponent<Arrive>().NewTarget(a);
+                
             }
             selectedUnits.Clear();
         }
@@ -72,11 +78,12 @@ public class SeguirPunto : MonoBehaviour
             if (Physics.Raycast(ray, out hitInfo))
             {
                 // Si lo que golpea es un punto del terreno entonces da la orden a todas las unidades NPC
-                if (hitInfo.collider != null && hitInfo.collider.CompareTag("Terrain"))
+                if (hitInfo.collider != null && hitInfo.collider.CompareTag("Floor"))
                 {
                     Vector3 newTarget = hitInfo.point;
-                    Agent target = virt.GetComponent<Agent>();
+                    Agent target = virt;
                     target.Position = newTarget;
+                    target.giz = this.giz;
 
 
                     /**
