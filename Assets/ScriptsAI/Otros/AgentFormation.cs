@@ -10,7 +10,8 @@ public class AgentFormation : MonoBehaviour
     public float spacing = 2.0f; // Espacio entre agentes en la matriz
     public Agent leader; 
     public Agent[,] agents; // Matriz de agentes de la formación
-    Arrive arrive;
+    public Arrive arrive;
+    private Agent target;
     public int countAgents;
 
 
@@ -52,7 +53,7 @@ public class AgentFormation : MonoBehaviour
                 Vector3 pos = leader.Position + new Vector3(i * spacing, 0, j * spacing);
 
                 // Mueve el agente a su posición en la formación
-                //agents[i, j].Position = pos; // Directamente
+                // agents[i, j].Position = pos; // Directamente
 
                 // Con un Arrive
                 Agent target = Agent.CreateStaticVirtual(pos);
