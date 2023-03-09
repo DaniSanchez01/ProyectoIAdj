@@ -9,8 +9,8 @@ public class GridManager<T>
     private int columns;
     private int rows;
     private float cellSize;
-    private Vector3 origin;
-    public Agent leader;
+    private Vector3 origin; // donde esta (0,0) del grid respecto del mundo
+    public Agent leader; // ¿Esto está mal si es generico? ¿A que se refiere con generico?
 
     public GridManager(int columns, int rows, float cellSize, Vector3 origin)
     {
@@ -27,7 +27,7 @@ public class GridManager<T>
     {
         float x = origin.x + (i * cellSize);
         float z = origin.z + (j * cellSize);
-
+        
         return new Vector3(x, 0f, z);
     }
 
@@ -36,10 +36,11 @@ public class GridManager<T>
     {
         int i = Mathf.RoundToInt((position.x - origin.x) / cellSize);
         int j = Mathf.RoundToInt((position.z - origin.z) / cellSize);
-
+        
         return new Tuple<int, int>(i, j);
     }
-
+    
+    // posicion de un punto real del plano respecto del lider
     public Vector3 GetRelativePosition(Vector3 position, Agent leader)
     {
         int i = Mathf.RoundToInt((position.x - origin.x) / cellSize);
@@ -69,15 +70,15 @@ public class GridManager<T>
     {
         for (int i = 0; i <= columns; i++)
         {
-            Vector3 startPoint = GetPosition(i, 0f, 0f);
-            Vector3 endPoint = GetPosition(i, 0f, rows);
+            Vector3 startPoint = GetPosition(i, 0);
+            Vector3 endPoint = GetPosition(i, rows);
             Debug.DrawLine(startPoint, endPoint, Color.white, 100f);
         }
 
         for (int j = 0; j <= rows; j++)
         {
-            Vector3 startPoint = GetPosition(0, 0f, j);
-            Vector3 endPoint = GetPosition(columns, 0f, j);
+            Vector3 startPoint = GetPosition(0, j);
+            Vector3 endPoint = GetPosition(columns, j);
             Debug.DrawLine(startPoint, endPoint, Color.white, 100f);
         }
     }

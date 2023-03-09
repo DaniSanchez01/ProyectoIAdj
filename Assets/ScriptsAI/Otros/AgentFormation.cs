@@ -10,16 +10,17 @@ public class AgentFormation : MonoBehaviour
     public float spacing = 2.0f; // Espacio entre agentes en la matriz
     public Agent leader; 
     public Agent[,] agents; // Matriz de agentes de la formación
-    Arrive arrive;
+    public Arrive arrive;
+    private Agent target;
     public int countAgents;
 
 
     public void Init()
     {
         // Cogemos todos los agentes de la escena
-        // Esto habría que cambiarlo a solo coger los que seleccionemos
+        // Esto habría que cambiarlo para solo coger los que seleccionemos
         Agent[] allAgents = GameObject.FindObjectsOfType<Agent>();
-        countAgents = allAgents.Length;
+        // countAgents = allAgents.Length;
 
         // Ordena los agentes en función de su distancia al lider de menor a mayor
         Array.Sort(allAgents, (a1, a2) => {
@@ -33,13 +34,13 @@ public class AgentFormation : MonoBehaviour
 
         // Coloca los agentes en la matriz
         int index = 0;
-        Debug.LogError(allAgents.Length);
+        // Debug.LogError(allAgents.Length);
         for (int i = 0; i < width && index < allAgents.Length; i++)
         {
             for (int j = 0; j < height; j++)
             {
-                Debug.LogError(index); 
-                Debug.LogError(allAgents.Length);
+                // Debug.LogError(index); 
+                // Debug.LogError(allAgents.Length);
                 // Sería necesario comprobar que haya tantos agentes como casillas en el grid?
                 //if (index >= allAgents.Length)
                 //{
@@ -54,13 +55,15 @@ public class AgentFormation : MonoBehaviour
                 Vector3 pos = leader.Position + new Vector3(i * spacing, 0, j * spacing);
 
                 // Mueve el agente a su posición en la formación
-                //agents[i, j].Position = pos; // Directamente
+                // agents[i, j].Position = pos; // Directamente
 
                 // Con un Arrive
-                Agent target = Agent.CreateStaticVirtual(pos);
+                // ¿Como reutilizar el agente virtual?
+                // ¿Como hacer para que no se creen nuevos cada vez que hacemos Shift+F?
+                target = Agent.CreateStaticVirtual(pos);
                 Steering steer = new Steering();
                 steer.linear = target.Position;
-                Arrive arrive = agents[i, j].GetComponent<Arrive>();
+                arrive = agents[i, j].GetComponent<Arrive>();
                 arrive.NewTarget(target);
 
                 
