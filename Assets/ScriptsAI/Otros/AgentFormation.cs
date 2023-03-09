@@ -14,11 +14,11 @@ public class AgentFormation : MonoBehaviour
     public int countAgents;
 
 
-    public void Init()
+    public void formar()
     {
         // Cogemos todos los agentes de la escena
         // Esto habría que cambiarlo a solo coger los que seleccionemos
-        Agent[] allAgents = GameObject.FindObjectsOfType<Agent>();
+        AgentNPC[] allAgents = GameObject.FindObjectOfType<SeguirPunto>().getSelectedUnitsAgents();
         countAgents = allAgents.Length;
 
         // Ordena los agentes en función de su distancia al lider de menor a mayor
@@ -33,13 +33,11 @@ public class AgentFormation : MonoBehaviour
 
         // Coloca los agentes en la matriz
         int index = 0;
-        Debug.LogError(allAgents.Length);
         for (int i = 0; i < width && index < allAgents.Length; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (int j = 0; j < height && index < allAgents.Length; j++)
             {
-                Debug.LogError(index); 
-                Debug.LogError(allAgents.Length);
+                Debug.Log(j); 
                 // Sería necesario comprobar que haya tantos agentes como casillas en el grid?
                 //if (index >= allAgents.Length)
                 //{
@@ -58,12 +56,11 @@ public class AgentFormation : MonoBehaviour
 
                 // Con un Arrive
                 Agent target = Agent.CreateStaticVirtual(pos);
-                Steering steer = new Steering();
-                steer.linear = target.Position;
-                Arrive arrive = agents[i, j].GetComponent<Arrive>();
-                arrive.NewTarget(target);
-
-                
+                Arrive a;
+                if (!agents[i, j].TryGetComponent<Arrive>(out a)) {
+                    a = agents[i, j].gameObject.AddComponent<Arrive>();
+                }
+                a.NewTarget(target);                
                 index++;
             }
         }
@@ -85,14 +82,14 @@ public class AgentFormation : MonoBehaviour
             // Si se encuentra la clase, llama al metodo Init()
             if (formation != null)
             {
-                formation.Init();
+                formation.formar();
             }
         }
     }
     private void LateUpdate()
     {
         // Cogemos todos los agentes
-        Agent[] allAgents = GameObject.FindObjectsOfType<Agent>();
+        Agent[] allAgents = GameObject.FindObjectsOfType<AgentNPC>();
 
         // Actualizamos la posición de los agentes en la formación
         // Util en caso de que el lider se mueva durante la formacion
@@ -112,7 +109,7 @@ public class AgentFormation : MonoBehaviour
         Gizmos.DrawSphere(leader.Position, 0.5f);
 
         Gizmos.color = Color.green;
-        Agent[] allAgents = GameObject.FindObjectsOfType<Agent>();
+        Agent[] allAgents = GameObject.FindObjectsOfType<AgentNPC>();
         if (agents != null)
         {
             foreach (Agent agent in allAgents)

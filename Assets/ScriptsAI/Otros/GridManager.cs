@@ -69,15 +69,15 @@ public class GridManager<T>
     {
         for (int i = 0; i <= columns; i++)
         {
-            Vector3 startPoint = GetPosition(i, 0f, 0f);
-            Vector3 endPoint = GetPosition(i, 0f, rows);
+            Vector3 startPoint = GetPosition(i, 0);
+            Vector3 endPoint = GetPosition(i, rows);
             Debug.DrawLine(startPoint, endPoint, Color.white, 100f);
         }
 
         for (int j = 0; j <= rows; j++)
         {
-            Vector3 startPoint = GetPosition(0, 0f, j);
-            Vector3 endPoint = GetPosition(columns, 0f, j);
+            Vector3 startPoint = GetPosition(0, j);
+            Vector3 endPoint = GetPosition(columns, j);
             Debug.DrawLine(startPoint, endPoint, Color.white, 100f);
         }
     }

@@ -36,6 +36,7 @@ public class AgentNPC : Agent
     // Update is called once per frame
     public virtual void Update()
     {
+        this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
         // En cada frame se actualiza el movimiento
         ApplySteering(Time.deltaTime);
 

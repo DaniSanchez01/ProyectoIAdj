@@ -24,6 +24,17 @@ public class SeguirPunto : MonoBehaviour
     void Start() {
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:false);
     }
+
+    public AgentNPC[] getSelectedUnitsAgents() {
+        AgentNPC[] agents = new AgentNPC[selectedUnits.Count];
+        int i = 0;
+        foreach (var unit in selectedUnits) {
+            agents[i] = unit.GetComponent<AgentNPC>();
+            i+=1;
+        }
+        return agents;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -102,7 +113,12 @@ public class SeguirPunto : MonoBehaviour
                     {
                         // Llama al método denominado "NewTarget" en TODOS y cada uno de los MonoBehaviour de este game object (npc)
                         //npc.SendMessage("NewTarget", newTarget);
-                        npc.GetComponentInParent<Arrive>().NewTarget(target);
+
+                        Arrive a;
+                        if (!npc.TryGetComponent<Arrive>(out a)) {
+                            a = npc.AddComponent<Arrive>();
+                        }
+                        a.NewTarget(target); 
                         // Se asume que cada NPC tiene varias componentes scripts (es decir, varios MonoBehaviour).
                         // En algunos de esos scripts está la función "NewTarget(Vector3 target)"
                         // Dicha función contendrá las instrucciones necesarias para ir o no al nuevo destino.
