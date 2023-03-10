@@ -8,10 +8,10 @@ using UnityEngine;
  */
 public class Grafo : MonoBehaviour
 {
-
+    //los campos con SerializedField son usados para mostrarse en el editor
     private Dictionary<Vector3Int, List<Conexion>> grafo;
-    private int L; //representa la longitud del lado del cuadrado del grid cyadrado
-    private int limite; //la profunidad escogida del grafo
+     [SerializeField] private int l; //representa la longitud del lado del cuadrado del grid cyadrado
+     [SerializeField] private int limite; //la profunidad escogida del grafo
     private Vector3Int origenGeneracion; //es el punto correspondiente del grafo NO DEL MUNDO que es el origen desde el que se ha generado el grafo
     private Vector3 origenMundo; //quiere decir la posicion original desde la que se llamo al metodo de generar el grafo
     
@@ -33,14 +33,18 @@ public class Grafo : MonoBehaviour
         get { return grafo; }
     }
 
-
+    /*
+     * Funcion que se ejecutara con unos valores por defecto en tiempo de ejecucion y genera un grafo correspondiente
+     */
     public void Start()
     {
 
-        L = 1;
+        l = 1;
         limite = 2;
         origenMundo = transform.position; //La posicion del mundo
-        origenGeneracion = new Vector3Int(Mathf.RoundToInt(origenMundo.x), Mathf.RoundToInt(origenMundo.y), Mathf.RoundToInt(origenMundo.z));
+        
+        origenGeneracion = new Vector3Int(Mathf.RoundToInt(origenMundo.x / l), Mathf.RoundToInt(0f), Mathf.RoundToInt(origenMundo.z / l)); //origen de la generacion simboliza el
+                                                                                                                                           //vertice mas cercano al punto del mundo donde se comenzara a generar el grafo
         grafo = GeneracionGrafoAnchura.generarGrafo(origenGeneracion, limite);
         
     }
@@ -51,11 +55,14 @@ public class Grafo : MonoBehaviour
         //if (grafo == null) grafo = GeneracionGrafoAnchura.generarGrafo(origenGeneracion, 3);
     }
 
+
     private void OnDrawGizmos()
     {
 
-       Debug.Log(grafo != null);
-        grafo = GeneracionGrafoAnchura.generarGrafo(Vector3Int.zero, 4);
+        origenMundo = transform.position;
+        origenGeneracion = new Vector3Int(Mathf.RoundToInt(origenMundo.x / l), Mathf.RoundToInt(0f), Mathf.RoundToInt(origenMundo.z / l));
+
+        grafo = GeneracionGrafoAnchura.generarGrafo(origenGeneracion, limite);
         if (grafo != null) //por si no hay grafo
         {
             
