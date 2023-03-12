@@ -689,6 +689,7 @@ MonoBehaviour:
   height: 3
   spacing: 2
   leader: {fileID: 1421938859}
+  arrive: {fileID: 0}
   countAgents: 0
 --- !u!1001 &1298976132
 PrefabInstance:
@@ -808,7 +809,7 @@ MonoBehaviour:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
   gestion: 0
---- !u!114 &1421938863
+--- !u!114 &1421938867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -817,14 +818,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1421938855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6c5ebad02064353a61f3d17f803024, type: 3}
+  m_Script: {fileID: 11500000, guid: a839ee1b415cb4ad2bbb2f5772c8a6c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 3
-  height: 2
-  spacing: 2
+  cellSize: 2
   leader: {fileID: 1421938859}
-  countAgents: 0
+  grid: {fileID: 0}
+  arrive: {fileID: 0}
 --- !u!1 &1513397223 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7140484958712674305, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}

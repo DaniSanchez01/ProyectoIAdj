@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class AgentFormation : MonoBehaviour
+public class MatrixAgentFormation : MonoBehaviour
 {
-    public int width = 3; // Ancho de la matriz
-    public int height = 3; // Altura de la matriz
-    public float spacing = 2.0f; // Espacio entre agentes en la matriz
+    public float cellSize = 2.0f; // Espacio entre agentes en la matriz // public float spacing = 2.0f;
     public Agent leader; 
-    public Agent[,] agents; // Matriz de agentes de la formación
+    // la matriz de agentes se encuentra en grid
+    public FormationGridManager grid;
+    // public Agent[,] agents; // Matriz de agentes de la formación // no necesario, tenemos el grid para eso
     public Arrive arrive;
     private Agent target;
-    public int countAgents;
+    
+
 
 
     public void formar()
@@ -20,7 +21,6 @@ public class AgentFormation : MonoBehaviour
         // Cogemos todos los agentes de la escena
         // Esto habría que cambiarlo a solo coger los que seleccionemos
         AgentNPC[] allAgents = GameObject.FindObjectOfType<SeguirPunto>().getSelectedUnitsAgents();
-        countAgents = allAgents.Length;
 
         // Ordena los agentes en función de su distancia al lider de menor a mayor
         Array.Sort(allAgents, (a1, a2) => {
@@ -28,29 +28,18 @@ public class AgentFormation : MonoBehaviour
             float dist2 = Vector3.Distance(a2.Position, leader.Position);
             return dist1.CompareTo(dist2);
         });
-
+        // Creamos un FormationGridManager
+        grid = new FormationGridManager(cellSize, leader, allAgents);
         // Crea matriz de agentes
-        agents = new Agent[width, height];
+        // agents = new Agent[width, height];
 
         // Coloca los agentes en la matriz
-        int index = 0;
-        for (int i = 0; i < width && index < allAgents.Length; i++)
+        for (int i = 0; i < grid.numColumns; i++) 
         {
-            for (int j = 0; j < height && index < allAgents.Length; j++)
+            for (int j = 0; j < grid.numRows; j++)
             {
-                Debug.Log(j); 
-                // Sería necesario comprobar que haya tantos agentes como casillas en el grid?
-                //if (index >= allAgents.Length)
-                //{
-                //    Debug.LogError("No hay suficientes agentes en la escena para llenar la formación");
-                //    return;
-                //}
-
-                // Mete los agentes a la matriz
-                agents[i, j] = allAgents[index];
-
                 // Calcula la posición del agente en la formación
-                Vector3 pos = leader.Position + new Vector3(i * spacing, 0, j * spacing);
+                Vector3 pos = leader.Position + new Vector3(i * cellSize, 0, j * cellSize);
 
                 // Mueve el agente a su posición en la formación
                 // agents[i, j].Position = pos; // Directamente
@@ -58,16 +47,15 @@ public class AgentFormation : MonoBehaviour
                 // Con un Arrive
                 Agent target = Agent.CreateStaticVirtual(pos);
                 Arrive a;
-                if (!agents[i, j].TryGetComponent<Arrive>(out a)) {
-                    a = agents[i, j].gameObject.AddComponent<Arrive>();
+                if (!grid.slots[i, j].npc.TryGetComponent<Arrive>(out a)) {
+                    a = grid.slots[i, j].npc.gameObject.AddComponent<Arrive>();
                 }
                 a.NewTarget(target);                
-                index++;
             }
         }
         
         // El leader se "quita" de los agentes para que no le afecte la formacion
-        leader.GetComponent<Agent>().enabled = false;
+        //leader.GetComponent<Agent>().enabled = false;
     }
 
 
@@ -77,8 +65,8 @@ public class AgentFormation : MonoBehaviour
         // Shift+F
         if (Input.GetKeyDown(KeyCode.F) && Input.GetKey(KeyCode.LeftShift))
         {
-            // Busca la clase AgentFormation en la escena
-            AgentFormation formation = FindObjectOfType<AgentFormation>();
+            // Busca la clase MatrixAgentFormation en la escena
+            MatrixAgentFormation formation = FindObjectOfType<MatrixAgentFormation>();
 
             // Si se encuentra la clase, llama al metodo Init()
             if (formation != null)
@@ -111,7 +99,7 @@ public class AgentFormation : MonoBehaviour
 
         Gizmos.color = Color.green;
         Agent[] allAgents = GameObject.FindObjectsOfType<AgentNPC>();
-        if (agents != null)
+        if (allAgents != null)
         {
             foreach (Agent agent in allAgents)
             {
