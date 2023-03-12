@@ -10,16 +10,17 @@ public class GeneracionGrafoAnchura
     /*
      * Se encarga de generar el grafo correspondiente.
      * ¿Se garantiza que el punto al que se lleva en el plano cuando se cuantifica el origen real del personaje se corresponde caundo se localiza otra vez en el mundo con una posicion valida?
+     * Como se observa genera las caras adyacentes.
      */
     public static Dictionary<Vector3Int,List<Conexion>> generarGrafo(Vector3Int origenGeneracion,int limite)
     {
         //1. Crear el diccionario que representara el grafo y la lista de puntosGenerados que sera usada para el recorrido en anchura
         Dictionary<Vector3Int, List<Conexion>> diccionarioGrafo = new Dictionary<Vector3Int, List<Conexion>>();
-        List<Vector3Int> puntosGenerados = new List<Vector3Int>();
+        List<Vector3Int> carasGeneradas = new List<Vector3Int>();
 
         //2. validar que se esta en un punto valido es decir que si se traslada al mundo el punto real NO colisiona con nada
         if (esValidoPMundo(origenGeneracion)) {
-            puntosGenerados.Add(origenGeneracion); //se añade al principio el nodo para expandirlo
+            carasGeneradas.Add(origenGeneracion); //se añade al principio el nodo para expandirlo
             diccionarioGrafo.Add(origenGeneracion, new List<Conexion>()); //añado el origen del grafo porque es valido
         }
 
@@ -27,11 +28,11 @@ public class GeneracionGrafoAnchura
         *un nodo que que cumple que el nodo tiene un limite igual al establecido se espera porque no deberian expandirse, mientras eso no pasae el nodo escogido se explande y conecta
         con el resto de nodos
          */
-        while (!(puntosGenerados.Count == 0) && puedeexpandirseNodo(puntosGenerados[0],origenGeneracion,limite))
+        while (!(carasGeneradas.Count == 0) && puedeexpandirseNodo(carasGeneradas[0],origenGeneracion,limite))
         {
             //3.1. obtener el punto correspondiente a expandir
-            Vector3Int pactual = puntosGenerados[0]; //se obtiene el primer punto como en una cola
-            puntosGenerados.RemoveAt(0); //se elimina el punto en la 1º posicion
+            Vector3Int pactual = carasGeneradas[0]; //se obtiene el primer punto como en una cola
+            carasGeneradas.RemoveAt(0); //se elimina el punto en la 1º posicion
 
             //3.2. obtener los vecinos del nodo actual, recordar que el nodo que se esta expandiendo tambien tiene una entrada en el mapa porque se llego por otro nodo
 
@@ -45,7 +46,7 @@ public class GeneracionGrafoAnchura
                 {
                     //si lo es lo crea añadiendolo al mapa y se conecta a el
                     diccionarioGrafo.Add(v, new List<Conexion>()); //añade el vecino sin conexiones
-                    puntosGenerados.Add(v); //se añade a la lista de los puntos a expandir
+                    carasGeneradas.Add(v); //se añade a la lista de los puntos a expandir
                     diccionarioGrafo[pactual].Add(new Conexion(pactual, v, 1)); //OJO HE PUESTO COSTE 1
                 }
             }
@@ -56,10 +57,10 @@ public class GeneracionGrafoAnchura
         * que no se han podido generar mas niveles debido a que los puntos no eran validos o que se ha alcanzado los nodos que estan en el limite indicado. En este ultimo caso para cada nodo
         * Se hacen las conexiones solo con los del mismo nivel o inferior
         */
-        while(! (puntosGenerados.Count == 0))
+        while(! (carasGeneradas.Count == 0))
         {
-            Vector3Int nodoActual = puntosGenerados[0];
-            puntosGenerados.RemoveAt(0);
+            Vector3Int nodoActual = carasGeneradas[0];
+            carasGeneradas.RemoveAt(0);
             
             foreach(Vector3Int v in vecinos(nodoActual))
             {
