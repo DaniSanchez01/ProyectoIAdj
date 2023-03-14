@@ -345,7 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e26951816d49a45b97005c383ef0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filas: 3
-  columnas: 3
+  ancho: 20
+  largo: 20
+  celdasfilas: 20
+  celdasColumnas: 20
   cellSize: 1
-  origen: {x: 1, y: 0, z: 1}
