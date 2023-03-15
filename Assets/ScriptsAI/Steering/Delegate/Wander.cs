@@ -31,7 +31,7 @@ public class Wander : Face
         return Random.Range(0f, 1f) - Random.Range(0f, 1f); // Quizá se podría hacer entre 0 y 1
     }
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         Steering steering = new Steering();
 

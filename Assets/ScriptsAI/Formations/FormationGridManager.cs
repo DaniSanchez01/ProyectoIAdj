@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public struct Slot {
+/*public struct Slot {
     public Agent npc;
     public Vector3 relativePosition;
     public float relativeOrientation;
-}
+}*/
 
 public class FormationGridManager : MonoBehaviour {
 
@@ -17,17 +17,14 @@ public class FormationGridManager : MonoBehaviour {
     public Agent leader; // leader.Position será (0,0) es decir el origin del grid
     public Slot[,] slots; // matriz de ranuras
 
-    public FormationGridManager(float cellSize, Agent leader, AgentNPC[] allAgents){
+    public FormationGridManager(float cellSize, Agent leader, AgentNPC[] allAgents, int numColumns, int numRows){
         this.slots = new Slot[numColumns, numRows];
         this.cellSize = cellSize;
         this.leader = leader;
         int numElements = allAgents.Length;
-        this.numColumns = (int)Math.Ceiling(Math.Sqrt(numElements));
-        this.numRows = (int)Math.Ceiling((double)numElements / numColumns);
         int index = 0;
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
-                
                 if (index < numElements){
                     this.slots[i, j] = new Slot();
                     this.slots[i, j].relativePosition = new Vector3(i * cellSize, 0f, j * cellSize);

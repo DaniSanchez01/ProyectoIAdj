@@ -14,7 +14,7 @@ public class SeekCraig : SteeringBehaviour
     }
 
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         Steering steer = new Steering();
 

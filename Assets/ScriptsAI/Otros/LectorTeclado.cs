@@ -14,7 +14,7 @@ using UnityEngine;
  * 
  * */
 
-public class SeguirPunto : MonoBehaviour
+public class LectorTeclado : MonoBehaviour
 {
     List<GameObject> selectedUnits = new List<GameObject>();
     private Agent virt;
@@ -33,6 +33,18 @@ public class SeguirPunto : MonoBehaviour
             i+=1;
         }
         return agents;
+    }
+
+    public bool allInFormation( AgentNPC[] listAgents) {
+        bool answer = true;
+        foreach (var agent in listAgents) {
+            if (agent.agentState != State.Formation) {
+                if (agent.agentState != State.leaderFollowing) {
+                    answer = false;
+                }
+            }
+        }
+        return answer;
     }
 
     // Update is called once per frame
@@ -68,12 +80,17 @@ public class SeguirPunto : MonoBehaviour
         //Si estamos pulsando el espacio
         else if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Si hay una formación activa, descativarla
+            GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
+
             //Hacer desaparecer los cubos y borrar la lista
             foreach (var npc in selectedUnits)
             {
                 npc.GetComponent<Cubo>().enable();
-                AgentNPC a = npc.GetComponent<AgentNPC>();
-                npc.GetComponent<Arrive>().NewTarget(a);
+                AgentNPC n = npc.GetComponent<AgentNPC>();
+                if (npc.TryGetComponent<Arrive>(out Arrive a)) {
+                    npc.GetComponent<Arrive>().NewTarget(n);
+                }
                 
             }
             selectedUnits.Clear();
@@ -91,49 +108,38 @@ public class SeguirPunto : MonoBehaviour
                 if (hitInfo.collider != null && hitInfo.collider.CompareTag("Floor"))
                 {
                     Vector3 newTarget = hitInfo.point;
-                    Agent target = virt;
-                    target.Position = newTarget;
-                    target.giz = this.giz;
-
-
-                    /**
-                     * Otra alternativa es recurrir a una lista pública de todas las unidades seleccionadas
-                     *              public List<GameObject> selectedUnits;
-                     * En este caso se cambiaría "listNPC" por "selectedUnits"
-                     * 
-                     * Dicha lista pertenecería a una clase encarga de controlar eventos generales del juego,
-                     * como por ejemplo la selección de unidades. La ventaja de mantener una lista en tiempo
-                     * de ejecución es obvia: Si el número de unidades es pequeño (p.e. dos) en relación con
-                     * el número total de NPC (p.e. miles), pues no sería necesario que Unity busque en todos los
-                     * objetos del escenario con la marca de haber sido seleccionado, 
-                     * lo que facilita y agiliza algunas tareas. P.e. para realizar formaciones.
-                     */
-
-                    foreach (var npc in selectedUnits)
-                    {
-                        // Llama al método denominado "NewTarget" en TODOS y cada uno de los MonoBehaviour de este game object (npc)
-                        //npc.SendMessage("NewTarget", newTarget);
-
-                        Arrive a;
-                        if (!npc.TryGetComponent<Arrive>(out a)) {
-                            a = npc.AddComponent<Arrive>();
-                        }
-                        a.NewTarget(target); 
-                        // Se asume que cada NPC tiene varias componentes scripts (es decir, varios MonoBehaviour).
-                        // En algunos de esos scripts está la función "NewTarget(Vector3 target)"
-                        // Dicha función contendrá las instrucciones necesarias para ir o no al nuevo destino.
-                        // P.e. Dejar lo que esté haciendo y  disparar a target.
-                        // P.e. Si no tengo vida suficiente huir de target.
-                        // P.e. Si fui seleccionado en una acción anterio y estoy a la espera de nuevas órdenes, entonces hacer un Arrive a target.
-
-                        // Nota1: En el caso de que tu objeto tenga una estructura jerárquica, 
-                        // y se quiera invocar a NewTarget de todos sus hijos, deberás usar BroadcastMessage.
-
-                        // Nota 2: En el caso de que solo se tenga una función "NewTarget" para cada NPC, entonces 
-                        // puede ser más eficiente algo como:
-                        //                  npc.GetComponent<ComponenteScriptConteniendoLaFuncion>().NewTarget(newTarget);
-                        // que obtiene la componente del NPC que yo sé que contiene a la función NewTarget(), y la invoca.
+                    //Si todos los npcs seleccionados pertenecer a una formación, moverse en formación
+                    if (allInFormation(getSelectedUnitsAgents())) {
+                        GameObject.FindObjectOfType<FormationManager>().moveToPoint(newTarget);
                     }
+                    //Si no, mover cada npc de manera individual al punto
+                    else {
+                        Agent target = virt;
+                        target.Position = newTarget;
+                        target.giz = this.giz;
+
+                        foreach (var npc in selectedUnits)
+                        {
+                            // Llama al método denominado "NewTarget" en TODOS y cada uno de los MonoBehaviour de este game object (npc)
+                            //npc.SendMessage("NewTarget", newTarget);
+                            
+                            // Nota: Estructura jerárquica -> BroadcastMessage.
+                            // Se asume que cada NPC tiene varias componentes scripts (es decir, varios MonoBehaviour).
+                            // En algunos de esos scripts está la función "NewTarget(Vector3 target)"
+                            // Dicha función contendrá las instrucciones necesarias para ir o no al nuevo destino.
+                            // P.e. Dejar lo que esté haciendo y  disparar a target.
+                            // P.e. Si no tengo vida suficiente huir de target.
+                            // P.e. Si fui seleccionado en una acción anterio y estoy a la espera de nuevas órdenes, entonces hacer un Arrive a target.
+
+
+                            Arrive a;
+                            if (!npc.TryGetComponent<Arrive>(out a)) {
+                                a = npc.AddComponent<Arrive>();
+                            }
+                            a.NewTarget(target); 
+                        }
+                    }
+                    
                 }
             }
         }

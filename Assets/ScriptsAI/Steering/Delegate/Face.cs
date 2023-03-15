@@ -20,7 +20,12 @@ public class Face : Align
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
     }
 
-    public override Steering GetSteering(Agent agent)
+
+    public void FaceNewTarget(Agent t) {
+        this.FaceTarget = t;
+    }
+
+    public override Steering GetSteering(AgentNPC agent)
     {
         Steering steer = new Steering();
         //calculo el vector direccion hacia el objetivo

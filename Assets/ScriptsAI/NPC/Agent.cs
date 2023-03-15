@@ -56,7 +56,7 @@ public class Agent : Bodi
     // Planteate la posibilidad de crear aquí métodos fábrica (estáticos) para
     // crear esos agentes. Para ello crea un GameObject y usa:
     
-    public static Agent CreateStaticVirtual(Vector3 pos, float intRadius = 1f, float arrRadius = 3f, bool paint = true) {
+    public static Agent CreateStaticVirtual(Vector3 pos, float intRadius = 1f, float arrRadius = 3f, float ori = 0f, bool paint = true) {
         GameObject virt = new GameObject();
         virt.AddComponent<BoxCollider>();
         virt.GetComponent<Collider>().isTrigger = true;
@@ -70,11 +70,11 @@ public class Agent : Bodi
         cuerpo.Velocity = Vector3.zero;
         cuerpo.Rotation = 0.0f;
         cuerpo.Position = pos;
-        cuerpo.Orientation = 0f;
+        cuerpo.Orientation = ori;
         cuerpo.giz = paint;
         return cuerpo;
     }
-    public Agent CreateVirtual(Vector3 pos, float intRadius = -1, float arrRadius = -1, bool paint = true)
+    public Agent CreateVirtual(Vector3 pos, float intRadius = -1, float arrRadius = -1, float ori = -190 ,bool paint = true)
     {
         GameObject virt = new GameObject();
         virt.AddComponent<BoxCollider>();
@@ -91,12 +91,13 @@ public class Agent : Bodi
         cuerpo.Velocity = Vector3.zero;
         cuerpo.Rotation = 0.0f;
         cuerpo.Position = pos;
-        cuerpo.Orientation = Orientation;
+        if (ori != 190) cuerpo.Orientation = ori;
+        else cuerpo.Orientation = Orientation;
         cuerpo.giz = paint;
         return cuerpo;
     }
 
-    public void UpdateVirtual(Agent cuerpo, Vector3 pos)
+    public void UpdateVirtual(Agent cuerpo, Vector3 pos, float ori=-190f)
     {
         cuerpo.interiorRadius = interiorRadius;
         cuerpo.arrivalRadius = arrivalRadius;
@@ -107,8 +108,15 @@ public class Agent : Bodi
         cuerpo.Velocity = Vector3.zero;
         cuerpo.Rotation = 0.0f;
         cuerpo.Position = pos;
-        cuerpo.Orientation = Orientation;
+        if (ori!=-190f) cuerpo.Orientation = ori;
+        else cuerpo.Orientation = Orientation;
     }
+    public void UpdateVirtual(Vector3 pos, float ori=-190f)
+    {
+        Position = pos;
+        if (ori!=-190f) Orientation = ori;
+    }
+
     // .AddComponent<BoxCollider>();
     // .GetComponent<Collider>().isTrigger = true;
     // .AddComponent<Agent>();

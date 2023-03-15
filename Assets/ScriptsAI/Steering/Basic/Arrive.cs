@@ -17,7 +17,7 @@ public class Arrive : SteeringBehaviour
         target = t;
     }
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         Steering steer = new Steering();
 
@@ -29,6 +29,10 @@ public class Arrive : SteeringBehaviour
         if (distance < target.interiorRadius){
             steer.linear =-agent.Velocity/Time.deltaTime;
             steer.linear = Vector3.ClampMagnitude(steer.linear, agent.MaxAcceleration);
+            if (agent.agentState == State.leaderFollowing) {
+                agent.agentState = State.Formation;
+                GameObject.FindObjectOfType<FormationManager>().notifyLeaderArrival();
+            }
             return steer;
 
         }

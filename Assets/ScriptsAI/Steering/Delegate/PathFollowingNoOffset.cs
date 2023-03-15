@@ -31,7 +31,7 @@ public class PathFollowingNoOffset : SeekCraig
     }
 
     // Update is called once per frame
-    public override Steering GetSteering(Agent agent) {
+    public override Steering GetSteering(AgentNPC agent) {
         
         if (nodes.Count == 0) {
             foreach (var point in path) {

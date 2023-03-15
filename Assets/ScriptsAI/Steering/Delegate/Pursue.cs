@@ -19,7 +19,7 @@ public class Pursue : SeekCraig
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);
     }
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         
         // Calcula la distancia al target

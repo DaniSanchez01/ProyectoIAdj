@@ -25,7 +25,7 @@ public class WallAvoidance : SeekCraig
         
     }
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         Steering steer = new Steering();
         agentPos = agent.Position;

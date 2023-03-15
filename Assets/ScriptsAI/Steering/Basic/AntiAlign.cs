@@ -15,7 +15,7 @@ public class AntiAlign : SteeringBehaviour
     }
 
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         float targetRotation = 0f;
         Steering steer = new Steering();

@@ -6,9 +6,9 @@ using System;
 public class MatrixAgentFormation : MonoBehaviour
 {
     public float cellSize = 2.0f; // Espacio entre agentes en la matriz // public float spacing = 2.0f;
-    public Agent leader; 
+
     // la matriz de agentes se encuentra en grid
-    public FormationGridManager grid;
+    public GridFormation grid;
     // public Agent[,] agents; // Matriz de agentes de la formación // no necesario, tenemos el grid para eso
     public Arrive arrive;
     private Agent target;
@@ -20,21 +20,26 @@ public class MatrixAgentFormation : MonoBehaviour
     {
         // Cogemos todos los agentes de la escena
         // Esto habría que cambiarlo a solo coger los que seleccionemos
-        AgentNPC[] allAgents = GameObject.FindObjectOfType<SeguirPunto>().getSelectedUnitsAgents();
+        AgentNPC[] allAgents = GameObject.FindObjectOfType<LectorTeclado>().getSelectedUnitsAgents();
 
         // Ordena los agentes en función de su distancia al lider de menor a mayor
-        Array.Sort(allAgents, (a1, a2) => {
+        /*Array.Sort(allAgents, (a1, a2) => {
             float dist1 = Vector3.Distance(a1.Position, leader.Position);
             float dist2 = Vector3.Distance(a2.Position, leader.Position);
             return dist1.CompareTo(dist2);
-        });
+        });*/
         // Creamos un FormationGridManager
-        grid = new FormationGridManager(cellSize, leader, allAgents);
+        AgentNPC leader = allAgents[0];
+        
+        if (grid==null) {
+            grid = gameObject.AddComponent<GridFormation>();
+        }
+        grid.CreateGridManager(cellSize, leader, 0, 2,0f,3,3);
         // Crea matriz de agentes
         // agents = new Agent[width, height];
 
         // Coloca los agentes en la matriz
-        for (int i = 0; i < grid.numColumns; i++) 
+        /*for (int i = 0; i < grid.numColumns; i++) 
         {
             for (int j = 0; j < grid.numRows; j++)
             {
@@ -52,7 +57,7 @@ public class MatrixAgentFormation : MonoBehaviour
                 }
                 a.NewTarget(target);                
             }
-        }
+        }*/
         
         // El leader se "quita" de los agentes para que no le afecte la formacion
         //leader.GetComponent<Agent>().enabled = false;
@@ -75,7 +80,7 @@ public class MatrixAgentFormation : MonoBehaviour
             }
         }
     }
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         // Cogemos todos los agentes
         Agent[] allAgents = GameObject.FindObjectsOfType<AgentNPC>();
@@ -106,6 +111,6 @@ public class MatrixAgentFormation : MonoBehaviour
                 Gizmos.DrawSphere(agent.Position, 0.3f);
             }
         }
-    }
+    }*/
 
 }

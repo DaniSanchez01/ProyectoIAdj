@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+public enum State
+{
+    Normal,
+    Formation,
+    leaderFollowing
+}
 
 public class AgentNPC : Agent
 { 
@@ -11,6 +17,8 @@ public class AgentNPC : Agent
     // Todos los steering que tiene que calcular el agente.
     private List<SteeringBehaviour> listSteerings;
     public bool gestion = false;
+
+    public State agentState = State.Normal;
 
 
     protected void Awake()

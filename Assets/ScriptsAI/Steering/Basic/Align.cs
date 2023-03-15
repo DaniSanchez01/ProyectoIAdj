@@ -14,8 +14,11 @@ public class Align : SteeringBehaviour
         this.nameSteering = "Align";
     }
 
+    public void NewTarget(Agent t) {
+        target = t;
+    }
 
-    public override Steering GetSteering(Agent agent)
+    public override Steering GetSteering(AgentNPC agent)
     {
         float targetRotation = 0f;
         Steering steer = new Steering();
@@ -62,4 +65,5 @@ public class Align : SteeringBehaviour
         // Retornamos el resultado final.
         return steer;
     }
+
 }

@@ -32,7 +32,7 @@ public class SteeringBehaviour : MonoBehaviour
     /// </summary>
     /// <param name="agent"></param>
     /// <returns></returns>
-    public virtual Steering GetSteering(Agent agent)
+    public virtual Steering GetSteering(AgentNPC agent)
     {
         return null;
     }

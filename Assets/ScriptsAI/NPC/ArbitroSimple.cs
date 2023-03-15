@@ -9,7 +9,7 @@ using UnityEngine;
 public class ArbitroSimple : MonoBehaviour
 {
 
-    public Steering calcula(List<SteeringBehaviour> steerings,Agent agente)
+    public Steering calcula(List<SteeringBehaviour> steerings,AgentNPC agente)
     {
         Steering resultado = new Steering();
         resultado.linear = Vector3.zero;
