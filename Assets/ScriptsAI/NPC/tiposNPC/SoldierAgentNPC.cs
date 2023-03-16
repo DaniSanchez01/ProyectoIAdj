@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoldierAgentNPC : AgentNPC
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         this.MaxSpeed = 10f;
         this.MaxAcceleration = 20f;
@@ -13,6 +13,7 @@ public class SoldierAgentNPC : AgentNPC
         this.MaxForce = 30f;
         this.MaxAngularAcc = 180f;
         this.interiorAngle = 8f;
+        base.Start();
     }
 
     // Update is called once per frame

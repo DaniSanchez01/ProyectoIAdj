@@ -61,7 +61,7 @@ public class GridFormation: MonoBehaviour {
                 //Calculamos la posición relativa creando un vector desde la celda del lider hasta esta celda
                 this.slots[i, j].relativePosition = new Vector3(i * cellSize - leaderI*cellSize, 0f, j * cellSize - leaderJ*cellSize);
                 //Creamos un virtualAgent en las posicion real del mundo donde se encuentra la celda
-                this.slots[i, j].virtualAgent = Agent.CreateStaticVirtual(GridToPlane(i,j), paint: false);
+                this.slots[i, j].virtualAgent = Agent.CreateStaticVirtual(GridToPlane(i,j),ori:angle, paint: false);
                 //Las orientaciones se especificarán más adelante, dependiendo del tipo de formación
                 this.slots[i, j].relativeOrientation = 0f;
                 //Si esta celda es la celda del lider
@@ -180,7 +180,7 @@ public class GridFormation: MonoBehaviour {
                     a.NewTarget(slots[i,j].virtualAgent);
                     
                     //Destruir el steering Face (para poder hacer un Align después y que no le moleste el Face)
-                    DestroyImmediate (slots[i, j].npc.GetComponent<Face>());
+                    DestroyImmediate(slots[i, j].npc.GetComponent<Face>());
                     
                     //Hacer un align a la celda correspondiente
                     Align b;

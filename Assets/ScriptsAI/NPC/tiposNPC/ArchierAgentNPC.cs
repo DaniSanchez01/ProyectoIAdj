@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArchierAgentNPC : AgentNPC
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         this.Mass = 1; //tiene mas masa
         this.MaxSpeed = 1.2f; // la maxima velocidad tambien se disminuye

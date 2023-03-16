@@ -14,8 +14,9 @@ public class WallAvoidance : SeekCraig
     Vector3 bigoteDer;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
+        nameSteering = "WallAvoidance";
         virt = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0.2f,arrRadius: 0.2f,paint: false);
     }
 

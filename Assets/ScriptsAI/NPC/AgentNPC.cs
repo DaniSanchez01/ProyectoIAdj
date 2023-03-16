@@ -20,6 +20,8 @@ public class AgentNPC : Agent
 
     public State agentState = State.Normal;
 
+    public typeArbitro arbitro = typeArbitro.Quieto;  
+
 
     protected void Awake()
     {
@@ -35,16 +37,58 @@ public class AgentNPC : Agent
 
 
     // Use this for initialization
-    void Start()
+    protected virtual void Start()
     {
         this.Velocity = Vector3.zero;
-        if (gestion) listSteerings = GestorArbitros.GetArbitraje("vagante",this,null); //he puesto vagante
+        if (gestion) 
+            {
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this,null); //he puesto vagante
+            }
+
     }
+
+    public void changeArbitro(typeArbitro arb) {
+        this.arbitro = arb;
+        listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this,null);
+    }
+
+    public void deleteAllSteerings() {
+        listSteerings.Clear();
+    }
+
+    public void addSteering(SteeringBehaviour steer) {
+        listSteerings.Add(steer);
+    }
+
+    public void deleteSteering(string nameSteer) {
+        int index = -1;
+        int count = 0; 
+        foreach (var s in listSteerings) {
+            if (s.NameSteering == nameSteer) {
+                index = count;
+            }
+            count+=1;
+        }
+        if (index!=-1) {
+            listSteerings.RemoveAt(index);
+        }
+    }
+
+    public SteeringBehaviour takeSteering(string nameSteer) {
+        foreach (var s in listSteerings) {
+            if (s.NameSteering == nameSteer) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+
 
     // Update is called once per frame
     public virtual void Update()
     {
-        this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
+        if (!gestion) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
         // En cada frame se actualiza el movimiento
         ApplySteering(Time.deltaTime);
 

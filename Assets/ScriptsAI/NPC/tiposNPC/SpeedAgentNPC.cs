@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpeedAgentNPC : AgentNPC
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         this.MaxSpeed = 40f;
         this.MaxAcceleration = 20f;

@@ -34,7 +34,7 @@ public class FormationManager : MonoBehaviour
             float leaderAngle = pattern.getAngle(0);
             //Creamos y preparamos el grid
             grid = gameObject.AddComponent<GridFormation>();
-            grid.CreateGridManager(cellSize, leader, leaderSlot.Item1, leaderSlot.Item2,leaderAngle,3,3);
+            grid.CreateGridManager(cellSize, leader, leaderSlot.Item1, leaderSlot.Item2,leaderAngle,4,4);
             //Ponemos el lider en estado de formación
             leader.agentState = State.Formation;
         }
@@ -80,12 +80,7 @@ public class FormationManager : MonoBehaviour
         grid.leaderFollowing();
     }
     // se detecta si se ha pulsado Shift+F
-    private void Update()
-    {
-        // Shift+F
-        if (Input.GetKeyDown(KeyCode.F) && Input.GetKey(KeyCode.LeftShift))
-        {
-            gameObject.GetComponent<FormationManager>().formar();       
-        }
+    private void Update(){
+    
     }
 }

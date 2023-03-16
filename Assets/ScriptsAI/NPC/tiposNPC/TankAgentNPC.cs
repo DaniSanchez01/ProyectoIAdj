@@ -7,11 +7,11 @@ public class TankAgentNPC : AgentNPC
 
 
     /*
-     * Este personaje representaria un personaje pesado y que por tanto tiene mucha masa y poca aceleración aunque se puede seguir moviendo
+     * Este personaje representaria un personaje pesado y que por tanto tiene mucha masa y poca aceleraciï¿½n aunque se puede seguir moviendo
      */
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         this.Mass = 5; //tiene mas masa
         this.MaxSpeed = 0.8f; // la maxima velocidad tambien se disminuye

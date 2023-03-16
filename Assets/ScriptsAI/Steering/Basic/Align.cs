@@ -14,7 +14,7 @@ public class Align : SteeringBehaviour
         this.nameSteering = "Align";
     }
 
-    public void NewTarget(Agent t) {
+    public override void NewTarget(Agent t) {
         target = t;
     }
 

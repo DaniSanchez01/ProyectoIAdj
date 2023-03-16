@@ -13,7 +13,7 @@ public class Arrive : SteeringBehaviour
         this.nameSteering = "Arrive";
     }
 
-    public void NewTarget(Agent t) {
+    public override void NewTarget(Agent t) {
         target = t;
     }
 

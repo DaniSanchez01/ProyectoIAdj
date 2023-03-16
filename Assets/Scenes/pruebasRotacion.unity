@@ -387,7 +387,8 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 0
+  gestion: 1
+  agentState: 0
 --- !u!1 &299888153 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2669339974552896402, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1646,6 +1647,7 @@ MonoBehaviour:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
   gestion: 0
+  agentState: 0
 --- !u!1 &1539415627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7774960780965274391, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1823,6 +1825,7 @@ MonoBehaviour:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
   gestion: 0
+  agentState: 0
 --- !u!1 &1771595872 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4382317869749611819, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}

@@ -22,7 +22,9 @@ public class SteeringBehaviour : MonoBehaviour
         get { return weight;  }
     }
 
-    
+    public virtual void NewTarget(Agent t){
+
+    }
 
 
     /// <summary>

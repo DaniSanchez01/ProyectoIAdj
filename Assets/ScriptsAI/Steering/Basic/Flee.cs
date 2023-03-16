@@ -13,6 +13,9 @@ public class Flee : SteeringBehaviour
         this.nameSteering = "Flee";
     }
 
+    public override void NewTarget(Agent t) {
+        target = t;
+    }
 
     public override Steering GetSteering(AgentNPC agent)
     {
