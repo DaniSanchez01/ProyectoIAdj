@@ -7,6 +7,8 @@ TagManager:
   - NPC
   - Floor
   - Wall
+  - cuboParaColisiones
+  - ObjetoEscenario
   layers:
   - Default
   - TransparentFX
