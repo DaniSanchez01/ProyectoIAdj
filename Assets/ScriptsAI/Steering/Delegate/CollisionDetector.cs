@@ -20,7 +20,7 @@ public class CollisionDetector : MonoBehaviour
         RaycastHit hitInfo;
         if (Physics.Raycast(rayo, out hitInfo))
             {
-                if (hitInfo.distance <= bigote.magnitude && !(hitInfo.collider.CompareTag("NPC"))
+                if (hitInfo.distance <= bigote.magnitude && (hitInfo.collider.CompareTag("Wall"))
 ) {
                     answer.position = hitInfo.point;
                     answer.normal = hitInfo.normal;

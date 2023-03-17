@@ -13,13 +13,12 @@ public class Face : Align
     Vector3 direction;
 
 
-    private void Start()
+    private void Awake()
     {
         base.nameSteering = "Face";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz); //toma radio por defecto -1
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
     }
-
 
     public void FaceNewTarget(Agent t) {
         this.FaceTarget = t;

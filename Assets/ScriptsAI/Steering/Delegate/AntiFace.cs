@@ -13,14 +13,8 @@ public class AntiFace : AntiAlign
     Vector3 direction;
 
 
-    private void Start()
+    private void Awake()
     {
-        base.nameSteering = "AntiFace";
-        virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz); //toma radio por defecto -1
-        virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
-    }
-
-    public void instantiateAntiFace() {
         base.nameSteering = "AntiFace";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz); //toma radio por defecto -1
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado

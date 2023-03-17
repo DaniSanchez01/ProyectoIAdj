@@ -8,7 +8,7 @@ public class Arrive : SteeringBehaviour
     public Agent target;
     public float timeToTarget = 0.1f; // Tiempo para llegar al objetivo ?
 
-    void Start()
+    void Awake()
     {
         this.nameSteering = "Arrive";
     }
@@ -32,6 +32,10 @@ public class Arrive : SteeringBehaviour
             if (agent.agentState == State.leaderFollowing) {
                 agent.agentState = State.Formation;
                 GameObject.FindObjectOfType<FormationManager>().notifyLeaderArrival();
+            }
+            if (agent.agentState == State.runningToPoint) {
+                agent.agentState = State.Normal;
+                agent.rodearPunto();
             }
             return steer;
 

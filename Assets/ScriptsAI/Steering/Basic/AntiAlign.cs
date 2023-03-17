@@ -9,7 +9,7 @@ public class AntiAlign : SteeringBehaviour
     public Agent target;
     public float timeToTarget = 0.3f;
     
-    void Start()
+    void Awake()
     {
         this.nameSteering = "AntiAlign";
     }

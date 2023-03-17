@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum typePattern {
+        Ataque,
+        Defensa
+} 
+
 public class FormationManager : MonoBehaviour
 {
     // Tamaño de una celda del grid
@@ -13,9 +18,13 @@ public class FormationManager : MonoBehaviour
     
     //Diseño de formación usado
     private Pattern pattern;
+
+    public typePattern tipoFormacion;
     //Lider de la formación
     private AgentNPC leader;
-
+    private int inicio;
+    private bool waiting = false;
+    private bool doingWander = false;
 
     //Función que se realiza al pulsar SHIFT+F. Pone en formación a todos los personajes seleccionados
     public void formar()
@@ -27,7 +36,7 @@ public class FormationManager : MonoBehaviour
         if (grid==null) {
             leader = allAgents[0];
             //AQUI ELEGIMOS LA FORMACIÓN QUE QUEREMOS USAR
-            pattern = new AttackPattern();
+            createPattern();
             //Celda que le corresponde en la formación específica
             (int,int) leaderSlot = pattern.getLeaderSlot();
             //Orientación que le corresponde en la formación específica
@@ -62,9 +71,14 @@ public class FormationManager : MonoBehaviour
         grid.leaderFollowing();
     }
 
+    public void createPattern() {
+        if (tipoFormacion == typePattern.Ataque) pattern = new AttackPattern();
+        else pattern = new DefensivePattern();
+    }
     //Si hay una formación activa y se pulsa SPACE, desactivarla
     public void acabarFormacion() {
         if (grid!=null) {
+            NoWait();
             grid.liberarAgents();
         }
     }
@@ -76,11 +90,47 @@ public class FormationManager : MonoBehaviour
 
     //Mover el grid y hacer que los personajes vayan a el (Ocurre cuando los personajes están en formación y se pincha en un nuevo lugar)
     public void moveToPoint(Vector3 point) {
+        if (grid==null) Debug.Log("Hola");
         grid.moveGrid(point);
         grid.leaderFollowing();
     }
     // se detecta si se ha pulsado Shift+F
+
+    public void startTimer() {
+        inicio = Environment.TickCount;
+        waiting = true;
+    }
+
+    public void NoWait() {
+        waiting = false;
+    }
+
+    public void Wait() {
+        waiting = true;
+    }
+
+    public void finishTimer(){
+        if (waiting) {
+            if ((Environment.TickCount - inicio) > 10000){
+                if (doingWander) {
+                    formar();
+                    doingWander = false;
+                }
+                else {
+                    grid.leaderWander();
+                    doingWander = true;
+                }
+                
+            }
+        }
+    }
     private void Update(){
-    
+        finishTimer();
+    }
+
+    public void disactivateGrid() {
+        if (grid!=null) {
+            grid.activated = false;
+        }
     }
 }

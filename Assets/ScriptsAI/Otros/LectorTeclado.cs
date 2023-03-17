@@ -119,6 +119,8 @@ public class LectorTeclado : MonoBehaviour
                     }
                     //Si no, mover cada npc de manera individual al punto
                     else {
+                        GameObject.FindObjectOfType<FormationManager>().disactivateGrid();
+                        GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
                         virt.Position = newTarget;
                         int nUnits = selectedUnits.Count;
                         float angleDistance = 360f;
@@ -134,17 +136,19 @@ public class LectorTeclado : MonoBehaviour
                         {
                             //npc.SendMessage("NewTarget", newTarget);
                             // Nota: Estructura jerárquica -> BroadcastMessage.
+                            npc.NoWait();
                             Vector3 newPosition = npc.OrientationToVector(angle)*distance+newTarget;
                             float newOrientation = Bodi.MapToRange(angle+180,Range.grados180);
-                            Agent newVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,paint:false);
-                            if (!npc.TryGetComponent<Arrive>(out Arrive a)) {
-                                a = npc.gameObject.AddComponent<Arrive>();
+                            if (npc.circleVirt == null) {
+                                npc.circleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
                             }
-                            a.NewTarget(newVirt);
-                            if (!npc.TryGetComponent<Align>(out Align b)) {
-                                b = npc.gameObject.AddComponent<Align>();
-                            }
-                            b.NewTarget(newVirt);
+                            else npc.circleVirt.UpdateVirtual(newPosition,ori: newOrientation);
+                            npc.agentState = State.runningToPoint;
+                            npc.changeArbitro(typeArbitro.Perseguidor);
+                            Arrive a = (Arrive) npc.takeSteering("Arrive");
+                            Face b = (Face) npc.takeSteering("Face");
+                            a.NewTarget(virt);
+                            b.FaceNewTarget(virt);
                             angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
 
                         }
@@ -154,4 +158,5 @@ public class LectorTeclado : MonoBehaviour
             }
         }
     }
+    
 }

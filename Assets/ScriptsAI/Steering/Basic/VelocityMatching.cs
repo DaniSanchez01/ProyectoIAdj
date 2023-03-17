@@ -12,7 +12,7 @@ public class VelocityMatching : SteeringBehaviour
     public float timetoTarget = 0.1f;
     
     
-    void Start()
+    void Awake()
     {
         this.nameSteering = "VelocityMatching";
     }

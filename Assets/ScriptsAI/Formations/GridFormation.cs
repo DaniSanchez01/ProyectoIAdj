@@ -40,6 +40,8 @@ public class GridFormation: MonoBehaviour {
     //Posicion real del grid (posicion de la celda del lider)
     public Vector3 gridPosition;
 
+    public FormationManager formation;
+
     //Usado para llevar el grid a la posicion del lider al hacer Shift+F
     public bool activated = false;
 
@@ -54,6 +56,7 @@ public class GridFormation: MonoBehaviour {
         this.leader = leader;
         this.leaderAngle = angle;
         this.gridPosition = leader.Position;
+        this.formation = FindObjectOfType<FormationManager>();
         //Para cada celda del grid
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -67,7 +70,7 @@ public class GridFormation: MonoBehaviour {
                 //Si esta celda es la celda del lider
                 if (leaderI == i && leaderJ == j) {
                     //Conectar el lider a esta
-                    this.slots[i,j].npc = leader;
+                    this.slots[i,j].npc = this.leader;
                     this.slots[i,j].leaderCell = true;
                 }  
                 else {
@@ -107,6 +110,10 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 Agent v = this.slots[i,j].virtualAgent;
                 v.Position = GridToPlane(i,j);
+                if (this.slots[i,j].npc!=null) {
+                    this.slots[i,j].npc.NoWait();
+                }
+
             }
         }
     }
@@ -130,40 +137,25 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc!= null) {
-
-                    Arrive a;
+                    slots[i, j].npc.changeArbitro(typeArbitro.Perseguidor);
                     Agent leaderVirtual = getLeaderSlot().virtualAgent;
-                    if (!slots[i, j].npc.TryGetComponent<Arrive>(out a)) {
-                        a = slots[i, j].npc.gameObject.AddComponent<Arrive>();
-                    }
-                    //Si eres el lider, hacer un arrive hasta la nueva posición del grid
+                    Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
+                    Face f = (Face) slots[i, j].npc.takeSteering("Face");
+
                     if (slots[i, j].npc== leader) {
                         a.NewTarget(leaderVirtual);
-                        //ESTE ESTADO SE USA EN EL ARRIVE PARA NOTIFICAR AL FORMATIONMANAGER CUANDO EL LIDER LLEGA A ESTA NUEVA POSICIÓN
-                        leader.agentState = State.leaderFollowing;
+                        f.FaceNewTarget(leaderVirtual);
+                        slots[i,j].npc.agentState = State.leaderFollowing;
                     }
-                    //Si eres otro npc, hacer el arrive al lider
-                    else a.NewTarget(leader);
-
-                    //Si tienes asignado un steering Align eliminalo (para poder hacer un Face después y que no le moleste el Align)
-                    if (slots[i, j].npc.TryGetComponent<Align>(out Align x))
-                        DestroyImmediate (slots[i, j].npc.GetComponent<Align>());
-
-                    
-                    Face b;
-                    if (!slots[i, j].npc.TryGetComponent<Face>(out b)) {
-                        b = slots[i, j].npc.gameObject.AddComponent<Face>();
+                    else {
+                        a.NewTarget(leader);
+                        f.FaceNewTarget(leader);
                     }
-                    //Si eres el lider, mira hacia la nueva posicion del grid
-                    if (slots[i, j].npc== leader) {
-                        b.FaceNewTarget(leaderVirtual);
-                    }
-                    //Si eres otro npc, mira hacia el lider
-                    else b.FaceNewTarget(leader);
                 } 
             }
         }
-        
+        formation.startTimer();
+
     }
 
     //A esta función se le llama cuando el lider hallegado a la nueva posición del grid (Cuando entra en el radio interior del 
@@ -175,22 +167,24 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc!= null) {
-                    //Hacer un arrive a la celda correspondiente
-                    Arrive a =slots[i, j].npc.GetComponent<Arrive>();
-                    a.NewTarget(slots[i,j].virtualAgent);
-                    
-                    //Destruir el steering Face (para poder hacer un Align después y que no le moleste el Face)
-                    DestroyImmediate(slots[i, j].npc.GetComponent<Face>());
-                    
-                    //Hacer un align a la celda correspondiente
-                    Align b;
-                    if (!slots[i, j].npc.TryGetComponent<Align>(out b)) {
-                        b = slots[i, j].npc.gameObject.AddComponent<Align>();
+                    slots[i, j].npc.changeArbitro(typeArbitro.Posicionar);
+                    Agent leaderVirtual = getLeaderSlot().virtualAgent;
+                    Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
+                    Align al = (Align) slots[i, j].npc.takeSteering("Align");
+
+                    if (slots[i, j].npc== leader) {
+                        a.NewTarget(leaderVirtual);
+                        al.NewTarget(leaderVirtual);
                     }
-                    b.NewTarget(slots[i,j].virtualAgent);
-                } 
+                    else {
+                        a.NewTarget(slots[i, j].virtualAgent);
+                        al.NewTarget(slots[i, j].virtualAgent);
+                    }
+                }
+                
             }
         }
+        formation.startTimer();
     }
 
     //Se borrarán de las celdas todos los npcs conectados (menos el lider)
@@ -200,11 +194,41 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 if (slots[i,j].npc!=null && !slots[i,j].leaderCell) {
                     //Cambiar el estado a normal
-                    slots[i,j].npc.agentState = State.Normal;
                     slots[i,j].npc = null;
+                }
+                if (slots[i,j].npc== leader) {
+                    leader.agentState = State.Normal;
+                    leader.changeArbitro(leader.firstArbitro);
+                    slots[i,j].npc.agentState = State.Normal;
+                    slots[i,j].npc.changeArbitro(slots[i,j].npc.firstArbitro);
+
                 }
             }
         }
+    }
+
+    public void leaderWander() {
+        for (int i = 0; i < numColumns; i++) {
+            for (int j = 0; j < numRows; j++) {
+                //Si hay un npc conectado a esa ranura
+                if (slots[i, j].npc!= null) {
+                    
+
+                    if (slots[i, j].npc== leader) {
+                        slots[i, j].npc.changeArbitro(typeArbitro.Aleatorio);
+                    }
+                    else {
+                        slots[i, j].npc.changeArbitro(typeArbitro.Perseguidor);
+                        Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
+                        Face f = (Face) slots[i, j].npc.takeSteering("Face");
+                        a.NewTarget(leader);
+                        f.FaceNewTarget(leader);
+                    }
+                } 
+            }
+        }
+        formation.startTimer();
+
     }
     
     public void OnDrawGizmos() {

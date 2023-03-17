@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public enum State
 {
     Normal,
     Formation,
-    leaderFollowing
+    leaderFollowing,
+    runningToPoint,
 }
 
 public class AgentNPC : Agent
@@ -16,11 +18,21 @@ public class AgentNPC : Agent
     [SerializeField] protected Steering steer;
     // Todos los steering que tiene que calcular el agente.
     private List<SteeringBehaviour> listSteerings;
-    public bool gestion = false;
+    public bool useArbitro = false;
 
     public State agentState = State.Normal;
 
     public typeArbitro arbitro = typeArbitro.Quieto;  
+
+    public typeArbitro firstArbitro;
+    public Agent firstTarget;
+    public Agent circleVirt;
+
+    private int inicio;
+    private bool waiting = false;
+
+
+
 
 
     protected void Awake()
@@ -40,27 +52,49 @@ public class AgentNPC : Agent
     protected virtual void Start()
     {
         this.Velocity = Vector3.zero;
-        if (gestion) 
+        if (useArbitro) 
             {
-                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this,null); //he puesto vagante
+                firstArbitro = arbitro;
+                listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget); //he puesto vagante
             }
 
     }
 
+    public void startTimer() {
+        inicio = Environment.TickCount;
+        waiting = true;
+    }
+
+    public void NoWait() {
+        waiting = false;
+    }
+
+    public void finishTimer(){
+        if (waiting) {
+            if ((Environment.TickCount - inicio) > 10000){
+                waiting = false;
+                changeArbitro(firstArbitro);
+            }
+        }
+    }
+
     public void changeArbitro(typeArbitro arb) {
         this.arbitro = arb;
-        listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this,null);
+        this.deleteAllSteerings();
+        listSteerings = GestorArbitros.GetArbitraje(arb,this,firstTarget);
     }
 
     public void deleteAllSteerings() {
-        listSteerings.Clear();
+        while (gameObject.TryGetComponent<SteeringBehaviour>(out SteeringBehaviour a)) {
+            DestroyImmediate (a);
+        }
     }
 
-    public void addSteering(SteeringBehaviour steer) {
+    /*public void addSteering(SteeringBehaviour steer) {
         listSteerings.Add(steer);
-    }
+    }*/
 
-    public void deleteSteering(string nameSteer) {
+    /*public void deleteSteering(string nameSteer) {
         int index = -1;
         int count = 0; 
         foreach (var s in listSteerings) {
@@ -72,8 +106,16 @@ public class AgentNPC : Agent
         if (index!=-1) {
             listSteerings.RemoveAt(index);
         }
-    }
+    }*/
 
+    public bool checkSteering(string nameSteer) {
+        foreach (var s in listSteerings) {
+            if (s.NameSteering == nameSteer) {
+                return true;
+            }
+        }
+        return false;
+    }
     public SteeringBehaviour takeSteering(string nameSteer) {
         foreach (var s in listSteerings) {
             if (s.NameSteering == nameSteer) {
@@ -83,13 +125,22 @@ public class AgentNPC : Agent
         return null;
     }
 
-
+    public void rodearPunto() {
+        changeArbitro(typeArbitro.Posicionar);
+        Arrive a = (Arrive) takeSteering("Arrive");
+        Align b = (Align) takeSteering("Align");
+        a.NewTarget(circleVirt);
+        b.NewTarget(circleVirt);
+        startTimer();
+    }
 
     // Update is called once per frame
     public virtual void Update()
     {
-        if (!gestion) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
-        // En cada frame se actualiza el movimiento
+        if (!useArbitro) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
+        
+        finishTimer();
+
         ApplySteering(Time.deltaTime);
 
         // En cada frame podría ejecutar otras componentes IA

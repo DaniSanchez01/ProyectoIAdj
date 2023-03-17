@@ -6,7 +6,7 @@ public class DefensivePattern: Pattern
 {
     public DefensivePattern() {
         //Celda del lider
-        leaderSlot = (1,2);
+        leaderSlot = (2,3);
         //Celdas a usar por los npcs (no se incluye la del lider)
         //validSlots = new[] {(2,1),(0,1),(1,0)};
         validSlots = new[] {(1,3),(3,2),(0,2),(3,1),(0,1),(2,0),(1,0)};

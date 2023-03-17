@@ -17,7 +17,7 @@ public class Wander : Face
     Vector3 centerCircle = Vector3.zero;
     Vector3 offsetLine = Vector3.zero;
     private Vector3 targetPosition;
-    private void Start()
+    private void Awake()
     {
         this.nameSteering = "Wander";
         FaceTarget = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0,arrRadius: 1,paint: false);

@@ -13,7 +13,7 @@ public class Pursue : SeekCraig
 
     public bool giz = false;
 
-    void Start()
+    void Awake()
     {
         this.nameSteering = "Pursue";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);

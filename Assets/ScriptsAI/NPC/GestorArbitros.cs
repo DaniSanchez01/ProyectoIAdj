@@ -6,59 +6,83 @@ using UnityEngine;
 public enum typeArbitro {
     Huidizo,
     Perseguidor,
-    Vagante,
-    Quieto
+    Posicionar,
+    Quieto,
+    Aleatorio
 }
 
 public class GestorArbitros
 {
     /*usamos una factoria para crear los diferentes arbitros, se le necesita pasar el agente que ha llamado al metodo y los objetos (que pueden ser muchos, uno o ninguno)
     Ej: con el WallAvoidance NO necesitas ningun target */
-    public static List<SteeringBehaviour> GetArbitraje(typeArbitro arbitro,Agent agente,List<Agent> objetivos)
+    public static List<SteeringBehaviour> GetArbitraje(typeArbitro arbitro,Agent agente,Agent target)
     {
         List<SteeringBehaviour> steeringsDevueltos = new List<SteeringBehaviour>();
-        SteeringBehaviour actual; //steering que se esta cambiando
         switch (arbitro)
         {
             case typeArbitro.Huidizo:
                 
-                Flee flee = new Flee();
+                Flee flee = agente.gameObject.AddComponent<Flee>();
                 flee.Weight = 1f;
-                flee.NameSteering = "Flee";
-                flee.NewTarget(GameObject.FindObjectOfType<AgentPlayer>());
+                flee.NewTarget(target);
                 steeringsDevueltos.Add(flee);
                 
-                AntiFace antiface = new AntiFace();
+                AntiFace antiface = agente.gameObject.AddComponent<AntiFace>();
                 antiface.Weight = 1f;
-                antiface.instantiateAntiFace();
-                antiface.AntiFaceNewTarget(GameObject.FindObjectOfType<AgentPlayer>());
+                antiface.AntiFaceNewTarget(target);
                 steeringsDevueltos.Add(antiface);
 
-                WallAvoidance wall = new WallAvoidance();
-                wall.Start();
-                wall.Weight = 8f;
+                WallAvoidance wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
                 steeringsDevueltos.Add(wall);
 
                 break;
 
             case typeArbitro.Perseguidor:
-                actual = new Pursue();
-                Pursue seguidor = (Pursue)actual; //hago un casting para poder acceder al campo "target"
-                seguidor.pursueTarget = objetivos[0]; //obtiene el primer elemento que deberia haberlo OJO AQUI QUE SE PUEDE LIAR SI NO HAY UN PursueTarget
-                steeringsDevueltos.Add(seguidor);
+                
+                Arrive arrive = agente.gameObject.AddComponent<Arrive>();
+                arrive.Weight = 1f;
+                arrive.NewTarget(target);
+                steeringsDevueltos.Add(arrive);
+                
+                Face face = agente.gameObject.AddComponent<Face>();
+                face.Weight = 1f;
+                face.FaceNewTarget(target);
+                steeringsDevueltos.Add(face);
+
+                wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
+                wall.gizmos = true;
+                steeringsDevueltos.Add(wall);
                 break;
 
-            case typeArbitro.Vagante:
-                actual = new Wander();
-                steeringsDevueltos.Add(actual);
-                //actual = new WallAvoidance
+            case typeArbitro.Posicionar:
+                arrive = agente.gameObject.AddComponent<Arrive>();
+                arrive.Weight = 1f;
+                arrive.NewTarget(target);
+                steeringsDevueltos.Add(arrive);
+                
+                Align align = agente.gameObject.AddComponent<Align>();
+                align.Weight = 1f;
+                align.NewTarget(target);
+                steeringsDevueltos.Add(align);
+
+                wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
+                steeringsDevueltos.Add(wall);
                 break;
 
             case typeArbitro.Quieto:
                 break;
-            default: //por defecto podemos devolver por ejemplo el wander
-                actual = new Wander();
-                steeringsDevueltos.Add(actual);
+
+            case typeArbitro.Aleatorio:
+                Wander wander = agente.gameObject.AddComponent<Wander>();
+                wander.Weight = 0.5f;
+                steeringsDevueltos.Add(wander);
+
+                wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
+                steeringsDevueltos.Add(wall);
                 break;
         }
 

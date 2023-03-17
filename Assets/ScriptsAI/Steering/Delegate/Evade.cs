@@ -13,7 +13,7 @@ public class Evade : Flee
 
     public bool giz = false;
 
-    void Start()
+    void Awake()
     {
         this.nameSteering = "Evade";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);

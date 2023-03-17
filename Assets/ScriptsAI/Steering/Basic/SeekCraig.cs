@@ -8,7 +8,7 @@ public class SeekCraig : SteeringBehaviour
     // Declara las variables que necesites para este SteeringBehaviour
     public Agent target;
     
-    void Start()
+    void Awake()
     {
         this.nameSteering = "Seek Craig";
     }

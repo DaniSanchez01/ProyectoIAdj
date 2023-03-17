@@ -791,6 +791,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1798261638882729109, guid: d79d4e35945cab74b96d46eb8ea6856d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1798261638882729111, guid: d79d4e35945cab74b96d46eb8ea6856d, type: 3}
       propertyPath: m_Name
       value: Mark

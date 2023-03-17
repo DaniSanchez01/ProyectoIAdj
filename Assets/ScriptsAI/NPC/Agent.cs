@@ -24,6 +24,7 @@ public class Agent : Bodi
 
     // AÑADIR LAS PROPIEDADES PARA ESTOS ATRIBUTOS. SI LO VES NECESARIO.
     public bool giz = true;
+
     public float interiorRadius
     {
         get { return _interiorRadius; }
