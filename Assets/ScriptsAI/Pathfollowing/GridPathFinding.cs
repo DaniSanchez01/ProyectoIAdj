@@ -9,86 +9,53 @@ using UnityEngine;
  */
 
 
-
-/*
- * Representa una celda que tendra un booleano para indicar si es transitable o no y un valor real que indica el coste heuristico hacia algun objetivo
- * una estructura siempre tiene de forma prederminada un constructor que pone todos los valores a cero
- */
-public struct Celda 
-{
-    bool transitable;
-    float valorheuristico;
-    //todos los costes de las conexiones con los nodos transitables son 1.
-
-
-    public bool Transitable { 
-
-        get { return transitable;  }
-        set { transitable = value;  }
-    }
-
-    public float Heuristica
-    {
-
-        get { return valorheuristico; }
-        set { valorheuristico = value; }
-    }
-}
-
-
-
-
 public class GridPathFinding : MonoBehaviour
 {
     [SerializeField] private int filas; //numero de celdas que hay a lo largo del ancho notese que NO es lo mismo que filas porque esto representa las celdas de longitud "cellSize" a lo largo del ancho
     [SerializeField] private int Columnas; //numero de celdas que hay para cada columna
     [SerializeField] private float cellSize; //longitud del cuadrado del grid
-    private Celda[,] celdasGrid; //sera un array bidimensional donde se accede a la celda i,j-esima
+    private Nodo[,] celdasGrid; //sera un array bidimensional donde se accede a la celda i,j-esima
     private Heuristica heuristicagrid;
     [SerializeField] bool activarGizmos; //se usa para activar los gizmos o no.
 
-    public void inicializarGrid(int ancho,int largo,int cellSize,string heuristicaDeseada)
+
+    //propiedades
+
+    public Nodo[,] CeldasGrid
     {
-        //1. Se introducen los valores al grid
+        get { return celdasGrid; }
+    }
+
+    //metodos
+
+    public void inicializarGrid(int ancho, int largo, int cellSize, string heuristicaDeseada)
+    {
+        //1. Se introducen loas propiedades del grid
         filas = ancho;
         Columnas = largo;
         this.cellSize = cellSize;
         heuristicagrid = FactoriaHeuristica.crearHeuristica(heuristicaDeseada);
-        celdasGrid = new Celda[filas, Columnas]; //se crea el grid acorde a las celdas y columnas
+        celdasGrid = new Nodo[filas, Columnas]; //se crea el grid acorde a las celdas y columnas
 
-
-        validarNodos();
-        
-    }
-
-    /*
-     * Esta funcion se encarga de comprobar para cada una de las celdas que tiene el grid si en esta celda no hay ningun objeto y por tanto es valida.
-     * Pre: Debe haberse calculado anteriormente la variable celdasFila y celdasColumna con el cellSize del grid.
-     */
-    private void validarNodos()
-    {
-        
-        for(int i=0;i<filas;i++)
+        //2. Se averiguan que nodos son validos
+        for (int i = 0; i < filas; i++)
         {
-            for(int j=0;j<Columnas;j++)
+            for (int j = 0; j < Columnas; j++)
             {
-                //1. Se comprueba si hay colision
-                bool haycolision = comprobarColisionesConobjetosEscenario(i, j);
-                //2. Si la hay con algun objeto del escenario entonces no es transitable en caso contrario si lo es
-                celdasGrid[i, j].Transitable = !haycolision;
-
-                
+                //1. Se comprueba si la celda es valida y tambien se establece el coste de la zona a 1 
+                bool valida = hayColisionEnCelda(i, j);
+                celdasGrid[i, j] = new Nodo(1, i, j, valida); //El coste de cada celda se supone que es 1
             }
         }
-
-        
     }
+
 
     /*
      * Dada una celda del grid marcada por su fila y columna comprueba si en esta hay objetos del escenario y por tanto si es transitable o no lo es.
+     * Si se encuentra un objeto NO es valida, en caso contrario si lo es
      * Pre: filas>fila>=0 y columnas>columna>=0, no debe ser una fila y columna que no abarquemos ( negativas o fuera del array) 
      */
-    private bool comprobarColisionesConobjetosEscenario(int fila, int columna)
+    private bool hayColisionEnCelda(int fila, int columna)
     {
         //1. hallar punto medio del cubo en la celda correspondiente usando para ello el cellsize. Para esto se obtiene el punto que corresponde a la celda y sumando la mitad del lado
         //se obtiene el punto medio del cubo
@@ -103,11 +70,30 @@ public class GridPathFinding : MonoBehaviour
         {
             // Vector3 puntomasCercano = Physics.ClosestPoint(puntoMedioCubo, obj, obj.gameObject.transform.position, obj.gameObject.transform.rotation);
             //((puntomasCercano - puntoMedioCubo).magnitude < cellSize /2 )
-            if (obj.tag == "ObjetoEscenario"  ) return true;
+            if (obj.CompareTag("ObjetoEscenario")) return false; //si choca con algun objeto del escenario NO es valida
         }
-        return false;
+        return true; //en caso contrario si lo es
     }
 
+    /*
+     * Comprueba que el nodo que hay en la casilla es valido, puede ser que se nos indique una celda que no esta dentro del grid en cuyo caso el nodo no es valido.
+     * Pre: se debe haber inicializado todos los nodos del grid
+     */
+    public bool esValidoNodoEnCelda(int fila,int columna)
+    {
+        return ((filas > fila && fila >= 0) && (Columnas > columna && columna >= 0)) && celdasGrid[fila, columna].Transitable;
+    }
+    /*
+     * Indica si el punto es valido o no
+     * Pre: deben haberse validado las celdas del grid
+     */
+    public bool esValidoPunto(Vector3 puntoDestino)
+    {
+        //1.Obtiene la posicion de la celda correspondiente al punto pasado como parametro.
+        Vector2Int posCelda = getCeldaDePuntoPlano(puntoDestino);
+        //2. Comprueba si el punto cae dentro de una celda valida
+        return esValidoNodoEnCelda(posCelda.x, posCelda.y);
+    }
 
     /*
      * Dada una posicion de una celda retorna la posicion x,z del plano
@@ -116,47 +102,83 @@ public class GridPathFinding : MonoBehaviour
      */
     public Vector3 getPuntoPlanoDeCelda(int i, int j)
     {
-
-        
-
-        //1. se obtiene la cara origen que toma como la cara (0,0)
-        Vector2Int caraOrigen = Vector2Int.zero; //se parte dela 0,0
-
-        //2. Obtiene la cara destino en base a un desplazamiento i,j respecto a la caraOrigen
-        Vector2Int caraDestino = new Vector2Int(caraOrigen.x + i, caraOrigen.y + j);
-
-        //3. Calcula el punto para esa cara destino
-        return new Vector3(caraDestino.x * cellSize, 0f, caraDestino.y * cellSize);
-
-        
+        //1. Calcula el punto para esa cara destino en base al tamaño del lado
+        return new Vector3(i * cellSize, 0f, j * cellSize);
     }
 
     /*
      * De la misma forma se supone que el punto indicado debe de estar en una celda i,j donde i>=0 y j>=0 y que claramente i<n j<m pues recordamos que las celdas empiezan a contar desde 0
      */
-
     public Vector2Int getCeldaDePuntoPlano(Vector3 puntoPlano)
     {
-        //1. se obtiene la cara origen que toma como la cara (0,0)
-        Vector2Int caraOrigen = Vector2Int.zero;
-
-        //2.Se obtiene la cara origen correspondiente al punto
+        //1.Se obtiene la cara origen correspondiente al punto
         Vector2Int caraPuntoPlano = new Vector2Int(Mathf.FloorToInt(puntoPlano.x / cellSize),Mathf.FloorToInt(puntoPlano.z / cellSize));
 
-        //3. Se obtiene la posicion respecto a nuestra cara origen de la cara que contiene el punto del plano
-        Vector2Int posCelda = new Vector2Int(caraPuntoPlano.x - caraOrigen.x, caraPuntoPlano.y - caraOrigen.y);
+        //2. Se obtiene la posicion respecto a nuestra cara origen de la cara que contiene el punto del plano
+        Vector2Int posCelda = new Vector2Int(caraPuntoPlano.x, caraPuntoPlano.y);
         return posCelda;
     }
 
 
+    /*
+     * Establece la heuristica de cada nodo de cada celda respecto a un punto destino que caera en una celda determinada
+     * Pre: el grid se debe haber inicializado
+     */
+    public void setValoresHeuristicos(Vector3 puntoDestino) {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        // 1. si es valido es decir cae en una zona transitable y que no esta fuera del grid
+        if (esValidoPunto(puntoDestino)) { 
+
+            //2. Se calcula la celda del grid donde cae el punto
+            Vector2Int celdaDestino = getCeldaDePuntoPlano(puntoDestino);
+
+                for (int i = 0; i < filas; i++) {
+
+                    for (int j = 0; j < Columnas; j++)
+                    {
+                    //3. Si el grid es transitable se calcula la heuristica entre el nodo origen y destino
+                    if (celdasGrid[i, j].Transitable) celdasGrid[i, j].CosteHeuristica = heuristicagrid.coste(celdasGrid[i, j].Celda, celdaDestino);
+                    }
+
+                }
+        }
+        else
+        {
+            Debug.LogError("El punto de destino no es valido");
+            return; //no se hace nada
+        }
     }
 
-  
+    /*
+     * Obtiene los vecinos de un nodo determinado validos.
+     * Pre: El grid debe estar inicializado
+     */
+    public List<Nodo> getVecinosValidos(Nodo n)
+    {
+        Vector2Int celdaNodo = n.Celda;
+        if(esValidoNodoEnCelda(celdaNodo.x,celdaNodo.y))
+        {
+            List<Nodo> nodos = new List<Nodo>();
+
+            //1. Se crean los vecinos acorde a la heuristica elegida
+            List<Vector2Int> celdas = heuristicagrid.vecinos(n.Celda);
+
+            //2. se filtran aquellos nodos que no son validos
+           celdas  =  celdas.FindAll( v => esValidoNodoEnCelda(v.x,v.y));
+
+            //3. Para cada celda valida se obtiene el noso y se añade a la lista "nodos"
+            celdas.ForEach(v => nodos.Add(celdasGrid[v.x, v.y]));
+
+            return nodos;
+
+        }
+
+        else
+        {
+            Debug.LogError("El nodo que se va a expandir NO es valido");
+            return new List<Nodo>();
+        }
+    }
 
 
     //se dibuja respecto a la coordenada origen 0,0
@@ -172,7 +194,7 @@ public class GridPathFinding : MonoBehaviour
                 //para una columna determinada se colorean las columnas que tendremos mas o menos segun el lado del cuadrado
                 for (int j = 0; j < Columnas; j++)
                 {
-                    if (!comprobarColisionesConobjetosEscenario(i, j))
+                    if (hayColisionEnCelda(i,j))
                     {
                         Gizmos.color = Color.blue;
                         //de la cara obtenemos las esquinas que definen la cara y lo pasamos al mundo real
