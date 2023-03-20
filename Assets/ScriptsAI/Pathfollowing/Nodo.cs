@@ -39,8 +39,26 @@ public class Nodo
         get { return costeCelda; }
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj is Nodo) return Equals(obj as Nodo);
+        else
+        {
+            Debug.Log("Error comparacion con objeto que no es un nodo");
+            return false; //no es un nodo y retornamos false
+        }
 
-    
+    }
+
+    private bool Equals(Nodo obj)
+    {
+        return obj != null && obj.Celda.x == fila && obj.Celda.y == fila;
+    }
+
+    public override int GetHashCode()
+    {
+        return new Vector2Int(fila, col).GetHashCode();
+    }
 
 }
 

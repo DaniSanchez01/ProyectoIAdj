@@ -76,10 +76,10 @@ public class GridPathFinding : MonoBehaviour
     }
 
     /*
-     * Comprueba que el nodo que hay en la casilla es valido, puede ser que se nos indique una celda que no esta dentro del grid en cuyo caso el nodo no es valido.
+     * Comprueba que la celda es valida al ver que no se sale del grid y que el nodo que la representa es transitable. Es decir que la celda es transitable y esta dentro del mapa
      * Pre: se debe haber inicializado todos los nodos del grid
      */
-    public bool esValidoNodoEnCelda(int fila,int columna)
+    public bool esValidaCelda(int fila,int columna)
     {
         return ((filas > fila && fila >= 0) && (Columnas > columna && columna >= 0)) && celdasGrid[fila, columna].Transitable;
     }
@@ -92,7 +92,7 @@ public class GridPathFinding : MonoBehaviour
         //1.Obtiene la posicion de la celda correspondiente al punto pasado como parametro.
         Vector2Int posCelda = getCeldaDePuntoPlano(puntoDestino);
         //2. Comprueba si el punto cae dentro de una celda valida
-        return esValidoNodoEnCelda(posCelda.x, posCelda.y);
+        return esValidaCelda(posCelda.x, posCelda.y);
     }
 
     /*
@@ -150,9 +150,6 @@ public class GridPathFinding : MonoBehaviour
     }
 
     /*
-     * Obtiene los vecinos de un nodo determinado validos.
-     * Pre: El grid debe estar inicializado
-     */
     public List<Nodo> getVecinosValidos(Nodo n)
     {
         Vector2Int celdaNodo = n.Celda;
@@ -179,6 +176,29 @@ public class GridPathFinding : MonoBehaviour
             return new List<Nodo>();
         }
     }
+    */
+
+
+
+    public List<Nodo> getVecinosValidosProf(Nodo n, int prof)
+    {
+        //1.Se crea la lista de nodos
+        List<Nodo> nodosEspacioLocal = new List<Nodo>();
+
+        //2. Se obtienen las  celdas correspondientes al espacio local
+        List<Vector2Int> celdasEspacioLocal = heuristicagrid.espacioLocal(n.Celda, prof);
+
+
+
+        foreach(Vector2Int celda in celdasEspacioLocal)
+        {
+            //se comprueba si la celda no se sale del grid y es transitable
+            if (esValidaCelda(celda.x, celda.y)) nodosEspacioLocal.Add(celdasGrid[celda.x, celda.y]);
+        }
+
+        return nodosEspacioLocal;
+    }
+
 
 
     //se dibuja respecto a la coordenada origen 0,0

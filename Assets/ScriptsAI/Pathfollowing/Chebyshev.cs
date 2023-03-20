@@ -11,7 +11,7 @@ public class Chebychev : Heuristica
     /*
      * En este caso se obtienen 8 vecinos
      */
-    public List<Vector2Int> vecinos(Vector2Int celda)
+    public List<Vector2Int> espacioLocal(Vector2Int celda)
     {
         List<Vector2Int> vecinosCelda = new List<Vector2Int>();
         vecinosCelda.Add(new Vector2Int(celda.x + 1, celda.y));

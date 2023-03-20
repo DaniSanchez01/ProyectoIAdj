@@ -8,9 +8,9 @@ using UnityEngine;
 public interface Heuristica
 {
     /*
-     * Dada una celda nos da la lista de vecinos correspondiente a esa celda segun la heuristica
+     * Dada una celda obtiene las celdas generadas hasta cierta profundidad usando la distancia que represente la clase que implemente esta interfaz
      */
-    public List<Vector2Int> vecinos(Vector2Int celda);
+    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof);
 
     /*
      * Dada 2 celdas obtiene la distancia que sera claculada segun la heuristica
