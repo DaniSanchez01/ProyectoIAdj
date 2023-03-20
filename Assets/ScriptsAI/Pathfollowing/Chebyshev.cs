@@ -9,23 +9,22 @@ using UnityEngine;
 public class Chebychev : Heuristica
 {
     /*
-     * En este caso se obtienen 8 vecinos
+     * En este caso se obtienen 8 vecinos. Como chebychev se expande tambien en diagonales realizar una expansion usando busqueda en anchura equivale a crear un cuadrado donde
+     * el centro es la casilla origen. Y el numero de filas y columnas
      */
-    public List<Vector2Int> espacioLocal(Vector2Int celda)
+    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof)
     {
-        List<Vector2Int> vecinosCelda = new List<Vector2Int>();
-        vecinosCelda.Add(new Vector2Int(celda.x + 1, celda.y));
-        vecinosCelda.Add(new Vector2Int(celda.x, celda.y + 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y));
-        vecinosCelda.Add(new Vector2Int(celda.x, celda.y - 1));
+        List<Vector2Int> celdas = new List<Vector2Int>();
 
+        for(int i=-prof;i<=prof;i++)
+        {
+            for(int j=-prof;j<prof;j++)
+            {
+                celdas.Add(new Vector2Int(celda.x + i, celda.y + j));
+            }
+        }
+        return celdas;
 
-        vecinosCelda.Add(new Vector2Int(celda.x +1 , celda.y + 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y -1));
-        vecinosCelda.Add(new Vector2Int(celda.x +1 , celda.y - 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y + 1));
-
-        return vecinosCelda;
     }
 
     /*

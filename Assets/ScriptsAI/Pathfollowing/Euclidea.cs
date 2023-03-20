@@ -5,21 +5,19 @@ using UnityEngine;
 public class Euclidea : Heuristica
 {
 
-    public List<Vector2Int> vecinos(Vector2Int celda)
+    public List<Vector2Int> vecinos(Vector2Int celda,int prof)
     {
-        List<Vector2Int> vecinosCelda = new List<Vector2Int>();
-        vecinosCelda.Add(new Vector2Int(celda.x + 1, celda.y));
-        vecinosCelda.Add(new Vector2Int(celda.x, celda.y + 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y));
-        vecinosCelda.Add(new Vector2Int(celda.x, celda.y - 1));
+        List<Vector2Int> celdas = new List<Vector2Int>();
+        
 
-
-        vecinosCelda.Add(new Vector2Int(celda.x + 1, celda.y + 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y - 1));
-        vecinosCelda.Add(new Vector2Int(celda.x + 1, celda.y - 1));
-        vecinosCelda.Add(new Vector2Int(celda.x - 1, celda.y + 1));
-
-        return vecinosCelda;
+        for (int i = -prof; i <= prof; i++)
+        {
+            for (int j = -prof; j < prof; j++)
+            {
+                celdas.Add(new Vector2Int(celda.x + i, celda.y + j));
+            }
+        }
+        return celdas;
     }
 
   
