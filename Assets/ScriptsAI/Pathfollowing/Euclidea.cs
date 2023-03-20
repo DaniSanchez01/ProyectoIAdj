@@ -5,7 +5,7 @@ using UnityEngine;
 public class Euclidea : Heuristica
 {
 
-    public List<Vector2Int> vecinos(Vector2Int celda,int prof)
+    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof)
     {
         List<Vector2Int> celdas = new List<Vector2Int>();
         
