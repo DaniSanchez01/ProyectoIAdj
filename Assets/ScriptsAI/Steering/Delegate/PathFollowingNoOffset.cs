@@ -25,7 +25,7 @@ public class PathFollowingNoOffset : SeekCraig
 
     }
 
-    void setPath(List<Vector3> newPath) {
+    public void setPath(List<Vector3> newPath) {
         path = newPath;
         int nNodes = nodes.Count-1;
         for (int n = nNodes;n>=0;n-- ) {
