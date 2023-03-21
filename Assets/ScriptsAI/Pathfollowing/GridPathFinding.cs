@@ -60,9 +60,9 @@ public class GridPathFinding : MonoBehaviour
         //1. hallar punto medio del cubo en la celda correspondiente usando para ello el cellsize. Para esto se obtiene el punto que corresponde a la celda y sumando la mitad del lado
         //se obtiene el punto medio del cubo
         Vector3 puntoMedioCubo = getPuntoPlanoDeCelda(fila, columna);
-        puntoMedioCubo = new Vector3(puntoMedioCubo.x + cellSize / 2f, 0f, puntoMedioCubo.z + cellSize / 2f); //ahora tenemos el punto medio real donde colocar el cubo
+        puntoMedioCubo = new Vector3(puntoMedioCubo.x, 0f, puntoMedioCubo.z); //ahora tenemos el punto medio real donde colocar el cubo
 
-        //2. Se obtienen los objetos que colisionan con el cubo de lado cellSize (tamaño de la celda) y cuyo punto medio es el calculado anteriormente. Y esta alineado con los ejes
+        //2. Se obtienen los objetos que colisionan con el cubo de lado cellSize (tamano de la celda) y cuyo punto medio es el calculado anteriormente. Y esta alineado con los ejes
         Collider[] objetoscolisionados = Physics.OverlapBox(puntoMedioCubo, new Vector3(cellSize / 2, 0, cellSize / 2), Quaternion.identity);
 
         //3. Se busca si ha colisionado con algun objeto del escenario.
@@ -70,7 +70,7 @@ public class GridPathFinding : MonoBehaviour
         {
             // Vector3 puntomasCercano = Physics.ClosestPoint(puntoMedioCubo, obj, obj.gameObject.transform.position, obj.gameObject.transform.rotation);
             //((puntomasCercano - puntoMedioCubo).magnitude < cellSize /2 )
-            if (obj.CompareTag("ObjetoEscenario")) return false; //si choca con algun objeto del escenario NO es valida
+            if (obj.CompareTag("Wall")) return false; //si choca con algun objeto del escenario NO es valida
         }
         return true; //en caso contrario si lo es
     }
@@ -102,8 +102,8 @@ public class GridPathFinding : MonoBehaviour
      */
     public Vector3 getPuntoPlanoDeCelda(int i, int j)
     {
-        //1. Calcula el punto para esa cara destino en base al tamaño del lado
-        return new Vector3(i * cellSize, 0f, j * cellSize);
+        //1. Calcula el punto para esa cara destino en base al tamaÃ±o del lado
+        return new Vector3(i * cellSize+cellSize/2, 0f, j * cellSize+cellSize/2);
     }
 
     /*
@@ -163,7 +163,7 @@ public class GridPathFinding : MonoBehaviour
             //2. se filtran aquellos nodos que no son validos
            celdas  =  celdas.FindAll( v => esValidoNodoEnCelda(v.x,v.y));
 
-            //3. Para cada celda valida se obtiene el noso y se añade a la lista "nodos"
+            //3. Para cada celda valida se obtiene el noso y se aï¿½ade a la lista "nodos"
             celdas.ForEach(v => nodos.Add(celdasGrid[v.x, v.y]));
 
             return nodos;
@@ -207,7 +207,7 @@ public class GridPathFinding : MonoBehaviour
         
         if (activarGizmos) //si estan activados los gizmos
         {
-            //para cada fila que tendremos mas o menos segun el tamaño del lado del cudrado
+            //para cada fila que tendremos mas o menos segun el tamaï¿½o del lado del cudrado
             for (int i = 0; i < filas; i++)
             {
 

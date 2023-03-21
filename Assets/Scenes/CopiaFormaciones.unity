@@ -156,9 +156,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 1
+  useArbitro: 0
   agentState: 0
-  arbitro: 3
+  arbitro: 1
+  firstArbitro: 0
+  firstTarget: {fileID: 837623766}
+  circleVirt: {fileID: 0}
 --- !u!1 &472621611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,14 +1045,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187952184}
-  m_LocalRotation: {x: 0, y: 0.9696804, z: -0.24437667, w: 0}
-  m_LocalPosition: {x: 30.29, y: 2.9, z: 54.600002}
+  m_LocalRotation: {x: 0, y: 0.93445337, z: -0.3560857, w: 0}
+  m_LocalPosition: {x: 30.29, y: 7, z: 55.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 28.29, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 41.72, y: 180, z: 0}
 --- !u!114 &1187952188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1243,9 +1246,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 1
+  useArbitro: 0
   agentState: 0
   arbitro: 3
+  firstArbitro: 0
+  firstTarget: {fileID: 0}
+  circleVirt: {fileID: 0}
 --- !u!1001 &1500345677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1344,9 +1350,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 1
+  useArbitro: 1
   agentState: 0
-  arbitro: 3
+  arbitro: 1
+  firstArbitro: 0
+  firstTarget: {fileID: 1766942416}
+  circleVirt: {fileID: 0}
 --- !u!1 &1766942411 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7656683264261479027, guid: 43f78f0852c04f644aba4fa580fbd24e, type: 3}
@@ -1380,9 +1389,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 1
+  useArbitro: 1
   agentState: 0
-  arbitro: 3
+  arbitro: 0
+  firstArbitro: 0
+  firstTarget: {fileID: 1513397227}
+  circleVirt: {fileID: 0}
 --- !u!1001 &1884527411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1563,6 +1575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellSize: 2
   grid: {fileID: 0}
+  tipoFormacion: 1
 --- !u!1001 &2099321713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1726,9 +1739,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  gestion: 1
+  useArbitro: 0
   agentState: 0
   arbitro: 3
+  firstArbitro: 0
+  firstTarget: {fileID: 0}
+  circleVirt: {fileID: 0}
 --- !u!1001 &8691499090122844405
 PrefabInstance:
   m_ObjectHideFlags: 0

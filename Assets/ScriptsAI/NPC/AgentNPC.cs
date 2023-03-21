@@ -86,7 +86,7 @@ public class AgentNPC : Agent
 
     public void deleteAllSteerings() {
         while (gameObject.TryGetComponent<SteeringBehaviour>(out SteeringBehaviour a)) {
-            DestroyImmediate (a);
+            DestroyImmediate(a);
         }
     }
 
