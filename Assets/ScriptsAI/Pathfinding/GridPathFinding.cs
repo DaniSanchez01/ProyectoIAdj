@@ -199,7 +199,16 @@ public class GridPathFinding : MonoBehaviour
         return nodosEspacioLocal;
     }
 
+    /*public List<Nodo> eliminarNoTransitables(List<Nodo> listaNodos) {
+        List<Nodo> answer = new List<Nodo>();
+        foreach (var nodo in listaNodos) {
+            if (esValidaCelda(nodo.Celda.x, nodo.Celda.y)) {
+                answer.Add(nodo);
+            }
+        }
+        return answer;
 
+    }*/
 
     //se dibuja respecto a la coordenada origen 0,0
     private void OnDrawGizmos()

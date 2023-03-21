@@ -8,7 +8,8 @@ public enum typeArbitro {
     Perseguidor,
     Posicionar,
     Quieto,
-    Aleatorio
+    Aleatorio,
+    RecorreCamino
 }
 
 public class GestorArbitros
@@ -84,6 +85,12 @@ public class GestorArbitros
                 wall.Weight = 50f;
                 steeringsDevueltos.Add(wall);
                 break;
+            
+            case typeArbitro.RecorreCamino:
+                PathFollowingNoOffset pathF = agente.gameObject.AddComponent<PathFollowingNoOffset>();
+                steeringsDevueltos.Add(pathF);
+                break;
+
         }
 
         return steeringsDevueltos; //se devuelven los steerings
