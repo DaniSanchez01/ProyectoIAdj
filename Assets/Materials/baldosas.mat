@@ -10,7 +10,6 @@ Material:
   m_Name: baldosas
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
-  - _DETAIL_MULX2
   - _NORMALMAP
   - _PARALLAXMAP
   m_InvalidKeywords: []
@@ -24,7 +23,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: dabf23a7c4de4d946a85019c90539fb9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9f6a4a830bfd786458848946ff859232, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -32,7 +31,7 @@ Material:
         m_Scale: {x: 10, y: 10}
         m_Offset: {x: 8, y: 8}
     - _DetailMask:
-        m_Texture: {fileID: 2800000, guid: fb501f94cc2de9a4cad3732dc9a093fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 629ab546df1db0b48b1d342be34b01f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
@@ -41,11 +40,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 10, y: 10}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f9c78b68d2e7fce44941ad3d7b522b93, type: 3}
-        m_Scale: {x: 10, y: 10}
+        m_Texture: {fileID: 2800000, guid: dbb19b8dfbdcf1640b9ce4ba2e560c40, type: 3}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -56,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: ccfc1d216428f1d4b8be98361b1608f5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7f39327ab5f363940b220f6c9cf95e9d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []

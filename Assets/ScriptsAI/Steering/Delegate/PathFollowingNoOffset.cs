@@ -15,10 +15,14 @@ public class PathFollowingNoOffset : SeekCraig
     void Awake()
     {
         base.nameSteering = "PathFollowing";
-        path.Add(new Vector3(30f,0f,0f));
-        path.Add(new Vector3(30f,0f,-40f));
-        path.Add(new Vector3(-10f,0f,-20f));
-        path.Add(new Vector3(-20f,0f,10f));
+        path.Add(new Vector3(30f,0f,38f));
+        path.Add(new Vector3(13f,0f,38f));
+        path.Add(new Vector3(13f,0f,17f));
+        path.Add(new Vector3(30f,0f,4.5f));
+        path.Add(new Vector3(0f,0f,0f));
+        path.Add(new Vector3(2f,0f,45f));
+
+
     }
 
     void setPath(List<Vector3> newPath) {
