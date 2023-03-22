@@ -119,39 +119,42 @@ public class LectorTeclado : MonoBehaviour
                     }
                     //Si no, mover cada npc de manera individual al punto
                     else {
-                        GameObject.FindObjectOfType<FormationManager>().disactivateGrid();
-                        GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
-                        virt.Position = newTarget;
-                        int nUnits = selectedUnits.Count;
-                        float angleDistance = 360f;
-                        if (nUnits >0) {
-                            angleDistance = 360.0f/nUnits;
-                        }
-                        float angle = 0f;
-                        float distance = 0.3f*nUnits;
-                        AgentNPC[] agents = getSelectedUnitsAgents();
-        
-
-                        foreach (var npc in agents)
-                        {
-                            //npc.SendMessage("NewTarget", newTarget);
-                            // Nota: Estructura jerárquica -> BroadcastMessage.
-                            npc.NoWait();
-                            Vector3 newPosition = npc.OrientationToVector(angle)*distance+newTarget;
-                            float newOrientation = Bodi.MapToRange(angle+180,Range.grados180);
-                            if (npc.circleVirt == null) {
-                                npc.circleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
+                        if (selectedUnits.Count!=0) {
+                            GameObject.FindObjectOfType<FormationManager>().disactivateGrid();
+                            GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
+                            virt.Position = newTarget;
+                            int nUnits = selectedUnits.Count;
+                            float angleDistance = 360f;
+                            if (nUnits >0) {
+                                angleDistance = 360.0f/nUnits;
                             }
-                            else npc.circleVirt.UpdateVirtual(newPosition,ori: newOrientation);
-                            npc.agentState = State.runningToPoint;
-                            npc.changeArbitro(typeArbitro.Perseguidor);
-                            Arrive a = (Arrive) npc.takeSteering("Arrive");
-                            Face b = (Face) npc.takeSteering("Face");
-                            a.NewTarget(virt);
-                            b.FaceNewTarget(virt);
-                            angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
+                            float angle = 0f;
+                            float distance = 0.3f*nUnits;
+                            AgentNPC[] agents = getSelectedUnitsAgents();
+            
 
+                            foreach (var npc in agents)
+                            {
+                                //npc.SendMessage("NewTarget", newTarget);
+                                // Nota: Estructura jerárquica -> BroadcastMessage.
+                                npc.NoWait();
+                                Vector3 newPosition = npc.OrientationToVector(angle)*distance+newTarget;
+                                float newOrientation = Bodi.MapToRange(angle+180,Range.grados180);
+                                if (npc.circleVirt == null) {
+                                    npc.circleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
+                                }
+                                else npc.circleVirt.UpdateVirtual(newPosition,ori: newOrientation);
+                                npc.agentState = State.runningToPoint;
+                                npc.changeArbitro(typeArbitro.Perseguidor);
+                                Arrive a = (Arrive) npc.takeSteering("Arrive");
+                                Face b = (Face) npc.takeSteering("Face");
+                                a.NewTarget(virt);
+                                b.FaceNewTarget(virt);
+                                angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
+
+                            }
                         }
+                        
                     }
                     
                 }

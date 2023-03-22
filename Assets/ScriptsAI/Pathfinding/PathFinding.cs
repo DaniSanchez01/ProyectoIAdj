@@ -39,21 +39,22 @@ public class PathFinding
 
     //Algoritmo completo
     public void LRTA() {
+        grid.setValoresHeuristicos(objetivo);
         //Mientras no llegamos al objetivo
         //while (posicion!=objetivo) {
             //Calcular el espacio local desde donde nos encontramos
             searchLocalSpace();
-            Debug.Log(prof);
+            /*Debug.Log(localSpace.Count);
             foreach (var nodo in localSpace) {
                 Debug.Log(nodo.Celda.x +" "+nodo.Celda.y);
-            }
+            }*/
             //Actualizar los vostes heuristicos del espacio local
-            //updateValues();
+            updateValues();
             //Seleccionar el mejor camino hasta salir del espacio local
-            //actionSelection();
+            actionSelection();
         //}
         //Preparar al npc para seguir el camino calculado
-        //executeAction();
+        executeAction();
     }
 
     //Calcular el espacio local desde donde nos encontramos
@@ -119,6 +120,8 @@ public class PathFinding
             }
             //Ya calculados todos los costes, determinamos el del nodo con el coste más pequeño (Solo se determina 1 por iteración)
             minN.CosteHeuristica = minCoste;
+            //Debug.Log("("+minN.Celda.x+","+minN.Celda.y+")= "+minCoste);
+
         }
     }
 
@@ -135,10 +138,16 @@ public class PathFinding
         return answer;
     }
 
+    public bool esContenido(Nodo n) {
+        foreach (var nodo in localSpace){
+            if ((nodo.Celda.x == n.Celda.x) && (nodo.Celda.y == n.Celda.y)) return true;
+        }
+        return false;
+    }
     //Seleccionar el mejor camino hasta salir del espacio local
     public void actionSelection() {
         //Mientras no no salgamos del espacio local
-        while(localSpace.Contains(posicion)) {
+        while(esContenido(posicion)) {
             //Actualizar la posición a la del vecino más barato
             List<Nodo> vecinos = grid.getVecinosValidosProf(posicion,1);
             posicion = cheapestNode(vecinos);
@@ -159,8 +168,9 @@ public class PathFinding
         //Cambiamos el comportamiento del npc para que siga un camino
         agente.changeArbitro(typeArbitro.RecorreCamino);
         //Establecemos el camino calculado
-        PathFollowingNoOffset a = (PathFollowingNoOffset) agente.takeSteering("PathFollowingNoOffset");
+        PathFollowingNoOffset a = (PathFollowingNoOffset) agente.takeSteering("PathFollowing");
         a.setPath(path);
+        a.mode = 0;
     }
 
 }

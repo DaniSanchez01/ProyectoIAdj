@@ -13,12 +13,13 @@ public class Nodo
     private float weight;
 
 
-    public Nodo(int costeCelda, int fila, int col, bool transitable)
+    public Nodo(int costeCelda, int fila, int col, bool transitable, int weight)
     {
         this.costeCelda = costeCelda;
         this.fila = fila;
         this.col = col;
         this.transitable = transitable;
+        this.weight = weight;
     }
 
     public Vector2Int Celda {

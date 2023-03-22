@@ -15,7 +15,7 @@ public class makePathfinding: MonoBehaviour
 
 
         GridPathFinding grid = npc.gameObject.AddComponent<GridPathFinding>();
-        grid.inicializarGrid(20,20,3,heur,true);
+        grid.inicializarGrid(19,19,3,heur,true);
         Vector2Int celda = grid.getCeldaDePuntoPlano(npc.Position);
         Nodo posicion = grid.GetNodo(celda.x,celda.y);
         Nodo objetivo = grid.GetNodo(filaObjetivo,columnaObjetivo);

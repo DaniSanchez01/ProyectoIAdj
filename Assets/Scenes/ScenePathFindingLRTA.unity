@@ -350,9 +350,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npc: {fileID: 205479004}
   filaObjetivo: 4
-  columnaObjetivo: 19
-  prof: 2
-  heur: 2
+  columnaObjetivo: 18
+  prof: 5
+  heur: 0
 --- !u!114 &696386303
 MonoBehaviour:
   m_ObjectHideFlags: 0

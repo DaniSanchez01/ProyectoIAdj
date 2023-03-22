@@ -15,57 +15,57 @@ public class Manhattan : Heuristica
     public List<Vector2Int> espacioLocal(Vector2Int celdaO,int prof,int filas,int cols,Nodo [,] nodosgrid)
     {
         List<Vector2Int> celdasExpandir = new List<Vector2Int>(); //representan las celdas que aun se tienen que obtener sus vecinos
+        List<Vector2Int> celdasUsadas = new List<Vector2Int>(); //representan las celdas que aun se tienen que obtener sus vecinos
         List<Vector2Int> celdasGeneradas = new List<Vector2Int>(); //representan las celdas que ya han sido generadas y por tanto ya no se tratan
 
         celdasExpandir.Add(celdaO);
+        celdasUsadas.Add(celdaO);
 
         while(celdasExpandir.Count != 0)
         {
             Vector2Int celdaActual = celdasExpandir[0]; //se obtiene la 1� celda 
-            celdasExpandir.RemoveAt(0); //se elimina la celda de la lista
+            celdasExpandir.Remove(celdaActual); //se elimina la celda de la lista
 
             //hay que comprobar que la celda sea valida
             bool valida = (0 <= celdaActual.x && celdaActual.x < filas) && (0 <= celdaActual.y && celdaActual.y < cols) && nodosgrid[celdaActual.x, celdaActual.y].Transitable;
-
             //Para poder obtener los vecinos de una celda se debe cumplir que esta no este a una profundidad igual o mayor que el origen y tiene que ser valida esto es que sea transitable
             //y este dentro del grid
             if (valida && coste(celdaO,celdaActual) < prof) 
             {
 
-                if (celdaActual.Equals(celdaO)) //Si estamos en la celda que es el origen del espacio local se generan las primeras celdas en la 4 direcciones
+                Vector2Int izq =new Vector2Int(celdaActual.x - 1, celdaActual.y);
+                Vector2Int der =new Vector2Int(celdaActual.x + 1, celdaActual.y);
+                Vector2Int up =new Vector2Int(celdaActual.x , celdaActual.y+ 1);
+                Vector2Int under =new Vector2Int(celdaActual.x, celdaActual.y-1);
+
+                if (!celdasUsadas.Contains(izq)) 
                 {
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y - 1));
+                    celdasUsadas.Add(izq);
+                    celdasExpandir.Add(izq);
                 }
-
-                //si la celda esta en la misma columna que la celda origen, entonces esta generara la de su izquierda, derecha y la siguiente en su eje y
-                else if (celdaActual.x == celdaO.x)
-                { 
-
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + (int)(1 * Mathf.Sign(celdaActual.y-celdaO.y))));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y));
+                if (!celdasUsadas.Contains(der)){
+                    celdasUsadas.Add(der);
+                    celdasExpandir.Add(der);
                 }
-
-                //en otro caso ni es la celda origen ni esta en la misma columna
-                else celdasExpandir.Add(new Vector2Int(celdaActual.x + (int)(1 * Mathf.Sign(celdaActual.x - celdaO.x)), celdaActual.y));
-
+                if (!celdasUsadas.Contains(up)){
+                    celdasUsadas.Add(up);
+                    celdasExpandir.Add(up);
+                }
+                if (!celdasUsadas.Contains(under)){
+                    celdasUsadas.Add(under);
+                    celdasExpandir.Add(under);
+                }
             }
-
-
-            if(valida) celdasGeneradas.Add(celdaActual); //se añade la celda SOLO si fue valida, lo ponemos aqui y no en el anterior if porque las celdas con prof = profDeseada son validas
-            //pero no se van a expandir
-
+            if (valida) celdasGeneradas.Add(celdaActual);
         }
-
+        
+        //Debug.Log(celdasGeneradas.Count);
         return celdasGeneradas;
     }
 
     //Para manhattan la heuristica del coste entre 2 celdas son la suma de los  movimientos en el eje x e en el eje y que se deben realizar con el fin de llegar a la celda objetivo 
     public float coste(Vector2Int celdaOrigen, Vector2Int celdaDestino)
     {
-        return Mathf.Abs(celdaOrigen.x - celdaDestino.y) + Mathf.Abs(celdaOrigen.y - celdaDestino.y);
+        return Mathf.Abs(celdaOrigen.x - celdaDestino.x) + Mathf.Abs(celdaOrigen.y - celdaDestino.y);
     } 
 }
