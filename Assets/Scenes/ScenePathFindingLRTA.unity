@@ -216,7 +216,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1777602765294326902, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1777602765294326902, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 696386301}
   - component: {fileID: 696386302}
+  - component: {fileID: 696386303}
   m_Layer: 0
   m_Name: structure
   m_TagString: Untagged
@@ -348,9 +349,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 205479004}
-  filaObjetivo: 19
-  columnaObjetivo: 3
-  prof: 1
+  filaObjetivo: 4
+  columnaObjetivo: 19
+  prof: 4
+--- !u!114 &696386303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696386299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0806b4be1ff61f343874bd35ec108c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  giz: 1
 --- !u!1 &1624826355
 GameObject:
   m_ObjectHideFlags: 0

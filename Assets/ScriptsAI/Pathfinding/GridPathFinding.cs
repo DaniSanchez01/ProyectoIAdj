@@ -28,7 +28,7 @@ public class GridPathFinding : MonoBehaviour
 
     //metodos
 
-    public void inicializarGrid(int ancho, int largo, int cellSize, typeHeuristica heuristicaDeseada)
+    public void inicializarGrid(int ancho, int largo, int cellSize, typeHeuristica heuristicaDeseada, bool giz)
     {
         //1. Se introducen loas propiedades del grid
         filas = ancho;
@@ -36,6 +36,7 @@ public class GridPathFinding : MonoBehaviour
         this.cellSize = cellSize;
         heuristicagrid = FactoriaHeuristica.crearHeuristica(heuristicaDeseada);
         celdasGrid = new Nodo[filas, Columnas]; //se crea el grid acorde a las celdas y columnas
+        activarGizmos = giz;
 
         //2. Se averiguan que nodos son validos
         for (int i = 0; i < filas; i++)

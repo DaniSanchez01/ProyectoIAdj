@@ -157,6 +157,12 @@ public class LectorTeclado : MonoBehaviour
                 }
             }
         }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameObject.FindObjectOfType<makePathfinding>().prepareLRTA();
+        
+        }
+        
     }
     
 }

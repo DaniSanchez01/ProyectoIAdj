@@ -9,12 +9,13 @@ public class makePathfinding: MonoBehaviour
     public int filaObjetivo;
     public int columnaObjetivo;
     public int prof;
+    public typeHeuristica heur;
 
-    public void Start() {
+    public void prepareLRTA() {
 
 
         GridPathFinding grid = npc.gameObject.AddComponent<GridPathFinding>();
-        grid.inicializarGrid(20,20,3,typeHeuristica.Manhattan);
+        grid.inicializarGrid(20,20,3,heur,true);
         Vector2Int celda = grid.getCeldaDePuntoPlano(npc.Position);
         Nodo posicion = grid.GetNodo(celda.x,celda.y);
         Nodo objetivo = grid.GetNodo(filaObjetivo,columnaObjetivo);

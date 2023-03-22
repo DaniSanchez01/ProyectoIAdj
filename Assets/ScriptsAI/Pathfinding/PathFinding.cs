@@ -40,16 +40,20 @@ public class PathFinding
     //Algoritmo completo
     public void LRTA() {
         //Mientras no llegamos al objetivo
-        while (posicion!=objetivo) {
+        //while (posicion!=objetivo) {
             //Calcular el espacio local desde donde nos encontramos
             searchLocalSpace();
+            Debug.Log(prof);
+            foreach (var nodo in localSpace) {
+                Debug.Log(nodo.Celda.x +" "+nodo.Celda.y);
+            }
             //Actualizar los vostes heuristicos del espacio local
-            updateValues();
+            //updateValues();
             //Seleccionar el mejor camino hasta salir del espacio local
-            actionSelection();
-        }
+            //actionSelection();
+        //}
         //Preparar al npc para seguir el camino calculado
-        executeAction();
+        //executeAction();
     }
 
     //Calcular el espacio local desde donde nos encontramos
