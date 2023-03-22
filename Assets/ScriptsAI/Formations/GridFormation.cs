@@ -187,6 +187,45 @@ public class GridFormation: MonoBehaviour {
         formation.startTimer();
     }
 
+
+    public void pathfinding(typeHeuristica heur, int prof) {
+        //Para cada celda
+        for (int i = 0; i < numColumns; i++) {
+            for (int j = 0; j < numRows; j++) {
+                //Si hay un npc conectado a esa ranura
+                if (slots[i, j].npc!= null) {
+                    if (!slots[i, j].npc.gameObject.TryGetComponent<GridPathFinding>(out GridPathFinding gridPath)){
+                        gridPath = slots[i, j].npc.gameObject.AddComponent<GridPathFinding>();
+                        gridPath.inicializarGrid(19,19,3,heur,true);
+                    }
+                    slots[i, j].npc.agentState = State.LRTA;
+                    Vector2Int celdaPosicion = gridPath.getCeldaDePuntoPlano(slots[i, j].npc.Position);
+                    Nodo nodoPosicion = gridPath.GetNodo(celdaPosicion.x,celdaPosicion.y);
+
+                    Vector2Int celdaObjetivo = gridPath.getCeldaDePuntoPlano(slots[i,j].virtualAgent.Position);
+                    Nodo nodoObjetivo = gridPath.GetNodo(celdaObjetivo.x,celdaObjetivo.y);
+                    PathFinding algorithm= new PathFinding(gridPath,nodoPosicion,nodoObjetivo,slots[i, j].npc, prof, false);
+                    algorithm.LRTA();
+                }
+            }
+        }
+    }
+
+    public void LRTAtoCell(AgentNPC npc) {
+        for (int i = 0; i < numColumns; i++) {
+            for (int j = 0; j < numRows; j++) {
+                if (slots[i, j].npc== npc) {
+                    slots[i, j].npc.changeArbitro(typeArbitro.Posicionar);
+                    Agent leaderVirtual = getLeaderSlot().virtualAgent;
+                    Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
+                    Align al = (Align) slots[i, j].npc.takeSteering("Align");
+                    a.NewTarget(slots[i, j].virtualAgent);
+                    al.NewTarget(slots[i, j].virtualAgent);
+                }
+            }
+        }
+    }
+
     //Se borrarán de las celdas todos los npcs conectados (menos el lider)
     public void liberarAgents() {
         this.activated = false;

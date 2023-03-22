@@ -6,7 +6,12 @@ using System;
 public enum typePattern {
         Ataque,
         Defensa
-} 
+}
+
+public enum criterio {
+    leaderFollowing,
+    pathfinding
+}
 
 public class FormationManager : MonoBehaviour
 {
@@ -18,8 +23,12 @@ public class FormationManager : MonoBehaviour
     
     //Diseño de formación usado
     private Pattern pattern;
-
     public typePattern tipoFormacion;
+    
+    public criterio criterio;
+    public typeHeuristica heuristica;
+    public int profundidad;
+
     //Lider de la formación
     private AgentNPC leader;
     private int inicio;
@@ -68,7 +77,8 @@ public class FormationManager : MonoBehaviour
             }
         }
         //Posicionar a todos los agentes
-        grid.leaderFollowing();
+        if (criterio==criterio.leaderFollowing) grid.leaderFollowing();
+        else grid.pathfinding(heuristica, profundidad);
     }
 
     public void createPattern() {
@@ -88,11 +98,16 @@ public class FormationManager : MonoBehaviour
         grid.agentsToCell();
     }
 
+    public void notifyEndLRTA(AgentNPC npc) {
+        grid.LRTAtoCell(npc);
+    }
+
     //Mover el grid y hacer que los personajes vayan a el (Ocurre cuando los personajes están en formación y se pincha en un nuevo lugar)
     public void moveToPoint(Vector3 point) {
         if (grid==null) Debug.Log("Hola");
         grid.moveGrid(point);
-        grid.leaderFollowing();
+        if (criterio==criterio.leaderFollowing) grid.leaderFollowing();
+        else grid.pathfinding(heuristica,profundidad);
     }
     // se detecta si se ha pulsado Shift+F
 

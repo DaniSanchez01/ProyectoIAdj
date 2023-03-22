@@ -54,7 +54,13 @@ public class PathFollowingNoOffset : SeekCraig
             currentNode += pathDir;
             if (currentNode >= nodes.Count) {
                 //Modo 0 = Me quedo al final
-                if (mode == 0) currentNode = nodes.Count-1;
+                if (mode == 0) {
+                    currentNode = nodes.Count-1;
+                    if (agent.agentState==State.LRTA) {
+                        agent.agentState = State.Formation;
+                        GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agent);
+                    }
+                }
                 //Modo 1 = Vuelta al primer punto
                 if (mode == 1) currentNode = 0; 
             }

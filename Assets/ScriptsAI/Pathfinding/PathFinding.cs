@@ -42,22 +42,29 @@ public class PathFinding
 
     //Algoritmo completo
     public void LRTA() {
-        grid.setValoresHeuristicos(objetivo);
-        //Mientras no llegamos al objetivo
-        while (posicion!=objetivo) {
-            //Calcular el espacio local desde donde nos encontramos
-            searchLocalSpace();
-            /*Debug.Log(localSpace.Count);
-            foreach (var nodo in localSpace) {
-                Debug.Log(nodo.Celda.x +" "+nodo.Celda.y);
-            }*/
-            //Actualizar los vostes heuristicos del espacio local
-            updateValues();
-            //Seleccionar el mejor camino hasta salir del espacio local
-            actionSelection();
+        if ((posicion.Celda.x != objetivo.Celda.x) && (posicion.Celda.y != objetivo.Celda.y)) {
+            grid.setValoresHeuristicos(objetivo);
+            //Mientras no llegamos al objetivo
+            while (posicion!=objetivo) {
+                //Calcular el espacio local desde donde nos encontramos
+                searchLocalSpace();
+                /*Debug.Log(localSpace.Count);
+                foreach (var nodo in localSpace) {
+                    Debug.Log(nodo.Celda.x +" "+nodo.Celda.y);
+                }*/
+                //Actualizar los vostes heuristicos del espacio local
+                updateValues();
+                //Seleccionar el mejor camino hasta salir del espacio local
+                actionSelection();
+            }
+            //Preparar al npc para seguir el camino calculado
+            executeAction();
         }
-        //Preparar al npc para seguir el camino calculado
-        executeAction();
+        else {
+            agente.agentState = State.Formation;
+            GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agente);
+        }
+        
     }
 
     //Calcular el espacio local desde donde nos encontramos

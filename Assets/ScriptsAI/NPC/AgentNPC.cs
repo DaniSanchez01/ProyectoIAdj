@@ -10,6 +10,7 @@ public enum State
     Formation,
     leaderFollowing,
     runningToPoint,
+    LRTA,
 }
 
 public class AgentNPC : Agent
