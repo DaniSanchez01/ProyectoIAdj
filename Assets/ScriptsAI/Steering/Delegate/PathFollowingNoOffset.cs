@@ -10,6 +10,8 @@ public class PathFollowingNoOffset : SeekCraig
     int pathDir = 1;
     int currentNode = 0;
     public int mode = 1;
+    public bool giz = true;
+    public float intRadius = 1.5f;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,12 +36,15 @@ public class PathFollowingNoOffset : SeekCraig
         nodes.Clear();
     }
 
+    public Agent getTarget() {
+        return nodes[currentNode];
+    }
     // Update is called once per frame
     public override Steering GetSteering(AgentNPC agent) {
         
         if (nodes.Count == 0) {
             foreach (var point in path) {
-                Agent virt = agent.CreateVirtual(point, intRadius: 1.5f);
+                Agent virt = agent.CreateVirtual(point, intRadius: intRadius, paint: giz);
                 nodes.Add(virt);
             }
         }

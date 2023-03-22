@@ -10,6 +10,8 @@ public class makePathfinding: MonoBehaviour
     public int columnaObjetivo;
     public int prof;
     public typeHeuristica heur;
+    public bool giz = false;
+
 
     public void prepareLRTA() {
 
@@ -19,7 +21,7 @@ public class makePathfinding: MonoBehaviour
         Vector2Int celda = grid.getCeldaDePuntoPlano(npc.Position);
         Nodo posicion = grid.GetNodo(celda.x,celda.y);
         Nodo objetivo = grid.GetNodo(filaObjetivo,columnaObjetivo);
-        PathFinding algorithm= new PathFinding(grid,posicion,objetivo, npc, prof);
+        PathFinding algorithm= new PathFinding(grid,posicion,objetivo, npc, prof, giz);
         algorithm.LRTA();
     }
 }

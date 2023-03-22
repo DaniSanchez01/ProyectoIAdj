@@ -7,6 +7,8 @@ public class Face : Align
     public Agent FaceTarget;
     protected Agent virt; //agente virtual ficticio para llevar acabo el align
     private float newOrientation; //nueva orientacion del NPC virtual
+    public PathFollowingNoOffset path = null;
+
     public bool giz = false;
 
     Vector3 agentPos;
@@ -20,6 +22,11 @@ public class Face : Align
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
     }
 
+    public void Update() {
+        if (path!=null) {
+            this.FaceTarget = path.getTarget();
+        }
+    }
     public void FaceNewTarget(Agent t) {
         this.FaceTarget = t;
     }

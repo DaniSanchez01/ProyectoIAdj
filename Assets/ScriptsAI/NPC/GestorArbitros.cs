@@ -89,6 +89,15 @@ public class GestorArbitros
             case typeArbitro.RecorreCamino:
                 PathFollowingNoOffset pathF = agente.gameObject.AddComponent<PathFollowingNoOffset>();
                 steeringsDevueltos.Add(pathF);
+                face = agente.gameObject.AddComponent<Face>();
+                face.Weight = 1f;
+                face.FaceNewTarget(target);
+                steeringsDevueltos.Add(face);
+                wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
+                wall.gizmos = true;
+                steeringsDevueltos.Add(wall);
+
                 break;
 
         }

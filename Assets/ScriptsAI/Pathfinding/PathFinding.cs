@@ -28,20 +28,23 @@ public class PathFinding
     List<Nodo> nodePath = new List<Nodo>();
     //Lista que guarda el espacio local de cada momento
     List<Nodo> localSpace = new List<Nodo>();
+    public bool giz;
+
     
-    public PathFinding(GridPathFinding grid, Nodo posicion, Nodo objetivo, AgentNPC npc, int prof) {
+    public PathFinding(GridPathFinding grid, Nodo posicion, Nodo objetivo, AgentNPC npc, int prof, bool giz) {
         this.grid = grid;
         this.objetivo = objetivo;
         this.posicion = posicion;
         this.agente = npc;
         this.prof = prof;
+        this.giz = giz;
     }
 
     //Algoritmo completo
     public void LRTA() {
         grid.setValoresHeuristicos(objetivo);
         //Mientras no llegamos al objetivo
-        //while (posicion!=objetivo) {
+        while (posicion!=objetivo) {
             //Calcular el espacio local desde donde nos encontramos
             searchLocalSpace();
             /*Debug.Log(localSpace.Count);
@@ -52,7 +55,7 @@ public class PathFinding
             updateValues();
             //Seleccionar el mejor camino hasta salir del espacio local
             actionSelection();
-        //}
+        }
         //Preparar al npc para seguir el camino calculado
         executeAction();
     }
@@ -60,8 +63,10 @@ public class PathFinding
     //Calcular el espacio local desde donde nos encontramos
     public void searchLocalSpace()
     {
+        objetivo.Transitable = false;
         //Crea una lista con todos los nodos validos a una profundidad x de la posición donde estamos
         localSpace = grid.getVecinosValidosProf(posicion,prof);
+        objetivo.Transitable = true;
     }
 
     //Comprueba si algun nodo del espacio local sigue sin determinar su coste heurístico
@@ -171,6 +176,11 @@ public class PathFinding
         PathFollowingNoOffset a = (PathFollowingNoOffset) agente.takeSteering("PathFollowing");
         a.setPath(path);
         a.mode = 0;
+        a.intRadius = 2f;
+        a.giz = giz;
+        Face b = (Face) agente.takeSteering("Face");
+        b.path = a;
+
     }
 
 }

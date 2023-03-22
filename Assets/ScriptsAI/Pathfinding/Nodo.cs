@@ -28,6 +28,7 @@ public class Nodo
 
     public bool Transitable
     {
+        set { transitable = value;  }
         get { return transitable;  }
     }
 
