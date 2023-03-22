@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum typeHeuristica {
+    Manhattan,
+    Chebychev,
+    Euclidea
+}
+
 public class FactoriaHeuristica 
 {
-    public static Heuristica crearHeuristica(string nombre)
+    public static Heuristica crearHeuristica(typeHeuristica h)
     {
        
-        switch(nombre)
+        switch(h)
         {
-            case "Manhattan":
+            case typeHeuristica.Manhattan:
                 return new Manhattan();
-            case "Chebyshev":
+            case typeHeuristica.Chebychev:
                 return new Chebychev();
             default:
                 return new Euclidea(); //por defecto se da la euclediana

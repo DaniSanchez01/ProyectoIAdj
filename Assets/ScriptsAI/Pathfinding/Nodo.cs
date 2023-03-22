@@ -38,8 +38,8 @@ public class Nodo
 
     public float Weight
     {
-        set { Weight = value;  }
-        get { return Weight; }
+        set { weight = value;  }
+        get { return weight; }
     }
 
     public float TempH

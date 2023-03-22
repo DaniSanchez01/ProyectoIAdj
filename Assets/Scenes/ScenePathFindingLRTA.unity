@@ -260,10 +260,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7140484958712674305, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}
       propertyPath: m_Name
-      value: PlayerRed
+      value: npc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}
+--- !u!1 &205479003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7140484958712674305, guid: fcfe2ea9a55f4e044938770542c81de9, type: 3}
+  m_PrefabInstance: {fileID: 205479002}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &205479004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205479003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373c2bf75148d8c4e8e0d4805524c151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mass: 1
+  _maxSpeed: 1
+  _maxRotation: 1
+  _maxAcceleration: 1
+  _maxAngularAcc: 1
+  _maxForce: 1
+  lookahead: 5
+  avoidDistance: 3.5
+  _interiorRadius: 1
+  _arrivalRadius: 3
+  _interiorAngle: 5
+  _exteriorAngle: 50
+  giz: 0
+  steer:
+    angular: 0
+    linear: {x: 0, y: 0, z: 0}
+  useArbitro: 1
+  agentState: 0
+  arbitro: 3
+  firstArbitro: 0
+  firstTarget: {fileID: 0}
+  circleVirt: {fileID: 0}
 --- !u!1 &696386299
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 696386301}
-  - component: {fileID: 696386300}
+  - component: {fileID: 696386302}
   m_Layer: 0
   m_Name: structure
   m_TagString: Untagged
@@ -281,22 +320,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &696386300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 696386299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e26951816d49a45b97005c383ef0a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filas: 20
-  Columnas: 20
-  cellSize: 3
-  activarGizmos: 1
 --- !u!4 &696386301
 Transform:
   m_ObjectHideFlags: 0
@@ -312,6 +335,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &696386302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696386299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7494ebadb6be7ec459de0b5f8e6f50b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npc: {fileID: 205479004}
+  filaObjetivo: 19
+  columnaObjetivo: 3
+  prof: 1
 --- !u!1 &1624826355
 GameObject:
   m_ObjectHideFlags: 0

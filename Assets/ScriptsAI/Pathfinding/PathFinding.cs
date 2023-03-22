@@ -9,7 +9,7 @@ public enum PathFindingState {
     Walking,
 }
 
-public class PathFinding : MonoBehaviour
+public class PathFinding
 {
     
     //Representación del infinito
@@ -29,6 +29,14 @@ public class PathFinding : MonoBehaviour
     //Lista que guarda el espacio local de cada momento
     List<Nodo> localSpace = new List<Nodo>();
     
+    public PathFinding(GridPathFinding grid, Nodo posicion, Nodo objetivo, AgentNPC npc, int prof) {
+        this.grid = grid;
+        this.objetivo = objetivo;
+        this.posicion = posicion;
+        this.agente = npc;
+        this.prof = prof;
+    }
+
     //Algoritmo completo
     public void LRTA() {
         //Mientras no llegamos al objetivo
@@ -40,8 +48,6 @@ public class PathFinding : MonoBehaviour
             //Seleccionar el mejor camino hasta salir del espacio local
             actionSelection();
         }
-        //Añadir al camino el nodo final
-        nodePath.Add(objetivo);
         //Preparar al npc para seguir el camino calculado
         executeAction();
     }
@@ -129,11 +135,12 @@ public class PathFinding : MonoBehaviour
     public void actionSelection() {
         //Mientras no no salgamos del espacio local
         while(localSpace.Contains(posicion)) {
-            //Añadir al camino la posicion
-            nodePath.Add(posicion);
             //Actualizar la posición a la del vecino más barato
             List<Nodo> vecinos = grid.getVecinosValidosProf(posicion,1);
             posicion = cheapestNode(vecinos);
+            //Añadir al camino la nueva posicion
+            nodePath.Add(posicion);
+
         }
     }
 

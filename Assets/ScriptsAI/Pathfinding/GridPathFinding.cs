@@ -28,7 +28,7 @@ public class GridPathFinding : MonoBehaviour
 
     //metodos
 
-    public void inicializarGrid(int ancho, int largo, int cellSize, string heuristicaDeseada)
+    public void inicializarGrid(int ancho, int largo, int cellSize, typeHeuristica heuristicaDeseada)
     {
         //1. Se introducen loas propiedades del grid
         filas = ancho;
@@ -49,7 +49,12 @@ public class GridPathFinding : MonoBehaviour
         }
     }
 
-
+    public Nodo GetNodo(int i, int j) {
+        if ((filas > i && i >= 0) && (Columnas > j && j >= 0)) {
+            return CeldasGrid[i,j];
+        }
+        else return null;
+    }
     /*
      * Dada una celda del grid marcada por su fila y columna comprueba si en esta hay objetos del escenario y por tanto si es transitable o no lo es.
      * Si se encuentra un objeto NO es valida, en caso contrario si lo es
