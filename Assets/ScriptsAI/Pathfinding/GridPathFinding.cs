@@ -155,35 +155,6 @@ public class GridPathFinding : MonoBehaviour
         }
     }
 
-    /*
-    public List<Nodo> getVecinosValidos(Nodo n)
-    {
-        Vector2Int celdaNodo = n.Celda;
-        if(esValidoNodoEnCelda(celdaNodo.x,celdaNodo.y))
-        {
-            List<Nodo> nodos = new List<Nodo>();
-
-            //1. Se crean los vecinos acorde a la heuristica elegida
-            List<Vector2Int> celdas = heuristicagrid.vecinos(n.Celda);
-
-            //2. se filtran aquellos nodos que no son validos
-           celdas  =  celdas.FindAll( v => esValidoNodoEnCelda(v.x,v.y));
-
-            //3. Para cada celda valida se obtiene el noso y se a�ade a la lista "nodos"
-            celdas.ForEach(v => nodos.Add(celdasGrid[v.x, v.y]));
-
-            return nodos;
-
-        }
-
-        else
-        {
-            Debug.LogError("El nodo que se va a expandir NO es valido");
-            return new List<Nodo>();
-        }
-    }
-    */
-
 
 
     public List<Nodo> getVecinosValidosProf(Nodo n, int prof)
@@ -191,15 +162,15 @@ public class GridPathFinding : MonoBehaviour
         //1.Se crea la lista de nodos
         List<Nodo> nodosEspacioLocal = new List<Nodo>();
 
-        //2. Se obtienen las  celdas correspondientes al espacio local
-        List<Vector2Int> celdasEspacioLocal = heuristicagrid.espacioLocal(n.Celda, prof);
+        //2. Se obtienen las  celdas correspondientes al espacio local y que son validas
+        List<Vector2Int> celdasEspacioLocal = heuristicagrid.espacioLocal(n.Celda, prof,filas,Columnas,celdasGrid);
 
 
-
+        //3. Para cada celda se añade su nodo directamente porque ya sabemos que son validas es decir estan dentro del grid. De esta forma se obtienen los nodos validos
+        //hasta cierta prof
         foreach(Vector2Int celda in celdasEspacioLocal)
         {
-            //se comprueba si la celda no se sale del grid y es transitable
-            if (esValidaCelda(celda.x, celda.y)) nodosEspacioLocal.Add(celdasGrid[celda.x, celda.y]);
+           nodosEspacioLocal.Add(celdasGrid[celda.x, celda.y]);
         }
 
         return nodosEspacioLocal;

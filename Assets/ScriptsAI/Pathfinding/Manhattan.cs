@@ -12,7 +12,7 @@ public class Manhattan : Heuristica
      *  Por tanto permite generar un subespacio local
      *  Pre: prof >=0
      */
-    public List<Vector2Int> espacioLocal(Vector2Int celdaO,int prof)
+    public List<Vector2Int> espacioLocal(Vector2Int celdaO,int prof,int filas,int cols,Nodo [,] nodosgrid)
     {
         List<Vector2Int> celdasExpandir = new List<Vector2Int>(); //representan las celdas que aun se tienen que obtener sus vecinos
         List<Vector2Int> celdasGeneradas = new List<Vector2Int>(); //representan las celdas que ya han sido generadas y por tanto ya no se tratan
@@ -24,8 +24,12 @@ public class Manhattan : Heuristica
             Vector2Int celdaActual = celdasExpandir[0]; //se obtiene la 1� celda 
             celdasExpandir.RemoveAt(0); //se elimina la celda de la lista
 
-            //Para poder obtener los vecinos de una celda se debe cumplir que esta no este a una profundidad igual o mayor que el origen
-            if(coste(celdaO,celdaActual) < prof) 
+            //hay que comprobar que la celda sea valida
+            bool valida = (0 <= celdaActual.x && celdaActual.x < filas) && (0 <= celdaActual.y && celdaActual.y < cols) && nodosgrid[celdaActual.x, celdaActual.y].Transitable;
+
+            //Para poder obtener los vecinos de una celda se debe cumplir que esta no este a una profundidad igual o mayor que el origen y tiene que ser valida esto es que sea transitable
+            //y este dentro del grid
+            if (valida && coste(celdaO,celdaActual) < prof) 
             {
 
                 if (celdaActual.Equals(celdaO)) //Si estamos en la celda que es el origen del espacio local se generan las primeras celdas en la 4 direcciones
@@ -51,7 +55,8 @@ public class Manhattan : Heuristica
             }
 
 
-            celdasGeneradas.Add(celdaActual); //siempres se a�ade la celda ya se haya podido obtener sus vecinos o no
+            if(valida) celdasGeneradas.Add(celdaActual); //se añade la celda SOLO si fue valida, lo ponemos aqui y no en el anterior if porque las celdas con prof = profDeseada son validas
+            //pero no se van a expandir
 
         }
 

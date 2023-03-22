@@ -8,9 +8,10 @@ using UnityEngine;
 public interface Heuristica
 {
     /*
-     * Dada una celda obtiene las celdas generadas hasta cierta profundidad usando la distancia que represente la clase que implemente esta interfaz
+     * Dada una celda obtiene las celdas generadas hasta cierta profundidad usando la distancia que represente la clase que implemente esta interfaz, garantizando
+     * que las celdas son validas y que se puede llegar desde una a las otras, es decir que forman una componente conexa.
      */
-    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof);
+    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof,int filas,int cols,Nodo [,] nodos);
 
     /*
      * Dada 2 celdas obtiene la distancia que sera claculada segun la heuristica

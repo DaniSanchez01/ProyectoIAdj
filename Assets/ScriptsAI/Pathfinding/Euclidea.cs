@@ -5,19 +5,69 @@ using UnityEngine;
 public class Euclidea : Heuristica
 {
 
-    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof)
+    public List<Vector2Int> espacioLocal(Vector2Int celdaO, int prof, int filas, int cols, Nodo[,] nodosgrid)
     {
-        List<Vector2Int> celdas = new List<Vector2Int>();
-        
+        List<Vector2Int> celdasExpandir = new List<Vector2Int>(); //representan las celdas que aun se tienen que obtener sus vecinos
+        List<Vector2Int> celdasGeneradas = new List<Vector2Int>(); //representan las celdas que ya han sido generadas y por tanto ya no se tratan
 
-        for (int i = -prof; i <= prof; i++)
+        celdasExpandir.Add(celdaO);
+
+        while (celdasExpandir.Count != 0)
         {
-            for (int j = -prof; j < prof; j++)
+            Vector2Int celdaActual = celdasExpandir[0]; //se obtiene la 1 celda 
+            celdasExpandir.RemoveAt(0); //se elimina la celda de la lista
+
+            //hay que comprobar que la celda sea valida
+            bool valida = (0 <= celdaActual.x && celdaActual.x < filas) && (0 <= celdaActual.y && celdaActual.y < cols) && nodosgrid[celdaActual.x, celdaActual.y].Transitable;
+
+            //Para poder obtener los vecinos de una celda se debe cumplir que esta no este a una profundidad igual o mayor que el origen y tiene que ser valida esto es que sea transitable
+            //y este dentro del grid
+            if (valida && coste(celdaO, celdaActual) < prof)
             {
-                celdas.Add(new Vector2Int(celda.x + i, celda.y + j));
+                float difx = celdaActual.x - celdaO.x;
+                float dify = celdaActual.y - celdaO.y;
+
+                if (celdaActual.Equals(celdaO)) //Si estamos en la celda que es el origen del espacio local se generan las primeras celdas en las 8 direcciones
+                {
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + 1));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y - 1));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y - 1));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y - 1));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y + 1));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y + 1));
+                }
+
+
+                //si estamos en una celda que esta en diagonal respecto al origen lo que podemos saber porque las distancias en el eje x e y son iguales respecto al origen
+                //de hecho estas celdas serian las esquinas del cuadrados
+                else if (Mathf.Abs(difx) == Mathf.Abs(dify))
+                {
+
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
+                    celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
+                }
+
+                //a partir de este punto si la celda no es el origen ni es una esquina tiene que estar en algun lado ya sea el de arriba,abajo,izquierda o derecha. Esto lo podemos
+                //saber analizando las compoenentes x e y y viendo cual es mayor en valor absoluto.
+
+                //si esta  a la drecha o izquierda se expande una en ese sentido
+                else if (Mathf.Abs(difx) > Mathf.Abs(dify)) celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y));
+
+                //en otro caso sabemos que puede estar en el lado de arriba o de abajo y habra que expandir una casilla en ese sentido es decir hacia arriba o abajo
+                else celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
+
             }
+
+
+            if (valida) celdasGeneradas.Add(celdaActual); //se añade la celda SOLO si fue valida, lo ponemos aqui y no en el anterior if porque las celdas con prof = profDeseada son validas
+            //pero no se van a expandir
+
         }
-        return celdas;
+
+        return celdasGeneradas;
     }
 
   
