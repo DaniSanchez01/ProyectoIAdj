@@ -351,7 +351,8 @@ MonoBehaviour:
   npc: {fileID: 205479004}
   filaObjetivo: 4
   columnaObjetivo: 19
-  prof: 4
+  prof: 2
+  heur: 2
 --- !u!114 &696386303
 MonoBehaviour:
   m_ObjectHideFlags: 0
