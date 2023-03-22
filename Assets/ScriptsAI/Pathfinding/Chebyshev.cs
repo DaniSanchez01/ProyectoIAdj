@@ -14,68 +14,53 @@ public class Chebychev : Heuristica
      */
     public List<Vector2Int> espacioLocal(Vector2Int celdaO,int prof,int filas,int cols,Nodo [,] nodosgrid)
     {
-        List<Vector2Int> celdasExpandir = new List<Vector2Int>(); //representan las celdas que aun se tienen que obtener sus vecinos
-        List<Vector2Int> celdasGeneradas = new List<Vector2Int>(); //representan las celdas que ya han sido generadas y por tanto ya no se tratan
+        HashSet<Vector2Int> cjtoCerrados = new HashSet<Vector2Int>(); //son nodos que ya han sido tratados para expandir con exito o sin exito pero que estan dentro siempre del espacio local
+        List<Vector2Int> celdasExpandir = new List<Vector2Int>(); //representan las pendientes de expandir aun no tratadas
+        List<Vector2Int> celdasGeneradas = new List<Vector2Int>(); //representan las celdas que ya han sido generadas y que eran validas y que forman parte del espacio local
 
+
+
+        //1. Se empieza aï¿½adiendo el origen
         celdasExpandir.Add(celdaO);
 
+        //2.Mientras aun hayan celdas por expandir
         while (celdasExpandir.Count != 0)
         {
-            Vector2Int celdaActual = celdasExpandir[0]; //se obtiene la 1 celda 
-            celdasExpandir.RemoveAt(0); //se elimina la celda de la lista
+            //2.1 se obtiene la 1ï¿½ celda y se elimina de las celdas por expandir
+            Vector2Int celdaActual = celdasExpandir[0];
+            celdasExpandir.RemoveAt(0);
 
-            //hay que comprobar que la celda sea valida
-            bool valida = (0 <= celdaActual.x && celdaActual.x < filas) && (0 <= celdaActual.y && celdaActual.y < cols) && nodosgrid[celdaActual.x, celdaActual.y].Transitable;
 
-            //Para poder obtener los vecinos de una celda se debe cumplir que esta no este a una profundidad igual o mayor que el origen y tiene que ser valida esto es que sea transitable
-            //y este dentro del grid
-            if (valida && coste(celdaO, celdaActual) < prof)
+
+            //2.2 Hay que comprobar si esta celda ya se expandio pues si es asi ya se trato y ya generara hijos o no no tiene sentido tratarla de nuevo
+            if (!cjtoCerrados.Contains(celdaActual))
+
             {
-                float difx = celdaActual.x - celdaO.x;
-                float dify = celdaActual.y - celdaO.y;
+                //2.2.1 hay que comprobar que esa celda sea valida 
+                bool valida = (0 <= celdaActual.x && celdaActual.x < filas) && (0 <= celdaActual.y && celdaActual.y < cols) && nodosgrid[celdaActual.x, celdaActual.y].Transitable;
 
-                if (celdaActual.Equals(celdaO)) //Si estamos en la celda que es el origen del espacio local se generan las primeras celdas en las 8 direcciones
+                //2.2.1 si la celda es valida y se puede expandir se expande
+                if (valida && coste(celdaO, celdaActual) < prof)
                 {
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y - 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y - 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y - 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + 1, celdaActual.y + 1));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x - 1, celdaActual.y + 1));
+                        for (int i = -1; i <= 1; i++)
+                        {
+                            for (int j = -1; j <= 1; j++)
+                            {
+                                if (i == 0 && j == 0) continue;
+                                celdasExpandir.Add(new Vector2Int(celdaActual.x + i, celdaActual.y + j));
+                            }
+                        } 
                 }
 
+                //2.2.2 se aï¿½ade si es valida ya se haya expandido o no porque este en el limite de la frontera o no.
+                if (valida) celdasGeneradas.Add(celdaActual); 
 
-                //si estamos en una celda que esta en diagonal respecto al origen lo que podemos saber porque las distancias en el eje x e y son iguales respecto al origen
-                //de hecho estas celdas serian las esquinas del cuadrados
-                else if (Mathf.Abs(difx) == Mathf.Abs(dify))
-                {
-
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
-                    celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
-                }
-
-                //a partir de este punto si la celda no es el origen ni es una esquina tiene que estar en algun lado ya sea el de arriba,abajo,izquierda o derecha. Esto lo podemos
-                //saber analizando las compoenentes x e y y viendo cual es mayor en valor absoluto.
-
-                //si esta  a la drecha o izquierda se expande una en ese sentido
-                else if (Mathf.Abs(difx) > Mathf.Abs(dify)) celdasExpandir.Add(new Vector2Int(celdaActual.x + ((int)(1 * Mathf.Sign(difx))), celdaActual.y));
-
-                //en otro caso sabemos que puede estar en el lado de arriba o de abajo y habra que expandir una casilla en ese sentido es decir hacia arriba o abajo
-                else celdasExpandir.Add(new Vector2Int(celdaActual.x, celdaActual.y + ((int)(1 * Mathf.Sign(dify)))));
-
+                //2.2.3 siempre se aï¿½ade a cerrados una vez tratada
+                cjtoCerrados.Add(celdaActual); //la celda actual si era valida se ha expandido y si no lo era no se ha expandido
             }
-
-
-            if (valida) celdasGeneradas.Add(celdaActual); //se añade la celda SOLO si fue valida, lo ponemos aqui y no en el anterior if porque las celdas con prof = profDeseada son validas
-            //pero no se van a expandir
-
         }
 
         return celdasGeneradas;
-
     }
 
     /*
