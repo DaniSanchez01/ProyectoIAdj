@@ -28,6 +28,11 @@ public class FormationManager : MonoBehaviour
     public criterio criterio;
     public typeHeuristica heuristica;
     public int profundidad = 1;
+    public int filasPathFinding=19;
+    public int columnasPathFinding=19;
+    
+    public float cellSizePathFinding = 3;
+    public bool gizPathFinding = false;
 
     //Lider de la formación
     private AgentNPC leader;
@@ -78,7 +83,7 @@ public class FormationManager : MonoBehaviour
         }
         //Posicionar a todos los agentes
         if (criterio==criterio.leaderFollowing) grid.leaderFollowing();
-        else grid.pathfinding(heuristica, profundidad);
+        else grid.pathfinding(heuristica, profundidad, filasPathFinding,columnasPathFinding,cellSizePathFinding,gizPathFinding);
     }
 
     public void createPattern() {
@@ -106,7 +111,7 @@ public class FormationManager : MonoBehaviour
     public void moveToPoint(Vector3 point) {
         grid.moveGrid(point);
         if (criterio==criterio.leaderFollowing) grid.leaderFollowing();
-        else grid.pathfinding(heuristica,profundidad);
+        else grid.pathfinding(heuristica,profundidad,filasPathFinding,columnasPathFinding,cellSizePathFinding,gizPathFinding);
     }
     // se detecta si se ha pulsado Shift+F
 

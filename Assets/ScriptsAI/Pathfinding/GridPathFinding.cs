@@ -28,7 +28,7 @@ public class GridPathFinding : MonoBehaviour
 
     //metodos
 
-    public void inicializarGrid(int ancho, int largo, int cellSize, typeHeuristica heuristicaDeseada, bool giz)
+    public void inicializarGrid(int ancho, int largo, float cellSize, typeHeuristica heuristicaDeseada, bool giz)
     {
         //1. Se introducen loas propiedades del grid
         filas = ancho;

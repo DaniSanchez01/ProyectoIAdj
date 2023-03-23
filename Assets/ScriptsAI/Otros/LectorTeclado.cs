@@ -94,9 +94,7 @@ public class LectorTeclado : MonoBehaviour
             {
                 npc.GetComponent<Cubo>().enable();
                 AgentNPC n = npc.GetComponent<AgentNPC>();
-                if (npc.TryGetComponent<Arrive>(out Arrive a)) {
-                    npc.GetComponent<Arrive>().NewTarget(n);
-                }
+                n.changeArbitro(n.FirstArbitro);
                 
             }
             selectedUnits.Clear();
@@ -140,10 +138,13 @@ public class LectorTeclado : MonoBehaviour
                                 npc.NoWait();
                                 Vector3 newPosition = npc.OrientationToVector(angle)*distance+newTarget;
                                 float newOrientation = Bodi.MapToRange(angle+180,Range.grados180);
-                                if (npc.circleVirt == null) {
-                                    npc.circleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
+                                if (npc.CircleVirt == null) {
+                                    npc.CircleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
                                 }
-                                else npc.circleVirt.UpdateVirtual(newPosition,ori: newOrientation);
+                                else {
+                                    npc.CircleVirt.Position = newPosition;
+                                    npc.CircleVirt.Orientation = newOrientation;
+                                }
                                 npc.agentState = State.runningToPoint;
                                 npc.changeArbitro(typeArbitro.Perseguidor);
                                 Arrive a = (Arrive) npc.takeSteering("Arrive");

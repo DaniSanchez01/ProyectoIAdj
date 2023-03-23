@@ -18,6 +18,11 @@ public class Evade : Flee
         this.nameSteering = "Evade";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz);
     }
+    public override void DestroyVirtual(Agent first) {
+        if (virt!=first) {
+            Destroy(virt.gameObject);
+        }
+    }
 
     public override Steering GetSteering(AgentNPC agent)
     {

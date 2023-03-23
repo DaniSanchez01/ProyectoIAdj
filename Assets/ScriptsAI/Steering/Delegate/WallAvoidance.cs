@@ -20,6 +20,13 @@ public class WallAvoidance : SeekCraig
         virt = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0.2f,arrRadius: 0.2f,paint: false);
     }
 
+    public override void DestroyVirtual(Agent first) {
+        if (virt!=first) {
+            DestroyImmediate(virt.gameObject);
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {

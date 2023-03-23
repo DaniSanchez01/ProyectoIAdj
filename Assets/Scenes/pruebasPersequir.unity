@@ -242,9 +242,9 @@ MonoBehaviour:
   useArbitro: 0
   agentState: 0
   arbitro: 3
-  firstArbitro: 0
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
 --- !u!1 &72860058 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1202984082241722444, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -443,9 +443,9 @@ MonoBehaviour:
   useArbitro: 0
   agentState: 0
   arbitro: 3
-  firstArbitro: 0
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
 --- !u!114 &297678867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1199,21 +1199,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2409152897142619353, guid: 4a2274d92cd0a5e43b6acea4edd916de, type: 3}
   m_PrefabInstance: {fileID: 1777208628}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &893781812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893781806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e81c8d3aff6a06d4db38e8d9029beca9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weight: 1
-  target: {fileID: 0}
-  mode: 1
 --- !u!114 &893781813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,27 +1227,12 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  useArbitro: 0
+  useArbitro: 1
   agentState: 0
-  arbitro: 3
-  firstArbitro: 0
-  firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
---- !u!114 &893781814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893781806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f66b9195ee250e941851f348a8ea7274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weight: 20
-  target: {fileID: 0}
-  gizmos: 0
+  arbitro: 5
+  pathToFollow: 0
+  team: 0
+  firstTarget: {fileID: 893781813}
 --- !u!1 &942795755 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1340687006407272530, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1832,9 +1802,9 @@ MonoBehaviour:
   useArbitro: 0
   agentState: 0
   arbitro: 3
-  firstArbitro: 0
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
 --- !u!114 &1513397229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2011,9 +1981,9 @@ MonoBehaviour:
   useArbitro: 0
   agentState: 0
   arbitro: 3
-  firstArbitro: 0
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
 --- !u!114 &1766942419
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -39,6 +39,9 @@ public class SteeringBehaviour : MonoBehaviour
         return null;
     }
 
+    public virtual void DestroyVirtual(Agent first) {
+        
+    }
 
     protected virtual void OnGUI()
     {

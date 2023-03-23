@@ -65,7 +65,7 @@ public class GridFormation: MonoBehaviour {
                 //Calculamos la posición relativa creando un vector desde la celda del lider hasta esta celda
                 this.slots[i, j].relativePosition = new Vector3(i * cellSize - leaderI*cellSize, 0f, j * cellSize - leaderJ*cellSize);
                 //Creamos un virtualAgent en las posicion real del mundo donde se encuentra la celda
-                this.slots[i, j].virtualAgent = Agent.CreateStaticVirtual(GridToPlane(i,j),ori:angle, paint: false);
+                this.slots[i, j].virtualAgent = Agent.CreateStaticVirtual(GridToPlane(i,j),ori:angle, intRadius:0.5f, paint: false);
                 //Las orientaciones se especificarán más adelante, dependiendo del tipo de formación
                 this.slots[i, j].relativeOrientation = 0f;
                 //Si esta celda es la celda del lider
@@ -187,7 +187,7 @@ public class GridFormation: MonoBehaviour {
 
     //Implementación del leaderFollowing. Cuando se mueve el grid, cada npc deberá aplicar
     //el algoritmo de LRTA para llegar a su celda correspondiente
-    public void pathfinding(typeHeuristica heur, int prof) {
+    public void pathfinding(typeHeuristica heur, int prof, int filas, int columnas,float size, bool giz) {
         //Para cada celda
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -197,7 +197,7 @@ public class GridFormation: MonoBehaviour {
                     if (!slots[i, j].npc.gameObject.TryGetComponent<GridPathFinding>(out GridPathFinding gridPath)){
                         //Crear e inicializar el grid
                         gridPath = slots[i, j].npc.gameObject.AddComponent<GridPathFinding>();
-                        gridPath.inicializarGrid(19,19,3,heur,true);
+                        gridPath.inicializarGrid(filas,columnas,size,heur,giz);
                     }
                     //Cambiar el estado del npc al de relaizando LRTA
                     slots[i, j].npc.agentState = State.LRTA;
@@ -215,6 +215,8 @@ public class GridFormation: MonoBehaviour {
                 }
             }
         }
+        formation.startTimer();
+
     }
 
     //En el momento en el que un npc llega a su destino por pathFinding 
@@ -237,6 +239,8 @@ public class GridFormation: MonoBehaviour {
                 }
             }
         }
+        formation.startTimer();
+
     }
 
     //Se borrarán de las celdas todos los npcs conectados (menos el lider). Esto se hace cuando se rompe la formación

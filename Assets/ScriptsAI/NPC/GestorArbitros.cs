@@ -9,14 +9,16 @@ public enum typeArbitro {
     Posicionar,
     Quieto,
     Aleatorio,
-    RecorreCamino
+    RecorreCamino,
+
+    Observar,
 }
 
 public class GestorArbitros
 {
     /*usamos una factoria para crear los diferentes arbitros, se le necesita pasar el agente que ha llamado al metodo y los objetos (que pueden ser muchos, uno o ninguno)
     Ej: con el WallAvoidance NO necesitas ningun target */
-    public static List<SteeringBehaviour> GetArbitraje(typeArbitro arbitro,Agent agente,Agent target)
+    public static List<SteeringBehaviour> GetArbitraje(typeArbitro arbitro,Agent agente,Agent target,typePath pathToFollow)
     {
         List<SteeringBehaviour> steeringsDevueltos = new List<SteeringBehaviour>();
         switch (arbitro)
@@ -88,18 +90,25 @@ public class GestorArbitros
             
             case typeArbitro.RecorreCamino:
                 PathFollowingNoOffset pathF = agente.gameObject.AddComponent<PathFollowingNoOffset>();
+                pathF.setTypePath(pathToFollow);
                 steeringsDevueltos.Add(pathF);
                 face = agente.gameObject.AddComponent<Face>();
                 face.Weight = 1f;
                 face.FaceNewTarget(target);
+                face.path = pathF;
                 steeringsDevueltos.Add(face);
                 wall = agente.gameObject.AddComponent<WallAvoidance>();
                 wall.Weight = 50f;
                 wall.gizmos = true;
                 steeringsDevueltos.Add(wall);
-
                 break;
 
+            case typeArbitro.Observar:
+                face = agente.gameObject.AddComponent<Face>();
+                face.Weight = 1f;
+                face.FaceNewTarget(target);
+                steeringsDevueltos.Add(face);
+                break;
         }
 
         return steeringsDevueltos; //se devuelven los steerings

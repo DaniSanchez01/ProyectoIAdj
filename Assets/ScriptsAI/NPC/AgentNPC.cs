@@ -15,8 +15,9 @@ public enum State
 
 public enum Team
 {
+    Red,
     Blue,
-    Red
+    
 }
 public class AgentNPC : Agent
 { 
@@ -27,19 +28,25 @@ public class AgentNPC : Agent
     public bool useArbitro = false;
 
     public State agentState = State.Normal;
-
     public typeArbitro arbitro = typeArbitro.Quieto;  
-
-    public typeArbitro firstArbitro;
+    private typeArbitro firstArbitro;
+    public typePath pathToFollow;
     public Team team;
     public Agent firstTarget;
-    public Agent circleVirt;
+    private Agent circleVirt;
     private int inicio;
     private bool waiting = false;
 
 
 
+    public Agent CircleVirt {
+        set { circleVirt = value;}
+        get { return circleVirt; }
+    }
 
+    public typeArbitro FirstArbitro {
+        get { return firstArbitro; }
+    }
 
 
     protected void Awake()
@@ -62,7 +69,7 @@ public class AgentNPC : Agent
         if (useArbitro) 
             {
                 firstArbitro = arbitro;
-                listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget); //he puesto vagante
+                listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
             }
 
     }
@@ -88,11 +95,12 @@ public class AgentNPC : Agent
     public void changeArbitro(typeArbitro arb) {
         this.arbitro = arb;
         this.deleteAllSteerings();
-        listSteerings = GestorArbitros.GetArbitraje(arb,this,firstTarget);
+        listSteerings = GestorArbitros.GetArbitraje(arb,this,firstTarget, pathToFollow);
     }
 
     public void deleteAllSteerings() {
         while (gameObject.TryGetComponent<SteeringBehaviour>(out SteeringBehaviour a)) {
+            a.DestroyVirtual(firstTarget);
             DestroyImmediate(a);
         }
     }

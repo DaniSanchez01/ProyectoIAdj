@@ -22,9 +22,17 @@ public class Face : Align
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
     }
 
+    public override void DestroyVirtual(Agent first) {
+        if (virt!=first) {
+            Destroy(virt.gameObject);
+        }
+    }
+
     public void Update() {
         if (path!=null) {
-            this.FaceTarget = path.getTarget();
+            if (path.getTarget()!=null) {
+                this.FaceTarget = path.getTarget();
+            }
         }
     }
     public void FaceNewTarget(Agent t) {

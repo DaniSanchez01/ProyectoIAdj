@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum typePath {
+    pruebaPathFollowing,
+    rodeaCasasAzules,
+    rodeaCasasRojas,
+    patrullaPuenteAzul,
+    patrullaPuenteRojo,
+    liderAzul,
+    liderRojo,
+}
+
 public class PathFollowingNoOffset : SeekCraig
 {
 
@@ -12,21 +22,12 @@ public class PathFollowingNoOffset : SeekCraig
     public int mode = 1;
     public bool giz = true;
     public float intRadius = 1.5f;
-    private bool delete = false;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         base.nameSteering = "PathFollowing";
-        path.Add(new Vector3(30f,0f,38f));
-        path.Add(new Vector3(13f,0f,38f));
-        path.Add(new Vector3(13f,0f,17f));
-        path.Add(new Vector3(30f,0f,4.5f));
-        path.Add(new Vector3(0f,0f,0f));
-        path.Add(new Vector3(2f,0f,45f));
-
-
     }
 
     public void setPath(List<Vector3> newPath) {
@@ -34,6 +35,70 @@ public class PathFollowingNoOffset : SeekCraig
         DestroyPath();
     }
 
+    public void setTypePath(typePath type) {
+        path.Clear();
+        switch (type) {
+            case typePath.pruebaPathFollowing:
+                path.Add(new Vector3(30f,0f,38f));
+                path.Add(new Vector3(13f,0f,38f));
+                path.Add(new Vector3(13f,0f,17f));
+                path.Add(new Vector3(30f,0f,4.5f));
+                path.Add(new Vector3(0f,0f,0f));
+                path.Add(new Vector3(2f,0f,45f));
+                break;
+            case typePath.rodeaCasasAzules:
+                path.Add(new Vector3(10f,0f,54f));
+                path.Add(new Vector3(2.5f,0f,60f));
+                path.Add(new Vector3(10f,0f,64.5f));
+                path.Add(new Vector3(19f,0f,59f));
+                path.Add(new Vector3(28f,0f,50f));
+                path.Add(new Vector3(36f,0f,57.5f));
+                path.Add(new Vector3(29f,0f,63f));
+                path.Add(new Vector3(19f,0f,59f));
+                break;
+
+            case typePath.rodeaCasasRojas:
+                path.Add(new Vector3(10f,0f,16f));
+                path.Add(new Vector3(2.5f,0f,9f));
+                path.Add(new Vector3(10f,0f,3f));
+                path.Add(new Vector3(19f,0f,8f));
+                path.Add(new Vector3(28f,0f,12f));
+                path.Add(new Vector3(36f,0f,6f));
+                path.Add(new Vector3(29f,0f,1.5f));
+                path.Add(new Vector3(19f,0f,8f));
+                break;
+
+            case typePath.patrullaPuenteAzul:
+                path.Add(new Vector3(4f,0f,39f));
+                path.Add(new Vector3(35f,0f,39f));
+                break;
+
+            case typePath.patrullaPuenteRojo:
+                path.Add(new Vector3(4f,0f,28f));
+                path.Add(new Vector3(35f,0f,28f));
+                break;
+
+            case typePath.liderAzul:
+                path.Add(new Vector3(28f,0f,42f));
+                path.Add(new Vector3(11f,0f,42f));
+                break;
+
+            case typePath.liderRojo:
+                path.Add(new Vector3(11f,0f,24f));
+                path.Add(new Vector3(28f,0f,24f));
+                break;
+
+            default:
+                break;    
+        }
+        DestroyPath();
+
+    }
+
+    public override void DestroyVirtual(Agent first)
+    {
+        DestroyPath();
+    }
     public void DestroyPath(){
         int nNodes = nodes.Count-1;
         for (int n = nNodes;n>=0;n-- ) {
@@ -43,7 +108,12 @@ public class PathFollowingNoOffset : SeekCraig
     }
 
     public Agent getTarget() {
-        return nodes[currentNode];
+        if (nodes.Count!=0) {
+            return nodes[currentNode];
+        }
+        else {
+            return null;
+        }
     }
     // Update is called once per frame
     public override Steering GetSteering(AgentNPC agent) {
@@ -64,7 +134,7 @@ public class PathFollowingNoOffset : SeekCraig
                     currentNode = nodes.Count-1;
                     if (agent.agentState==State.LRTA) {
                         agent.agentState = State.Formation;
-                        delete = true;
+                        DestroyPath();
                         GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agent);
                     }
                 }
@@ -78,11 +148,11 @@ public class PathFollowingNoOffset : SeekCraig
                     currentNode+=pathDir;
                 }
             }
-            target = nodes[currentNode];
-        }
-        
-        if (delete) {
-            DestroyPath();
+            //Cuando destruimos el camino inicial antes de desturir el steering entra una última vez aqui, evitar que de error
+            if (nodes.Count!=0) {
+                target = nodes[currentNode];
+            }
+            else return new Steering();
         }
         return base.GetSteering(agent); 
     }

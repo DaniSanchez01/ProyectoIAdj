@@ -20,6 +20,12 @@ public class AntiFace : AntiAlign
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
     }
 
+    public override void DestroyVirtual(Agent first) {
+        if (virt!=first) {
+            Destroy(virt.gameObject);
+        }
+    }
+
     public void AntiFaceNewTarget(Agent t) {
         this.AntiFaceTarget = t;
     }

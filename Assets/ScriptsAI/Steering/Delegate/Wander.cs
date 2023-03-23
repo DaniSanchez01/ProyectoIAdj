@@ -25,6 +25,13 @@ public class Wander : Face
 
     }
 
+    public override void DestroyVirtual(Agent first) {
+        if (FaceTarget!=first) {
+            Destroy(FaceTarget.gameObject);
+            Destroy(virt.gameObject);
+        }
+    }
+
     // Valor aleatorio entre -1 y 1
     private float RandomBinomial()
     {
