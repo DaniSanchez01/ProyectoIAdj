@@ -7,12 +7,15 @@ public class SoldierAgentNPC : AgentNPC
     // Start is called before the first frame update
     protected override void Start()
     {
-        this.MaxSpeed = 10f;
+        this.MaxSpeed = 8f;
         this.MaxAcceleration = 20f;
         this.MaxRotation = 180f;
         this.MaxForce = 30f;
-        this.MaxAngularAcc = 180f;
+        this.MaxAngularAcc = 300f;
         this.interiorAngle = 8f;
+        if (team == Team.Blue){
+            this.Orientation = 180f;
+        }
         base.Start();
     }
 

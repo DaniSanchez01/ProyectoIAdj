@@ -27,7 +27,7 @@ public class FormationManager : MonoBehaviour
     
     public criterio criterio;
     public typeHeuristica heuristica;
-    public int profundidad;
+    public int profundidad = 1;
 
     //Lider de la formación
     private AgentNPC leader;
@@ -104,7 +104,6 @@ public class FormationManager : MonoBehaviour
 
     //Mover el grid y hacer que los personajes vayan a el (Ocurre cuando los personajes están en formación y se pincha en un nuevo lugar)
     public void moveToPoint(Vector3 point) {
-        if (grid==null) Debug.Log("Hola");
         grid.moveGrid(point);
         if (criterio==criterio.leaderFollowing) grid.leaderFollowing();
         else grid.pathfinding(heuristica,profundidad);

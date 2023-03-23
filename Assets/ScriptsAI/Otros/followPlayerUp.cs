@@ -9,12 +9,12 @@ public class followPlayerUp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(target.transform.position.x,transform.position.y, target.transform.position.z); 
+        transform.position = new Vector3(target.transform.position.x,transform.position.y, target.transform.position.z+5); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(target.transform.position.x,transform.position.y, target.transform.position.z); 
+        transform.position = new Vector3(target.transform.position.x,transform.position.y, target.transform.position.z+5); 
     }
 }

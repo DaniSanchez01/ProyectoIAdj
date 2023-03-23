@@ -40,6 +40,7 @@ public class GridFormation: MonoBehaviour {
     //Posicion real del grid (posicion de la celda del lider)
     public Vector3 gridPosition;
 
+    //Manejador del grid
     public FormationManager formation;
 
     //Usado para llevar el grid a la posicion del lider al hacer Shift+F
@@ -108,9 +109,10 @@ public class GridFormation: MonoBehaviour {
         //Actualizar la posición de todos los agentes virtuales (trabajan con posiciones reales)
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
-                Agent v = this.slots[i,j].virtualAgent;
-                v.Position = GridToPlane(i,j);
+                //La posición del virtual agent asociado cambiará
+                this.slots[i,j].virtualAgent.Position = GridToPlane(i,j);
                 if (this.slots[i,j].npc!=null) {
+                    //El npc deja de contar para volver a su comportamiento inicial (esto ocurre cuando todos los npcs van a un punto) 
                     this.slots[i,j].npc.NoWait();
                 }
 
@@ -137,16 +139,18 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc!= null) {
+                    //El npc empezará a perseguir
                     slots[i, j].npc.changeArbitro(typeArbitro.Perseguidor);
                     Agent leaderVirtual = getLeaderSlot().virtualAgent;
                     Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
                     Face f = (Face) slots[i, j].npc.takeSteering("Face");
-
+                    //Si es el lider irá hacia donde está el nuevo grid
                     if (slots[i, j].npc== leader) {
                         a.NewTarget(leaderVirtual);
                         f.FaceNewTarget(leaderVirtual);
                         slots[i,j].npc.agentState = State.leaderFollowing;
                     }
+                    //Si es otro npc, persigue al lider
                     else {
                         a.NewTarget(leader);
                         f.FaceNewTarget(leader);
@@ -167,56 +171,65 @@ public class GridFormation: MonoBehaviour {
             for (int j = 0; j < numRows; j++) {
                 //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc!= null) {
+                    //El npc se posiciona respecto a su celda
                     slots[i, j].npc.changeArbitro(typeArbitro.Posicionar);
-                    Agent leaderVirtual = getLeaderSlot().virtualAgent;
                     Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
                     Align al = (Align) slots[i, j].npc.takeSteering("Align");
-
-                    if (slots[i, j].npc== leader) {
-                        a.NewTarget(leaderVirtual);
-                        al.NewTarget(leaderVirtual);
-                    }
-                    else {
-                        a.NewTarget(slots[i, j].virtualAgent);
-                        al.NewTarget(slots[i, j].virtualAgent);
-                    }
+                    a.NewTarget(slots[i, j].virtualAgent);
+                    al.NewTarget(slots[i, j].virtualAgent);
                 }
                 
             }
         }
+        //Empieza a contar el tiempo antes de que el lider empiece a hacer un wander
         formation.startTimer();
     }
 
-
+    //Implementación del leaderFollowing. Cuando se mueve el grid, cada npc deberá aplicar
+    //el algoritmo de LRTA para llegar a su celda correspondiente
     public void pathfinding(typeHeuristica heur, int prof) {
         //Para cada celda
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
                 //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc!= null) {
+                    //Si el npc no tiene un gridPathfinding propio
                     if (!slots[i, j].npc.gameObject.TryGetComponent<GridPathFinding>(out GridPathFinding gridPath)){
+                        //Crear e inicializar el grid
                         gridPath = slots[i, j].npc.gameObject.AddComponent<GridPathFinding>();
                         gridPath.inicializarGrid(19,19,3,heur,true);
                     }
+                    //Cambiar el estado del npc al de relaizando LRTA
                     slots[i, j].npc.agentState = State.LRTA;
+                    
+                    //Calcula el nodo del gridPathFinding en que se encuentra el npc 
                     Vector2Int celdaPosicion = gridPath.getCeldaDePuntoPlano(slots[i, j].npc.Position);
                     Nodo nodoPosicion = gridPath.GetNodo(celdaPosicion.x,celdaPosicion.y);
-
+                    //Calcula el nodo del gridPathFinding en que se encuentra la celda a la queremos llegar 
                     Vector2Int celdaObjetivo = gridPath.getCeldaDePuntoPlano(slots[i,j].virtualAgent.Position);
                     Nodo nodoObjetivo = gridPath.GetNodo(celdaObjetivo.x,celdaObjetivo.y);
-                    PathFinding algorithm= new PathFinding(gridPath,nodoPosicion,nodoObjetivo,slots[i, j].npc, prof, false);
+                    //Creamos una instancia del pathfinding con los atributos que nos interesan
+                    PathFinding algorithm= new PathFinding(gridPath,nodoPosicion,nodoObjetivo,slots[i, j].npc, prof, true);
+                    //Aplicamos LRTA
                     algorithm.LRTA();
                 }
             }
         }
     }
 
+    //En el momento en el que un npc llega a su destino por pathFinding 
+    //debemos hacer que se posicione respecto a su celda del gridFormation
     public void LRTAtoCell(AgentNPC npc) {
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
+                //Si hay un npc conectado a esa ranura
                 if (slots[i, j].npc== npc) {
+                    //El npc vuelvea encontrarse en estado Formation
+                    slots[i, j].npc.agentState = State.Formation;
+                    //El npc cambia su comportamienot para posicionarse respecto a su celda
                     slots[i, j].npc.changeArbitro(typeArbitro.Posicionar);
                     Agent leaderVirtual = getLeaderSlot().virtualAgent;
+                    //Asignamos como target el virtual agent de su celda
                     Arrive a = (Arrive) slots[i, j].npc.takeSteering("Arrive");
                     Align al = (Align) slots[i, j].npc.takeSteering("Align");
                     a.NewTarget(slots[i, j].virtualAgent);
@@ -226,26 +239,27 @@ public class GridFormation: MonoBehaviour {
         }
     }
 
-    //Se borrarán de las celdas todos los npcs conectados (menos el lider)
+    //Se borrarán de las celdas todos los npcs conectados (menos el lider). Esto se hace cuando se rompe la formación
     public void liberarAgents() {
         this.activated = false;
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {
+                //Si no eres el lider
                 if (slots[i,j].npc!=null && !slots[i,j].leaderCell) {
                     //Cambiar el estado a normal
+                    slots[i,j].npc.agentState = State.Normal;
                     slots[i,j].npc = null;
                 }
+                //Si eres el lider
                 if (slots[i,j].npc== leader) {
-                    leader.agentState = State.Normal;
-                    leader.changeArbitro(leader.firstArbitro);
                     slots[i,j].npc.agentState = State.Normal;
-                    slots[i,j].npc.changeArbitro(slots[i,j].npc.firstArbitro);
-
+                    //slots[i,j].npc.changeArbitro(slots[i,j].npc.firstArbitro);
                 }
             }
         }
     }
 
+    //Cuando una formación se encuentra más de 10 segundos parada, el lider empezará a hacer un wander y los otros npc deberán seguirle
     public void leaderWander() {
         for (int i = 0; i < numColumns; i++) {
             for (int j = 0; j < numRows; j++) {

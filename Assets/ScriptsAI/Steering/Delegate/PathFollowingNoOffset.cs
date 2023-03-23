@@ -12,6 +12,8 @@ public class PathFollowingNoOffset : SeekCraig
     public int mode = 1;
     public bool giz = true;
     public float intRadius = 1.5f;
+    private bool delete = false;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -29,6 +31,10 @@ public class PathFollowingNoOffset : SeekCraig
 
     public void setPath(List<Vector3> newPath) {
         path = newPath;
+        DestroyPath();
+    }
+
+    public void DestroyPath(){
         int nNodes = nodes.Count-1;
         for (int n = nNodes;n>=0;n-- ) {
             Destroy(nodes[n].gameObject);
@@ -58,6 +64,7 @@ public class PathFollowingNoOffset : SeekCraig
                     currentNode = nodes.Count-1;
                     if (agent.agentState==State.LRTA) {
                         agent.agentState = State.Formation;
+                        delete = true;
                         GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agent);
                     }
                 }
@@ -74,7 +81,9 @@ public class PathFollowingNoOffset : SeekCraig
             target = nodes[currentNode];
         }
         
-        
+        if (delete) {
+            DestroyPath();
+        }
         return base.GetSteering(agent); 
     }
 

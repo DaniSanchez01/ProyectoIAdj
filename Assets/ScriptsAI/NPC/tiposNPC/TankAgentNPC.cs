@@ -13,12 +13,16 @@ public class TankAgentNPC : AgentNPC
     // Start is called before the first frame update
     protected override void Start()
     {
-        this.Mass = 5; //tiene mas masa
-        this.MaxSpeed = 0.8f; // la maxima velocidad tambien se disminuye
-        this.MaxRotation = 0.8f; //la maxima velocidad angular que puede tener al ser mas pesado tienes menos velocidad angular
-        this.MaxAcceleration = 0.8f; //la maxima aceleracion tambien la he reducido
-        this.MaxAngularAcc = 0.6f; //la maxima aceleracion agular tambien se ha reducido
-        this.MaxForce = 5; //la maxima fuerza
+        this.MaxSpeed = 5f;
+        this.MaxAcceleration = 15f;
+        this.MaxRotation = 140f;
+        this.MaxForce = 30f;
+        this.MaxAngularAcc = 180f;
+        this.interiorAngle = 8f;
+        if (team == Team.Blue){
+            this.Orientation = 180f;
+        }
+        base.Start();
         
     }
 

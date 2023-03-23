@@ -13,6 +13,11 @@ public enum State
     LRTA,
 }
 
+public enum Team
+{
+    Blue,
+    Red
+}
 public class AgentNPC : Agent
 { 
     // Este será el steering final que se aplique al personaje.
@@ -26,11 +31,12 @@ public class AgentNPC : Agent
     public typeArbitro arbitro = typeArbitro.Quieto;  
 
     public typeArbitro firstArbitro;
+    public Team team;
     public Agent firstTarget;
     public Agent circleVirt;
-
     private int inicio;
     private bool waiting = false;
+
 
 
 
@@ -90,24 +96,6 @@ public class AgentNPC : Agent
             DestroyImmediate(a);
         }
     }
-
-    /*public void addSteering(SteeringBehaviour steer) {
-        listSteerings.Add(steer);
-    }*/
-
-    /*public void deleteSteering(string nameSteer) {
-        int index = -1;
-        int count = 0; 
-        foreach (var s in listSteerings) {
-            if (s.NameSteering == nameSteer) {
-                index = count;
-            }
-            count+=1;
-        }
-        if (index!=-1) {
-            listSteerings.RemoveAt(index);
-        }
-    }*/
 
     public bool checkSteering(string nameSteer) {
         foreach (var s in listSteerings) {
