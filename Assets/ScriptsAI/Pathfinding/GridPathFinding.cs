@@ -45,7 +45,7 @@ public class GridPathFinding : MonoBehaviour
             {
                 //1. Se comprueba si la celda es valida y tambien se establece el coste de la zona a 1 
                 bool valida = hayColisionEnCelda(i, j);
-                celdasGrid[i, j] = new Nodo(1, i, j, valida, 1); //El coste de cada celda se supone que es 1
+                celdasGrid[i, j] = new Nodo(i, j, valida, 1); //El coste de cada celda se supone que es 1
             }
         }
     }
@@ -56,6 +56,7 @@ public class GridPathFinding : MonoBehaviour
         }
         else return null;
     }
+
     /*
      * Dada una celda del grid marcada por su fila y columna comprueba si en esta hay objetos del escenario y por tanto si es transitable o no lo es.
      * Si se encuentra un objeto NO es valida, en caso contrario si lo es
