@@ -60,6 +60,7 @@ public class PathFinding
             //Preparar al npc para seguir el camino calculado
             executeAction();
         }
+        
         else {
             agente.agentState = State.Formation;
             GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agente);

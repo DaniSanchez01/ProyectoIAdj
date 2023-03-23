@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Nodo
 {
-    private float costeCelda; //representa el coste de una celda
+    
     private float costeHeuristica; //representa el coste heuristico a un determinado objetivo
     private float tempH;
     private int fila; //fila de la celda que representa
@@ -13,9 +13,9 @@ public class Nodo
     private float weight;
 
 
-    public Nodo(int costeCelda, int fila, int col, bool transitable, int weight)
+    public Nodo(int fila, int col, bool transitable, int weight)
     {
-        this.costeCelda = costeCelda;
+        
         this.fila = fila;
         this.col = col;
         this.transitable = transitable;
@@ -50,11 +50,7 @@ public class Nodo
         get { return tempH; }
     }
 
-    public float CosteCelda
-    {
-        get { return costeCelda; }
-    }
-
+    
     public override bool Equals(object obj)
     {
         if (obj is Nodo) return Equals(obj as Nodo);
