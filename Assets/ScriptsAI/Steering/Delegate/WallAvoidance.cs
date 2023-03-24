@@ -8,6 +8,7 @@ public class WallAvoidance : SeekCraig
     Agent virt;
     private Vector3 agentPos;
     private Vector3 collisionPos;
+    public int nBigotes = 3;
 
     Vector3 bigoteCentral;
     Vector3 bigoteIzq;
@@ -49,15 +50,69 @@ public class WallAvoidance : SeekCraig
         }
         //Si está en movimiento
         else {
-            //Calcular los bigotes izquierdo y derecho
-            float velocityOrientation = agent.PositionToAngle(agent.Velocity); 
-            if (agent.Velocity.x < 0) velocityOrientation = -velocityOrientation;
-            float bigoteizqOrientation = Bodi.MapToRange(velocityOrientation-30,Range.grados180);
-            float bigotederOrientation = Bodi.MapToRange(velocityOrientation+30,Range.grados180);
-            bigoteIzq = agent.OrientationToVector(bigoteizqOrientation) * (agent.lookahead/2.5f);
-            bigoteDer = agent.OrientationToVector(bigotederOrientation) * (agent.lookahead/2.5f);
+            if (nBigotes ==1) {
+                bigoteIzq = Vector3.zero;
+                bigoteDer = Vector3.zero;
+                steer = CollisionUnBigote(agent);
+                
+            }
+            else if (nBigotes ==2) {
+                DosBigotes(agent);
+                steer = CollisionDosBigotes(agent);
+
+            }
+            else {
+                TresBigotes(agent);
+                steer = CollisionTresBigotes(agent);
+            }
+            return steer;
         }
-        
+    }
+
+    private Steering CollisionUnBigote(AgentNPC agent) {
+        //Calcula la colisión del bigote izquierdo
+        CollisionDetector.Collision collision = CollisionDetector.getCollision(agentPos, bigoteCentral);
+        //Si no detecta colision...
+        if (collision.normal == Vector3.zero) {
+            return new Steering();
+        }
+        else {
+            collisionPos=collision.position;
+            //Calculo de la nueva posicion que deberemos seguir
+            virt.Position = collision.position + collision.normal * agent.avoidDistance;
+            target = virt;
+            //Calcular el seek a partir de este
+            return base.GetSteering(agent);
+        }
+    }
+    private Steering CollisionDosBigotes(AgentNPC agent) {
+        //Calcula la colisión del bigote izquierdo
+        CollisionDetector.Collision collision = CollisionDetector.getCollision(agentPos, bigoteIzq);
+        //Si no detecta colision...
+        if (collision.normal == Vector3.zero) {
+            //Calcula la colisión del bigote derecho
+            collision = CollisionDetector.getCollision(agentPos, bigoteDer);
+            //Si no detecta colision...
+            if (collision.normal == Vector3.zero) {
+                return new Steering();
+            }
+            else {
+                collisionPos=collision.position;
+                //Calculo de la nueva posicion que deberemos seguir
+                virt.Position = collision.position + collision.normal * agent.avoidDistance;
+            }
+        }
+        else {
+            collisionPos=collision.position;
+            //Calculo de la nueva posicion que deberemos seguir
+            virt.Position = collision.position + collision.normal * agent.avoidDistance;
+        }
+        target = virt;
+        //Calcular el seek a partir de este
+        return base.GetSteering(agent);
+    }
+
+    private Steering CollisionTresBigotes(AgentNPC agent) {
         //Calcula la colisión del bigote izquierdo
         CollisionDetector.Collision collision = CollisionDetector.getCollision(agentPos, bigoteIzq);
         //Si no detecta colision...
@@ -70,7 +125,7 @@ public class WallAvoidance : SeekCraig
                 collision = CollisionDetector.getCollision(agentPos, bigoteCentral);
                 //Si no detecta colision de ninguno de los tres bigotes se devuelve un steering vacio
                 if (collision.normal == Vector3.zero) {
-                    return steer;
+                    return new Steering();
                 }
                 else {
                     collisionPos=collision.position;
@@ -92,7 +147,29 @@ public class WallAvoidance : SeekCraig
         target = virt;
         //Calcular el seek a partir de este
         return base.GetSteering(agent);
+    }
+        
+        
 
+    
+
+    private void DosBigotes(AgentNPC agent) {
+        float velocityOrientation = agent.PositionToAngle(agent.Velocity); 
+        if (agent.Velocity.x < 0) velocityOrientation = -velocityOrientation;
+        float bigoteizqOrientation = Bodi.MapToRange(velocityOrientation-15,Range.grados180);
+        float bigotederOrientation = Bodi.MapToRange(velocityOrientation+15,Range.grados180);
+        bigoteIzq = agent.OrientationToVector(bigoteizqOrientation) * (agent.lookahead);
+        bigoteDer = agent.OrientationToVector(bigotederOrientation) * (agent.lookahead);
+        bigoteCentral = Vector3.zero;
+    }
+
+    private void TresBigotes(AgentNPC agent) {
+        float velocityOrientation = agent.PositionToAngle(agent.Velocity); 
+        if (agent.Velocity.x < 0) velocityOrientation = -velocityOrientation;
+            float bigoteizqOrientation = Bodi.MapToRange(velocityOrientation-30,Range.grados180);
+            float bigotederOrientation = Bodi.MapToRange(velocityOrientation+30,Range.grados180);
+            bigoteIzq = agent.OrientationToVector(bigoteizqOrientation) * (agent.lookahead/2.5f);
+            bigoteDer = agent.OrientationToVector(bigotederOrientation) * (agent.lookahead/2.5f);
     }
 
     private void OnDrawGizmos() {
