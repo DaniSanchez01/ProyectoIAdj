@@ -144,6 +144,7 @@ MonoBehaviour:
   target: {fileID: 0}
   timeToTarget: 0.3
   FaceTarget: {fileID: 0}
+  path: {fileID: 0}
   giz: 1
   wanderRadius: 2
   wanderOffset: 5
@@ -172,16 +173,16 @@ MonoBehaviour:
   _arrivalRadius: 3
   _interiorAngle: 5
   _exteriorAngle: 50
-  giz: 1
+  giz: 0
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 0
   agentState: 0
   arbitro: 3
-  firstArbitro: 0
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 0}
-  circleVirt: {fileID: 0}
 --- !u!114 &55751883
 MonoBehaviour:
   m_ObjectHideFlags: 0

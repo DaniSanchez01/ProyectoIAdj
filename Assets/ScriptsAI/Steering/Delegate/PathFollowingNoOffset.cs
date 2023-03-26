@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum typePath {
     pruebaPathFollowing,
+    pruebaPathFollowing2,
     rodeaCasasAzules,
     rodeaCasasRojas,
     patrullaPuenteAzul,
@@ -22,12 +23,14 @@ public class PathFollowingNoOffset : SeekCraig
     public int mode = 1;
     public bool giz = true;
     public float intRadius = 1.5f;
+    public typePath type;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         base.nameSteering = "PathFollowing";
+        setTypePath(type);
     }
 
     public void setPath(List<Vector3> newPath) {
@@ -35,7 +38,8 @@ public class PathFollowingNoOffset : SeekCraig
         DestroyPath();
     }
 
-    public void setTypePath(typePath type) {
+    public void setTypePath(typePath typePath) {
+        type= typePath;
         path.Clear();
         switch (type) {
             case typePath.pruebaPathFollowing:
@@ -45,6 +49,12 @@ public class PathFollowingNoOffset : SeekCraig
                 path.Add(new Vector3(30f,0f,4.5f));
                 path.Add(new Vector3(0f,0f,0f));
                 path.Add(new Vector3(2f,0f,45f));
+                break;
+            case typePath.pruebaPathFollowing2:
+                path.Add(new Vector3(23f,0f,32f));
+                path.Add(new Vector3(23f,0f,46f));
+                path.Add(new Vector3(40f,0f,46f));
+                path.Add(new Vector3(40f,0f,32f));
                 break;
             case typePath.rodeaCasasAzules:
                 path.Add(new Vector3(10f,0f,54f));

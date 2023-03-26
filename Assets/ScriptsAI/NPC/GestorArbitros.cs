@@ -76,6 +76,10 @@ public class GestorArbitros
                 break;
 
             case typeArbitro.Quieto:
+                arrive = agente.gameObject.AddComponent<Arrive>();
+                arrive.Weight = 1f;
+                arrive.NewTarget(agente);
+                steeringsDevueltos.Add(arrive);
                 break;
 
             case typeArbitro.Aleatorio:
@@ -104,6 +108,11 @@ public class GestorArbitros
                 break;
 
             case typeArbitro.Observar:
+                arrive = agente.gameObject.AddComponent<Arrive>();
+                arrive.Weight = 1f;
+                arrive.NewTarget(agente);
+                steeringsDevueltos.Add(arrive);
+    
                 face = agente.gameObject.AddComponent<Face>();
                 face.Weight = 1f;
                 face.FaceNewTarget(target);

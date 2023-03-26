@@ -303,7 +303,6 @@ GameObject:
   - component: {fileID: 5886240535310709805}
   - component: {fileID: 4524481138742633650}
   - component: {fileID: 8723028915310556889}
-  - component: {fileID: 947579374586592448}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: NPC
@@ -380,18 +379,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &947579374586592448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3644241277820097884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4381fca721c1f24fb7980d2dc0deb45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6120437476106651919
 GameObject:
   m_ObjectHideFlags: 0

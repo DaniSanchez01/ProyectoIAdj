@@ -24,7 +24,6 @@ public class FormationManager : MonoBehaviour
     //Diseño de formación usado
     private Pattern pattern;
     public typePattern tipoFormacion;
-    
     public criterio criterio;
     public typeHeuristica heuristica;
     public int profundidad = 1;

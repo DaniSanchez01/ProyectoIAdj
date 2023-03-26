@@ -158,10 +158,10 @@ MonoBehaviour:
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 1
   agentState: 0
-  arbitro: 1
-  firstArbitro: 0
+  arbitro: 3
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 837623766}
-  circleVirt: {fileID: 0}
 --- !u!1 &472621611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,10 +1308,10 @@ MonoBehaviour:
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 1
   agentState: 0
-  arbitro: 1
-  firstArbitro: 0
+  arbitro: 3
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 1513397227}
-  circleVirt: {fileID: 0}
 --- !u!1001 &1500345677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1420,10 +1420,10 @@ MonoBehaviour:
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 1
   agentState: 0
-  arbitro: 0
-  firstArbitro: 0
+  arbitro: 3
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 1421938859}
-  circleVirt: {fileID: 0}
 --- !u!1 &1766942411 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7656683264261479027, guid: 43f78f0852c04f644aba4fa580fbd24e, type: 3}
@@ -1459,10 +1459,10 @@ MonoBehaviour:
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 1
   agentState: 0
-  arbitro: 1
-  firstArbitro: 0
+  arbitro: 3
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 8570838756696139875}
-  circleVirt: {fileID: 0}
 --- !u!114 &1834379942 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5743901840981058590, guid: 542443b921e74a34faa4732c1d7ebf4e, type: 3}
@@ -1662,10 +1662,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellSize: 2
   grid: {fileID: 0}
-  tipoFormacion: 1
-  criterio: 1
+  tipoFormacion: 0
+  criterio: 0
   heuristica: 1
   profundidad: 3
+  filasPathFinding: 19
+  columnasPathFinding: 19
+  cellSizePathFinding: 3
+  gizPathFinding: 0
 --- !u!1001 &2099321713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1858,10 +1862,10 @@ MonoBehaviour:
     linear: {x: 0, y: 0, z: 0}
   useArbitro: 1
   agentState: 0
-  arbitro: 4
-  firstArbitro: 0
+  arbitro: 3
+  pathToFollow: 0
+  team: 0
   firstTarget: {fileID: 8570838756696139875}
-  circleVirt: {fileID: 0}
 --- !u!1001 &8691499090122844405
 PrefabInstance:
   m_ObjectHideFlags: 0

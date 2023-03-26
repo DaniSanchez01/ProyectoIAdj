@@ -406,7 +406,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 5
+  pathToFollow: 6
   team: 0
   firstTarget: {fileID: 107190052}
 --- !u!114 &107190053
@@ -1471,7 +1471,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 3
+  pathToFollow: 4
   team: 0
   firstTarget: {fileID: 317103528}
 --- !u!114 &317103529
@@ -2183,7 +2183,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 2
+  pathToFollow: 3
   team: 1
   firstTarget: {fileID: 528234812}
 --- !u!114 &528234813
@@ -3599,7 +3599,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 1
+  pathToFollow: 2
   team: 0
   firstTarget: {fileID: 984023161}
 --- !u!114 &984023162
@@ -3661,9 +3661,9 @@ MonoBehaviour:
   cellSize: 2
   grid: {fileID: 0}
   tipoFormacion: 0
-  criterio: 1
+  criterio: 0
   heuristica: 2
-  profundidad: 3
+  profundidad: 5
   filasPathFinding: 13
   columnasPathFinding: 22
   cellSizePathFinding: 3
@@ -3852,7 +3852,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 2
+  pathToFollow: 3
   team: 1
   firstTarget: {fileID: 1101587005}
 --- !u!114 &1101587006
@@ -5283,7 +5283,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 4
+  pathToFollow: 5
   team: 1
   firstTarget: {fileID: 1664759829}
 --- !u!114 &1664759830
@@ -5334,7 +5334,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 3
+  pathToFollow: 4
   team: 0
   firstTarget: {fileID: 1664874837}
 --- !u!114 &1664874838
@@ -5436,7 +5436,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 1
+  pathToFollow: 2
   team: 0
   firstTarget: {fileID: 1680084009}
 --- !u!114 &1680084010
@@ -5556,7 +5556,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 4
+  pathToFollow: 5
   team: 1
   firstTarget: {fileID: 1698680624}
 --- !u!114 &1698680625
@@ -5767,7 +5767,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 6
+  pathToFollow: 7
   team: 1
   firstTarget: {fileID: 1751643312}
 --- !u!114 &1751643313

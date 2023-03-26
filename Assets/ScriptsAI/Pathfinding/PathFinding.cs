@@ -49,18 +49,27 @@ public class PathFinding
         else {
             grid.setValoresHeuristicos(objetivo);
             //Mientras no llegamos al objetivo
+            int count = 0;
+            bool success = true;
             while (posicion!=objetivo) {
                 //Calcular el espacio local desde donde nos encontramos
                 searchLocalSpace();
-                /*Debug.Log(localSpace.Count);
-                foreach (var nodo in localSpace) {
-                    Debug.Log(nodo.Celda.x +" "+nodo.Celda.y);
-                }*/
                 //Actualizar los vostes heuristicos del espacio local
-                updateValues();
+                success = updateValues();
+                if (!success) {
+                    break;
+                }
                 //Seleccionar el mejor camino hasta salir del espacio local
                 actionSelection();
+                count+=1;
+                if (count>=400) {
+                    break;
+                }
             }
+            if (count>=400 || !success) {
+            agente.agentState = State.Formation;
+            GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agente);
+        }
             //Preparar al npc para seguir el camino calculado
             executeAction();
         }  
@@ -102,7 +111,7 @@ public class PathFinding
     }
 
     //Actualizar los vostes heuristicos del espacio local
-    public void updateValues()
+    public bool updateValues()
     {
         //Asignar infinito como coste heuristico de cada nodo del espacio local
         foreach (var nodo in localSpace) {
@@ -131,9 +140,14 @@ public class PathFinding
             }
             //Ya calculados todos los costes, determinamos el del nodo con el coste más pequeño (Solo se determina 1 por iteración)
             minN.CosteHeuristica = minCoste;
+            if (minCoste == infinito) {
+                return false;
+            }
+
             //Debug.Log("("+minN.Celda.x+","+minN.Celda.y+")= "+minCoste);
 
         }
+        return true;
     }
 
     //Devuelve el nodo con el coste heurístico mas bajo

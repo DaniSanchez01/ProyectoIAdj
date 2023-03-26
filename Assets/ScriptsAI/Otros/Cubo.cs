@@ -13,7 +13,7 @@ public class Cubo : MonoBehaviour
         show = mark.GetComponent<Renderer>().enabled;
 
         mark.GetComponent<Renderer>().enabled = !show;
-        mark.GetComponent<Rotation1>().enabled = !show;
+        mark.GetComponent<Rotation>().enabled = !show;
     }
     
 }

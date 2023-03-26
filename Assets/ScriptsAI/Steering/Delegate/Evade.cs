@@ -35,14 +35,7 @@ public class Evade : Flee
 
         //Coge nuestra velocidad.
         float speed = agent.Velocity.magnitude;
-        float prediction = 0;
-        if (speed<= (distance/maxPrediction)) {
-            prediction = maxPrediction;
-        }
-        else {
-            prediction = distance / speed;
-        }
-        
+        float prediction = maxPrediction;
         newPosition = fleeTarget.Position + fleeTarget.Velocity * prediction;
         virt.Position = newPosition;
         virt.giz = this.giz;

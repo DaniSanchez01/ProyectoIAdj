@@ -23,7 +23,7 @@ public class WallAvoidance : SeekCraig
 
     public override void DestroyVirtual(Agent first) {
         if (virt!=first) {
-            DestroyImmediate(virt.gameObject);
+            Destroy(virt.gameObject);
         }
     }
 
