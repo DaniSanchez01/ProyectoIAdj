@@ -72,7 +72,7 @@ public class SoldierAgentNPC : AgentNPC
     
     /*
      * Corutina que es usada para que un personaje ataque, primero si el personaje tiene el enemigo a rango y por tanto le ataca se esperar 2 segundos quedandose inmovil. Observar que este metodo aunque
-     * se tiene que iniciar manualmente parara solo cuando se salga del estado "atacarSoldier" así que no es necesario pararlo manualmente.
+     * se tiene que iniciar manualmente parara solo cuando se salga del estado "atacarSoldier" asï¿½ que no es necesario pararlo manualmente.
      * Pre: se debe haber establecido el estado del NPC a "ataqueSoldier" y enemigoActual != null
      * Post: atacada cada 2 segundos si el enemigo detectado esta en su rango.
      * 
@@ -90,7 +90,7 @@ public class SoldierAgentNPC : AgentNPC
             }
             Debug.Log("Atacar"); 
             //ataca
-            enemigoActual.recibirDaño(3);
+            enemigoActual.recibirDamage(3);
             //quedate quieto durante 2 segundos
             inmovil = true; //quedate quieto
             this.Acceleration = Vector3.zero;

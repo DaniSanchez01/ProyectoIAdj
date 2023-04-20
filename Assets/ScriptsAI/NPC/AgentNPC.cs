@@ -215,7 +215,7 @@ public class AgentNPC : Agent
      * Pre:ninguna
      * Post:devuelve la vida del NPC despues de recibir el daño
      */
-    public virtual int recibirDaño(int cantidad)
+    public virtual int recibirDamage(int cantidad)
     {
         vida = vida - cantidad;
         if (vida < 0) vida = 0;
