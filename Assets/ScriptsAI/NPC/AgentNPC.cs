@@ -6,11 +6,19 @@ using System;
 
 public enum State
 {
+    //Estados base es decir que se dan para todas las clases de NPC que tengamos
     Normal,
     Formation,
     leaderFollowing,
     runningToPoint,
     LRTA,
+
+    //Estados del soldado
+    VigilarSoldier,
+    AtacarSoldier,
+    HuirSoldier,
+    CurarseSoldier,
+
 }
 
 public enum Team
@@ -36,7 +44,7 @@ public class AgentNPC : Agent
     private Agent circleVirt;
     private int inicio;
     private bool waiting = false;
-
+    [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
 
 
     public Agent CircleVirt {
@@ -46,6 +54,13 @@ public class AgentNPC : Agent
 
     public typeArbitro FirstArbitro {
         get { return firstArbitro; }
+    }
+
+    //La vida de un NPC puede ser vista por el resto de clases pero solo modificada por las clases que derivan de el NPC es decir que solo el mismo NPC puede modificarse su vida.
+    public int Vida
+    {
+        get { return vida; }
+        protected set { vida = value; }
     }
 
 
@@ -193,6 +208,28 @@ public class AgentNPC : Agent
 
         // El resultado final se guarda para ser aplicado en el siguiente frame.
         this.steer = kinematicFinal;
+    }
+
+    /*
+     * Metodo que dada una cantidad de daño la resta a la vida del personaje.
+     * Pre:ninguna
+     * Post:devuelve la vida del NPC despues de recibir el daño
+     */
+    public virtual int recibirDaño(int cantidad)
+    {
+        vida = vida - cantidad;
+        if (vida < 0) vida = 0;
+        return vida;
+    }
+
+    /*
+     * Comprueba si el NPC no tiene vida
+     * Pre: ninguna
+     * Post: devuelve un verdadero si su vida == 0 y falso en caso contrario
+     */
+    public bool estaMuerto()
+    {
+        return vida == 0;
     }
     
 }

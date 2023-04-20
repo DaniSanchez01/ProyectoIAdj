@@ -8,7 +8,7 @@ public class Face : Align
     protected Agent virt; //agente virtual ficticio para llevar acabo el align
     private float newOrientation; //nueva orientacion del NPC virtual
     public PathFollowingNoOffset path = null;
-
+    private bool listoParaSteering = false; //variable que se usa para saber si el steering Face esta listo para dar un valor o no
     public bool giz = false;
 
     Vector3 agentPos;
@@ -20,6 +20,7 @@ public class Face : Align
         base.nameSteering = "Face";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz); //toma radio por defecto -1
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
+        listoParaSteering = true; //hemos hecho la inicialización del Face y ahora esta listo para dar un steering.
     }
 
     public override void DestroyVirtual(Agent first) {
@@ -41,32 +42,36 @@ public class Face : Align
 
     public override Steering GetSteering(AgentNPC agent)
     {
-        Steering steer = new Steering();
-        //calculo el vector direccion hacia el objetivo
-        Vector3 direccion = FaceTarget.Position - agent.Position;
-        direction = direccion;
-        agentPos = agent.Position;
-
-        //pendiente no estoy seguro de si seria esto
-        if (direccion.magnitude == 0)
+        if (listoParaSteering && target!=null) //solo ejecutamos el steering si sabemos que ha ejecutado awake() 
         {
-            steer.linear = Vector3.zero;
-            steer.angular = 0f;
-            return steer;
+            Steering steer = new Steering();
+            //calculo el vector direccion hacia el objetivo
+            Vector3 direccion = FaceTarget.Position - agent.Position;
+            direction = direccion;
+            agentPos = agent.Position;
+
+            //pendiente no estoy seguro de si seria esto
+            if (direccion.magnitude == 0)
+            {
+                steer.linear = Vector3.zero;
+                steer.angular = 0f;
+                return steer;
+            }
+
+            //positionToAngle deberia ser mejor un metodo estatico
+            newOrientation = agent.PositionToAngle(direccion); //se obtiene el angulo respecto
+                                                               //al ejeZ del vector va del agente al target
+            if (direccion.x < 0) newOrientation = -newOrientation;
+            
+            virt.Position = agent.Position; //se pueden usar los metodos set directamente para actualizar
+            virt.Orientation = newOrientation; //nueva orientacion
+            virt.giz = this.giz;
+
+
+            target = virt;
+            return base.GetSteering(agent);
         }
-
-        //positionToAngle deberia ser mejor un metodo estatico
-        newOrientation = agent.PositionToAngle(direccion); //se obtiene el angulo respecto
-        //al ejeZ del vector va del agente al target
-        if (direccion.x < 0) newOrientation = -newOrientation;
-
-        virt.Position = agent.Position; //se pueden usar los metodos set directamente para actualizar
-        virt.Orientation = newOrientation; //nueva orientacion
-        virt.giz = this.giz;
-        
-
-        target = virt;
-        return base.GetSteering(agent);
+        else return new Steering(); //devuelve un steering que no va a hacer cambios en el movimiento en el frame actual pues el face aun no esta listo pero lo estara en el siguiente frame
 
     }
 

@@ -132,7 +132,7 @@ public class Agent : Bodi
     // https://docs.unity3d.com/ScriptReference/Gizmos.DrawWireSphere.html
     // https://docs.unity3d.com/ScriptReference/Gizmos-color.html
 
-    void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         if (giz == true) {        
             Gizmos.color = Color.yellow;

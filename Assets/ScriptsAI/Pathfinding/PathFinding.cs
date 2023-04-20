@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Estados en los que se encuentra el pathfinding (no se si hará falta)
-public enum PathFindingState {
-    NonUsed,
-    Start,
-    Walking,
-}
+
 
 public class PathFinding
 {

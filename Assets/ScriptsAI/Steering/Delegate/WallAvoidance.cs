@@ -13,12 +13,13 @@ public class WallAvoidance : SeekCraig
     Vector3 bigoteCentral;
     Vector3 bigoteIzq;
     Vector3 bigoteDer;
-
+    private bool listoParaSteering = false; //variable que se usa para saber si el steering WallAvoidance esta listo para dar un valor o no
     // Start is called before the first frame update
     void Awake()
     {
         nameSteering = "WallAvoidance";
         virt = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0.2f,arrRadius: 0.2f,paint: false);
+        listoParaSteering = true;
     }
 
     public override void DestroyVirtual(Agent first) {
@@ -36,37 +37,46 @@ public class WallAvoidance : SeekCraig
 
     public override Steering GetSteering(AgentNPC agent)
     {
-        Steering steer = new Steering();
-        agentPos = agent.Position;
-        //El bigote central tendrá la direccion de la velocidad. Se le pone el tamano especificado por lookahead
-        bigoteCentral = agent.Velocity;
-        bigoteCentral = bigoteCentral.normalized;
-        bigoteCentral *= agent.lookahead;
-        //Si el npc está parado, no hacer nada
-        if (bigoteCentral == Vector3.zero) {
-            bigoteIzq = Vector3.zero;
-            bigoteDer = Vector3.zero;
-            return steer;
-        }
-        //Si está en movimiento
-        else {
-            if (nBigotes ==1) {
+        if (listoParaSteering)
+        {
+            Steering steer = new Steering();
+            agentPos = agent.Position;
+            //El bigote central tendrá la direccion de la velocidad. Se le pone el tamano especificado por lookahead
+            bigoteCentral = agent.Velocity;
+            bigoteCentral = bigoteCentral.normalized;
+            bigoteCentral *= agent.lookahead;
+            //Si el npc está parado, no hacer nada
+            if (bigoteCentral == Vector3.zero)
+            {
                 bigoteIzq = Vector3.zero;
                 bigoteDer = Vector3.zero;
-                steer = CollisionUnBigote(agent);
-                
+                return steer;
             }
-            else if (nBigotes ==2) {
-                DosBigotes(agent);
-                steer = CollisionDosBigotes(agent);
+            //Si está en movimiento
+            else
+            {
+                if (nBigotes == 1)
+                {
+                    bigoteIzq = Vector3.zero;
+                    bigoteDer = Vector3.zero;
+                    steer = CollisionUnBigote(agent);
 
+                }
+                else if (nBigotes == 2)
+                {
+                    DosBigotes(agent);
+                    steer = CollisionDosBigotes(agent);
+
+                }
+                else
+                {
+                    TresBigotes(agent);
+                    steer = CollisionTresBigotes(agent);
+                }
+                return steer;
             }
-            else {
-                TresBigotes(agent);
-                steer = CollisionTresBigotes(agent);
-            }
-            return steer;
         }
+        else return new Steering();
     }
 
     private Steering CollisionUnBigote(AgentNPC agent) {
