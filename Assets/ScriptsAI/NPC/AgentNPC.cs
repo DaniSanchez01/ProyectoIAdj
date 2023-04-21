@@ -234,5 +234,15 @@ public class AgentNPC : Agent
     {
         return vida == 0;
     }
-    
+
+    /*
+     * Metodo que comprueba si el enemigo pasado como parametro esta en el rango del NPC.
+     * Pre: el "enemigo" pasado como paramtro debe tener un equipo distinto al NPC
+     * Post: devuelve verdadero o falso segun si el NPC ve al enemigo o no.
+     */
+    public bool sigoViendoEnemigo(AgentNPC enemigo)
+    {
+        return Vector3.Distance(enemigo.Position, this.Position) <= this.arrivalRadius;
+    }
+
 }

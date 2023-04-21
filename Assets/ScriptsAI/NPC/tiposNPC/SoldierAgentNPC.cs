@@ -47,17 +47,12 @@ public class SoldierAgentNPC : AgentNPC
         }
         return null;
     }
+
     
 
-    /*
-     * Comprueba si un enemigo detectado anteriormente sigue en tu rango de vision.
-     * Pre: debes estar en estado = "VigilarAtaque" y enemigoActual!=null
-     */
-    private bool sigoViendoEnemigoAct()
-    {
-        
-        return Vector3.Distance(enemigoActual.Position, this.Position) <= this.arrivalRadius;
-    }
+    
+
+    
 
     /*
      * Comprueba si el enemigo al que se esta atacando esta en el rango para poder darle un golpe.
@@ -131,6 +126,16 @@ public class SoldierAgentNPC : AgentNPC
                 StartCoroutine(coataque);
                 break;
 
+            case State.HuirSoldier:
+                Debug.Log("Entrando en el estado de huir");
+                agentState = estadoAEntrar;
+                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, enemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
+                break;
+            case State.CurarseSoldier:
+                Debug.Log("Entrando en el estado de curarse");
+                agentState = estadoAEntrar;
+                GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, null, pathToFollow); //habria que cambiarlo con seguir a algun NPC del mapa
+                break;
             default:
                 Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
                 break;
@@ -155,7 +160,14 @@ public class SoldierAgentNPC : AgentNPC
                 inmovil = false;
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
-           
+            case State.HuirSoldier:
+                Debug.Log("Saliendo del estado de huir");
+                this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "huir"
+                break;
+            case State.CurarseSoldier:
+                Debug.Log("Saliendo del estado de curarse");
+                this.deleteAllSteerings();
+                break;
             default:
                 Debug.Log("No se conoce el estado asi que no se sale de ese estado");
                 break;
@@ -175,9 +187,10 @@ public class SoldierAgentNPC : AgentNPC
         {
             case State.VigilarSoldier:
                 
-                //accion asociada al estado vigilar
+                //accion asociada al estado vigilar aparte de los steerings correspondientes.
                 enemigoActual = veoEnemigo();
 
+                //1. La primera transición del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
                 if(enemigoActual) //1 transicion de vigilarSoldier
                 {
                     
@@ -187,14 +200,37 @@ public class SoldierAgentNPC : AgentNPC
                 break;
             case State.AtacarSoldier:
 
-                /*
-                Debug.Log("Posicion actual enemigo" + enemigoActual.Position);
-                Debug.Log("Posicion actual NPC soldier" + this.Position);
-                Debug.Log("Distancia entre puntos: " + Vector3.Distance(enemigoActual.Position, this.Position));
-                */
-                if ((enemigoActual.estaMuerto() || !sigoViendoEnemigoAct()))
+                //1. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
+                if(Vida<=20) //si nos falta vida huimos
+                {
+                    salir(estadoAct);
+                    entrar(State.HuirSoldier);
+                }
+
+                //2. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
+                else if ((enemigoActual.estaMuerto() || !sigoViendoEnemigo(enemigoActual)))
                 {
                     
+                    salir(estadoAct);
+                    entrar(State.VigilarSoldier);
+                }
+
+                //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
+                break;
+
+            case State.HuirSoldier:
+
+                //1. La primera transicion en el estado huir es comprobar si el enemigo actual esta muerto o ya no me ve
+                if(enemigoActual.estaMuerto() || !enemigoActual.sigoViendoEnemigo(this))
+                {
+                    salir(estadoAct);
+                    entrar(State.CurarseSoldier);
+                }
+                break;
+            case State.CurarseSoldier:
+                //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
+                if(Vida == 200)
+                {
                     salir(estadoAct);
                     entrar(State.VigilarSoldier);
                 }
