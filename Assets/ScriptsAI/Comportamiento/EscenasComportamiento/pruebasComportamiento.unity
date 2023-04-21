@@ -1541,7 +1541,7 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 0}
-  vida: 300
+  vida: 20
 --- !u!1 &1539415627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7774960780965274391, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}

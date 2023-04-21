@@ -42,7 +42,8 @@ public class SoldierAgentNPC : AgentNPC
         {
             AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
 
-            if (componenteNPC != null &&  !componenteNPC.team.Equals(this.team)) return componenteNPC;
+            if (componenteNPC != null &&  !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius)) 
+                return componenteNPC;
         }
         return null;
     }
@@ -82,23 +83,27 @@ public class SoldierAgentNPC : AgentNPC
         Debug.Log("Corutina atacar() comienzo");
         while (agentState == State.AtacarSoldier)
         {
-            //SOLO cuando tengas al enemigo a rango
-            //espera a tenerlo a rango
-            while(!estaARangoEnemigo())
+            //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
+            if (!enemigoActual.estaMuerto() && estaARangoEnemigo())
             {
-                yield return null;
+                //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
+                Debug.Log("Atacar");
+                enemigoActual.recibirDamage(3);
+                //quedate quieto durante 2 segundos
+                inmovil = true; //quedate quieto
+                this.Acceleration = Vector3.zero;
+                this.AngularAcc = 0;
+                this.Velocity = Vector3.zero;
+                this.Rotation = 0;
+                yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
+
+                //1.2 Despues de haber esperado indicamos que ya no se puede mover
+                inmovil = false;
             }
-            Debug.Log("Atacar"); 
-            //ataca
-            enemigoActual.recibirDamage(3);
-            //quedate quieto durante 2 segundos
-            inmovil = true; //quedate quieto
-            this.Acceleration = Vector3.zero;
-            this.AngularAcc = 0;
-            this.Velocity = Vector3.zero;
-            this.Rotation = 0;
-            yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
-            inmovil = false; //te puedes volver a mover
+
+            //2. En otro caso es decir si el enemigo esta muerto
+            //o no esta en mi rango lo intento el siguiente frame
+            else yield return null;
         }
         Debug.Log("Fin de la corutina atacar()");
     }
@@ -147,7 +152,6 @@ public class SoldierAgentNPC : AgentNPC
             case State.AtacarSoldier:
                 Debug.Log("Saliendo del estado de atacar");
                 StopCoroutine(coataque); //se para la rutina de ataque
-                enemigoActual = null;
                 inmovil = false;
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
@@ -188,8 +192,6 @@ public class SoldierAgentNPC : AgentNPC
                 Debug.Log("Posicion actual NPC soldier" + this.Position);
                 Debug.Log("Distancia entre puntos: " + Vector3.Distance(enemigoActual.Position, this.Position));
                 */
-                Debug.Log("estaMuerto(): " + enemigoActual.estaMuerto());
-                Debug.Log("no sigo viendo a enemigo actual: " + !sigoViendoEnemigoAct());
                 if ((enemigoActual.estaMuerto() || !sigoViendoEnemigoAct()))
                 {
                     
