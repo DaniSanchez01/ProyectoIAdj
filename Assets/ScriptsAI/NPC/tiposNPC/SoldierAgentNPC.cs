@@ -92,7 +92,7 @@ public class SoldierAgentNPC : AgentNPC
                 this.Rotation = 0;
                 yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
 
-                //1.2 Despues de haber esperado indicamos que ya no se puede mover
+                //1.2 Despues de haber esperado indicamos que ya se puede mover
                 inmovil = false;
             }
 

@@ -701,6 +701,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aLigera2
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -843,6 +847,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Name
       value: rLigera1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1182,7 +1190,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 6
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
   inmovil: 0
@@ -2211,7 +2219,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
   inmovil: 0
@@ -2521,7 +2529,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
 --- !u!4 &302693095 stripped
@@ -2647,7 +2655,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 4
-  team: 0
+  team: 1
   firstTarget: {fileID: 317103528}
   vida: 0
 --- !u!4 &317103532 stripped
@@ -4029,7 +4037,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 3
-  team: 1
+  team: 0
   firstTarget: {fileID: 528234812}
   vida: 0
   inmovil: 0
@@ -4374,6 +4382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aLigera5
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -4619,6 +4631,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rLigeraLider
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -4687,6 +4703,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Name
       value: rLigera4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5369,7 +5389,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
 --- !u!4 &700741181 stripped
@@ -5408,6 +5428,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Name
       value: rArquero1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5500,7 +5524,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
 --- !u!4 &718678506 stripped
@@ -5885,6 +5909,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Name
       value: rPesada1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -6483,6 +6511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aArquero2
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -6783,7 +6815,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 2
-  team: 0
+  team: 1
   firstTarget: {fileID: 984023161}
   vida: 0
   inmovil: 0
@@ -7098,7 +7130,7 @@ MonoBehaviour:
   filas: 30
   columnas: 30
   cellSize: 3
-  activarGizmos: 1
+  activarGizmos: 0
 --- !u!1001 &1071880462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7214,7 +7246,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
   inmovil: 0
@@ -7341,7 +7373,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 3
-  team: 1
+  team: 0
   firstTarget: {fileID: 1101587005}
   vida: 0
 --- !u!4 &1101587009 stripped
@@ -7546,6 +7578,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Name
       value: rPesada2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7986,6 +8022,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aLigeraLider
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8297,6 +8337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aArquero1
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8462,6 +8506,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Name
       value: aPesada2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -9505,6 +9553,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aPesada1
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -9642,6 +9694,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Name
       value: rLigera5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -9923,6 +9979,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Name
       value: 'rLigera2 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -10664,7 +10724,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 5
-  team: 1
+  team: 0
   firstTarget: {fileID: 1664759829}
   vida: 0
 --- !u!4 &1664759833 stripped
@@ -10721,7 +10781,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 4
-  team: 0
+  team: 1
   firstTarget: {fileID: 1664874837}
   vida: 0
 --- !u!4 &1664874841 stripped
@@ -10946,7 +11006,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
   inmovil: 0
@@ -11051,7 +11111,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 2
-  team: 0
+  team: 1
   firstTarget: {fileID: 1680084009}
   vida: 0
 --- !u!4 &1680084013 stripped
@@ -11085,6 +11145,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Name
       value: aLigera1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -11273,7 +11337,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 5
-  team: 1
+  team: 0
   firstTarget: {fileID: 1698680624}
   vida: 0
 --- !u!4 &1698680628 stripped
@@ -11701,6 +11765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rArquero2
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -11930,7 +11998,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 7
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
   inmovil: 0
@@ -12411,7 +12479,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
   inmovil: 0
@@ -12950,6 +13018,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: aLigera4
       objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
+      objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -13018,6 +13090,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Name
       value: rArquero3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCrojo
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -13741,7 +13817,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 1
+  team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
 --- !u!4 &1909517007 stripped
@@ -14138,6 +14214,10 @@ PrefabInstance:
     - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Name
       value: aArquero3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245506464172409351, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
+      propertyPath: m_TagString
+      value: NPCazul
       objectReference: {fileID: 0}
     - target: {fileID: 3357391516526823216, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -15009,7 +15089,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
   inmovil: 0
@@ -15192,7 +15272,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
   inmovil: 0
