@@ -303,6 +303,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 205479004}
+  vida: 0
+  inmovil: 0
 --- !u!1 &459772497 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 159624, guid: 850205124263c924ea0aa82f0fdf2673, type: 3}
@@ -886,15 +888,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 429828, guid: 850205124263c924ea0aa82f0fdf2673, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.4
+      value: 25.5
       objectReference: {fileID: 0}
     - target: {fileID: 429828, guid: 850205124263c924ea0aa82f0fdf2673, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.14
+      value: 0.94
       objectReference: {fileID: 0}
     - target: {fileID: 429828, guid: 850205124263c924ea0aa82f0fdf2673, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.58
+      value: 43.4
       objectReference: {fileID: 0}
     - target: {fileID: 429828, guid: 850205124263c924ea0aa82f0fdf2673, type: 3}
       propertyPath: m_LocalRotation.w

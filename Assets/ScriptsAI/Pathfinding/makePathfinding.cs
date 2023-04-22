@@ -22,6 +22,6 @@ public class makePathfinding: MonoBehaviour
         Vector2Int celdaObjetivo = grid.getCeldaDePuntoPlano(Objetivo.transform.position);
         Nodo obj = grid.GetNodo(celdaObjetivo.x,celdaObjetivo.y);
         PathFinding algorithm= new PathFinding(grid,posicion,obj, npc, prof, giz);
-        algorithm.LRTA();
+        algorithm.A();
     }
 }

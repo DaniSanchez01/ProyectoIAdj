@@ -409,6 +409,8 @@ MonoBehaviour:
   pathToFollow: 6
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
+  inmovil: 0
 --- !u!114 &107190053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1273,6 +1275,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
+  inmovil: 0
 --- !u!114 &250084699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1423,6 +1427,7 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
 --- !u!114 &302693092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1474,6 +1479,7 @@ MonoBehaviour:
   pathToFollow: 4
   team: 0
   firstTarget: {fileID: 317103528}
+  vida: 0
 --- !u!114 &317103529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,6 +2192,8 @@ MonoBehaviour:
   pathToFollow: 3
   team: 1
   firstTarget: {fileID: 528234812}
+  vida: 0
+  inmovil: 0
 --- !u!114 &528234813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2933,6 +2941,7 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
 --- !u!114 &700741178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3053,6 +3062,7 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
 --- !u!114 &718678503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3602,6 +3612,8 @@ MonoBehaviour:
   pathToFollow: 2
   team: 0
   firstTarget: {fileID: 984023161}
+  vida: 0
+  inmovil: 0
 --- !u!114 &984023162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3661,7 +3673,7 @@ MonoBehaviour:
   cellSize: 2
   grid: {fileID: 0}
   tipoFormacion: 0
-  criterio: 0
+  criterio: 1
   heuristica: 2
   profundidad: 5
   filasPathFinding: 13
@@ -3707,6 +3719,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
+  inmovil: 0
 --- !u!114 &1078611091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3855,6 +3869,7 @@ MonoBehaviour:
   pathToFollow: 3
   team: 1
   firstTarget: {fileID: 1101587005}
+  vida: 0
 --- !u!114 &1101587006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5286,6 +5301,7 @@ MonoBehaviour:
   pathToFollow: 5
   team: 1
   firstTarget: {fileID: 1664759829}
+  vida: 0
 --- !u!114 &1664759830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5337,6 +5353,7 @@ MonoBehaviour:
   pathToFollow: 4
   team: 0
   firstTarget: {fileID: 1664874837}
+  vida: 0
 --- !u!114 &1664874838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5388,6 +5405,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
+  inmovil: 0
 --- !u!114 &1672369692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5439,6 +5458,7 @@ MonoBehaviour:
   pathToFollow: 2
   team: 0
   firstTarget: {fileID: 1680084009}
+  vida: 0
 --- !u!114 &1680084010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5559,6 +5579,7 @@ MonoBehaviour:
   pathToFollow: 5
   team: 1
   firstTarget: {fileID: 1698680624}
+  vida: 0
 --- !u!114 &1698680625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5770,6 +5791,8 @@ MonoBehaviour:
   pathToFollow: 7
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
+  inmovil: 0
 --- !u!114 &1751643313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6025,6 +6048,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
+  inmovil: 0
 --- !u!114 &1801564829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6696,6 +6721,7 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 1751643312}
+  vida: 0
 --- !u!114 &1909517004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7219,6 +7245,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
+  inmovil: 0
 --- !u!114 &2063818892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7270,6 +7298,8 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 107190052}
+  vida: 0
+  inmovil: 0
 --- !u!114 &2081969770
 MonoBehaviour:
   m_ObjectHideFlags: 0

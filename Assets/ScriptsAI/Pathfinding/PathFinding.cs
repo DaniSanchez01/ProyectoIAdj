@@ -35,9 +35,24 @@ public class PathFinding
         this.giz = giz;
     }
 
+    public bool sameNode(Nodo a, Nodo b) {
+        return (a.Celda.x == b.Celda.x) && (a.Celda.y == b.Celda.y);
+    }
+    public bool sameNode(Nodo a, int x, int y) {
+        return (a.Celda.x == x) && (a.Celda.y == y);
+    }
+
+    public bool contiene(List<Nodo> lista, Nodo a) {
+        foreach (var n in lista) {
+            if (sameNode(a,n)) {
+                return true;
+            }
+        }
+        return false;
+    }
     //Algoritmo completo
     public void LRTA() {
-        if ((posicion.Celda.x == objetivo.Celda.x) && (posicion.Celda.y == objetivo.Celda.y)) {
+        if (sameNode(posicion,objetivo)) {
             agente.agentState = State.Formation;
             GameObject.FindObjectOfType<FormationManager>().notifyEndLRTA(agente);
         }
@@ -68,6 +83,95 @@ public class PathFinding
             //Preparar al npc para seguir el camino calculado
             executeAction();
         }  
+    }
+
+    public void A() {
+        Nodo[,] nodes = grid.CeldasGrid;
+
+        //La lista abierta tendrá prioridad(siempre devolverá el elemento cuyo coste sea menor)
+        ColaPrioridad openList = new ColaPrioridad();
+        List<Nodo> closedList = new List<Nodo>();
+        openList.Enqueue(posicion);
+        //Establece g = Infinito para todo nodo
+        for (int i=0;i<grid.Filas;i++) {
+            for (int j=0;j<grid.Columnas;j++) {
+                nodes[i,j].g = Mathf.Infinity; 
+            }
+        }
+
+        //El coste de llegar del nodo inicial a si mismo es 0
+        posicion.g = 0;
+        posicion.Parent = posicion;
+        //Mientras queden nodos por estudiar
+        while (openList.Count > 0) {
+            //Coger el nodo con mejor coste total
+            Nodo nodoActual = openList.Dequeue();
+            //Debug.LogFormat("{0},{1}: Padre = {2},{3}",nodoActual.Celda.x,nodoActual.Celda.y,nodoActual.Parent.Celda.x,nodoActual.Parent.Celda.y);
+            closedList.Add(nodoActual);
+
+            //Si este nodo es el objetivo
+            if (sameNode(nodoActual,objetivo)) {
+                //Reconstruir el camino de vuelta al nodo inicial
+                nodePath = creaCamino(posicion,objetivo);
+                break;
+            }
+            //Devuelve los vecinos cuyas celdas son válidas
+            List<Nodo> vecinos = grid.getVecinosValidosProf(nodoActual,1);
+            //Para cada vecino disponible
+            foreach (Nodo vecino in vecinos) {
+                // Si el vecino ya ha sido explorado, ignorarlo
+                if (contiene(closedList,vecino)) {
+                    continue;
+                }
+                //Calculo el posible nuevo conste de g
+                float possibleG = nodoActual.g + coste(nodoActual,vecino);
+                
+                //Si el nuevo coste para llegar a este nodo es menor del que había
+                if (possibleG < vecino.g) {
+                    //Actualiza los valores del nodo
+                    vecino.g = possibleG;
+                    vecino.Parent = nodoActual;
+                    //Si todavia no se havia encontrado este nodo
+                    if (!openList.contiene(vecino)) {
+                        //Calcula la heurística para llegar al objetivo
+                        vecino.h = grid.HeuristicaGrid.coste(vecino.Celda,objetivo.Celda);
+                        //Anadelo a la lista de nodos por explorar
+                        openList.Enqueue(vecino);
+                    }
+                    else {
+                        //Actualiza el orden de la lista de nodos por explorar
+                        openList.Update(vecino);
+                    }
+                }
+            }
+        }
+        if (nodePath.Count!=0) {
+            executeAction();
+        }
+    }
+
+    //Coste entre un nodo y otro
+    public float coste(Nodo a, Nodo b) {
+        return (a.Weight + b.Weight) / 2;
+    }
+
+    //Una vez encontrado el nodo final, reconstruye el camino
+    public List<Nodo> creaCamino(Nodo inicio, Nodo fin) {
+        List<Nodo> camino = new List<Nodo>();
+        //Añade el destino al camino
+        camino.Add(fin);
+        Nodo anterior= fin.Parent;
+        //Para cada nodo que hemos añadido al camino, añadimos también a su padre, hasta que encontramos el nodo inicial
+        while (!sameNode(inicio,anterior)) {
+            camino.Add(anterior);
+            anterior = anterior.Parent;
+        }
+        //Le damos la vuelta al camino
+        camino.Reverse();
+        /*foreach (var n in camino) {
+            Debug.LogFormat("{0},{1}",n.Celda.x,n.Celda.y);
+        }*/
+        return camino;
     }
 
     //Calcular el espacio local desde donde nos encontramos

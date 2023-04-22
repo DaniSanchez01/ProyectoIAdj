@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum Terrain {
+    Camino,
+    Bosque,
+    Desierto,
+    Llanura
+}
 public class Nodo
 {
     
@@ -9,6 +16,16 @@ public class Nodo
     private float tempH;
     private int fila; //fila de la celda que representa
     private int col; //columna de la celda que representa
+    private Terrain terreno;
+
+    private float _g;
+
+    private float _h;
+
+    private float _f {get {return _g + _h;}}
+
+    private Nodo parent;
+
     private bool transitable;
     private float weight;
 
@@ -50,6 +67,29 @@ public class Nodo
         get { return tempH; }
     }
 
+    public float g
+    {
+        set { _g = value;  }
+        get { return _g; }
+    }
+
+    public float h
+    {
+        set { _h = value;  }
+        get { return _h; }
+    }
+
+    public float f
+    {
+        get { return _f; }
+    }
+
+    public Nodo Parent 
+    {    
+            set {parent = value;}
+            get {return parent;}
+        
+    }
     
     public override bool Equals(object obj)
     {

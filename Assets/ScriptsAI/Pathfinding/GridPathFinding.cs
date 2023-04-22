@@ -12,7 +12,7 @@ using UnityEngine;
 public class GridPathFinding : MonoBehaviour
 {
     [SerializeField] private int filas; //numero de celdas que hay a lo largo del ancho notese que NO es lo mismo que filas porque esto representa las celdas de longitud "cellSize" a lo largo del ancho
-    [SerializeField] private int Columnas; //numero de celdas que hay para cada columna
+    [SerializeField] private int columnas; //numero de celdas que hay para cada columna
     [SerializeField] private float cellSize; //longitud del cuadrado del grid
     private Nodo[,] celdasGrid; //sera un array bidimensional donde se accede a la celda i,j-esima
     private Heuristica heuristicagrid;
@@ -26,13 +26,27 @@ public class GridPathFinding : MonoBehaviour
         get { return celdasGrid; }
     }
 
+    public Heuristica HeuristicaGrid {
+        get {return heuristicagrid;}
+    }
+    
+    public int Filas 
+    {
+        get {return filas;}
+    }
+
+    public int Columnas 
+    {
+        get {return columnas;}
+    }
+
     //metodos
 
     public void inicializarGrid(int ancho, int largo, float cellSize, typeHeuristica heuristicaDeseada, bool giz)
     {
         //1. Se introducen loas propiedades del grid
         filas = ancho;
-        Columnas = largo;
+        columnas = largo;
         this.cellSize = cellSize;
         heuristicagrid = FactoriaHeuristica.crearHeuristica(heuristicaDeseada);
         celdasGrid = new Nodo[filas, Columnas]; //se crea el grid acorde a las celdas y columnas
