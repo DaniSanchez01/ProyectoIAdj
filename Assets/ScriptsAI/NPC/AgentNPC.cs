@@ -27,7 +27,7 @@ public enum Team
     Blue,
     
 }
-public class AgentNPC : Agent
+public abstract class AgentNPC : Agent
 { 
     // Este será el steering final que se aplique al personaje.
     [SerializeField] protected Steering steer;
@@ -45,6 +45,7 @@ public class AgentNPC : Agent
     private int inicio;
     private bool waiting = false;
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
+    public bool console = false;
 
 
     public Agent CircleVirt {
@@ -88,6 +89,9 @@ public class AgentNPC : Agent
             }
 
     }
+
+    public abstract float getTerrainCost(Nodo a);
+
 
     public void startTimer() {
         inicio = Environment.TickCount;

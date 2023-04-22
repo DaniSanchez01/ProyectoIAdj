@@ -28,9 +28,9 @@ public class TerrainMap : MonoBehaviour
     }
 
     public TypeTerrain getTerrenoCasilla(int x, int y) {
-        return mapa[x,y];
+        return mapa[y,x];
     }
-    
+
     private void initialize() {
         TypeTerrain t;
         for (int i=0;i<30;i++) {

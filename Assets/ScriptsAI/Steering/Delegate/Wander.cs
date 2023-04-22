@@ -22,6 +22,7 @@ public class Wander : Face
         this.nameSteering = "Wander";
         FaceTarget = Agent.CreateStaticVirtual(Vector3.zero,intRadius: 0,arrRadius: 1,paint: false);
         virt = Agent.CreateStaticVirtual(Vector3.zero); 
+        listoParaSteering = true;
 
     }
 
@@ -56,7 +57,7 @@ public class Wander : Face
 
         // maxAcceleration en la orientación del agente
         steering.linear = agent.MaxAcceleration * agent.OrientationToVector(agent.Orientation);
-
+        //Debug.LogFormat("velocidad:{0} , rotacion:{1} ",steering.linear,steering.angular);
         return steering;
     }
 

@@ -19,6 +19,24 @@ public class ArchierAgentNPC : AgentNPC
         base.Start();
     }
 
+    public override float getTerrainCost(Nodo a) {
+            
+            TypeTerrain t = GameObject.FindObjectOfType<TerrainMap>().getTerrenoCasilla(a.Celda.x,a.Celda.y);
+            switch (t) {
+                case (TypeTerrain.camino):
+                    return 1;
+                case (TypeTerrain.llanura):
+                    return 2;
+                case (TypeTerrain.bosque):
+                    return 1;
+                case (TypeTerrain.desierto):
+                    return 5;
+                default:
+                    return 9999;             
+            }
+
+    }
+
     // Update is called once per frame
     public override void Update()
     {

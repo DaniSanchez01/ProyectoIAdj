@@ -26,6 +26,24 @@ public class TankAgentNPC : AgentNPC
         
     }
 
+    public override float getTerrainCost(Nodo a) {
+            
+            TypeTerrain t = GameObject.FindObjectOfType<TerrainMap>().getTerrenoCasilla(a.Celda.x,a.Celda.y);
+            switch (t) {
+                case (TypeTerrain.camino):
+                    return 1;
+                case (TypeTerrain.llanura):
+                    return 3;
+                case (TypeTerrain.bosque):
+                    return 5;
+                case (TypeTerrain.desierto):
+                    return 3;
+                default:
+                    return 9999;             
+            }
+
+    }
+
     // Update is called once per frame
     public  override void Update()
     {

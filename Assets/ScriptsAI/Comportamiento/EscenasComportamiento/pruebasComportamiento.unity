@@ -951,6 +951,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 0}
   vida: 0
+  console: 0
 --- !u!1 &839516433 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5790531410018463954, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1462,11 +1463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8354502566854652871, guid: 3dbf5c4972895c9479cdcc9ae8bb7c9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.4
+      value: 5.42
       objectReference: {fileID: 0}
     - target: {fileID: 8354502566854652871, guid: 3dbf5c4972895c9479cdcc9ae8bb7c9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8354502566854652871, guid: 3dbf5c4972895c9479cdcc9ae8bb7c9a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1542,6 +1543,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 0}
   vida: 20
+  console: 0
 --- !u!1 &1539415627 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7774960780965274391, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
@@ -1708,6 +1710,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 0}
   vida: 20
+  console: 0
   inmovil: 0
 --- !u!1 &1771595872 stripped
 GameObject:

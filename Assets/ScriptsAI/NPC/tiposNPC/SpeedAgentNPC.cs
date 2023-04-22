@@ -19,6 +19,9 @@ public class SpeedAgentNPC : AgentNPC
         base.Start();
     }
 
+    public override float getTerrainCost(Nodo a) {
+        return 1;
+    }
     // Update is called once per frame
 
     public override void Update()

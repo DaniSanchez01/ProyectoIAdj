@@ -29,6 +29,24 @@ public class SoldierAgentNPC : AgentNPC
        
     }
 
+    public override float getTerrainCost(Nodo a) {
+            
+            TypeTerrain t = GameObject.FindObjectOfType<TerrainMap>().getTerrenoCasilla(a.Celda.x,a.Celda.y);
+            switch (t) {
+                case (TypeTerrain.camino):
+                    return 1;
+                case (TypeTerrain.llanura):
+                    return 2;
+                case (TypeTerrain.bosque):
+                    return 3;
+                case (TypeTerrain.desierto):
+                    return 5;
+                default:
+                    return 9999;             
+            }
+
+    }
+
     /*
      * Funcion que nos permite localizar un enemigo en un radio determinado dado por el radio interior.
      * Pre: ninguna
@@ -75,14 +93,14 @@ public class SoldierAgentNPC : AgentNPC
      */
     public IEnumerator atacar()
     {
-        Debug.Log("Corutina atacar() comienzo");
+        if (console) Debug.Log("Corutina atacar() comienzo");
         while (agentState == State.AtacarSoldier)
         {
             //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
             if (!enemigoActual.estaMuerto() && estaARangoEnemigo())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
-                Debug.Log("Atacar");
+                if (console) Debug.Log("Atacar");
                 enemigoActual.recibirDamage(3);
                 //quedate quieto durante 2 segundos
                 inmovil = true; //quedate quieto
@@ -100,7 +118,7 @@ public class SoldierAgentNPC : AgentNPC
             //o no esta en mi rango lo intento el siguiente frame
             else yield return null;
         }
-        Debug.Log("Fin de la corutina atacar()");
+        if (console) Debug.Log("Fin de la corutina atacar()");
     }
     
 
@@ -115,11 +133,11 @@ public class SoldierAgentNPC : AgentNPC
         switch (estadoAEntrar)
         {
             case State.VigilarSoldier:
-                Debug.Log("Entrando en el estado de vigilar");
+                if (console) Debug.Log("Entrando en el estado de vigilar");
                 agentState = estadoAEntrar;
                 break;
             case State.AtacarSoldier:
-                Debug.Log("Entrando en el estado de atacar");
+                if (console) Debug.Log("Entrando en el estado de atacar");
                 
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, enemigoActual, pathToFollow); //indicamos al enemigo que sigue para atacarle
@@ -127,17 +145,17 @@ public class SoldierAgentNPC : AgentNPC
                 break;
 
             case State.HuirSoldier:
-                Debug.Log("Entrando en el estado de huir");
+                if (console) Debug.Log("Entrando en el estado de huir");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, enemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
                 break;
             case State.CurarseSoldier:
-                Debug.Log("Entrando en el estado de curarse");
+                if (console) Debug.Log("Entrando en el estado de curarse");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, null, pathToFollow); //habria que cambiarlo con seguir a algun NPC del mapa
                 break;
             default:
-                Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
+                if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
                 break;
         }
     }
@@ -151,25 +169,25 @@ public class SoldierAgentNPC : AgentNPC
         switch (estadoActual)
         {
             case State.VigilarSoldier:
-                Debug.Log("Saliendo del estado de vigilar");
+                if (console) Debug.Log("Saliendo del estado de vigilar");
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
             case State.AtacarSoldier:
-                Debug.Log("Saliendo del estado de atacar");
+                if (console) Debug.Log("Saliendo del estado de atacar");
                 StopCoroutine(coataque); //se para la rutina de ataque
                 inmovil = false;
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
             case State.HuirSoldier:
-                Debug.Log("Saliendo del estado de huir");
+                if (console) Debug.Log("Saliendo del estado de huir");
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "huir"
                 break;
             case State.CurarseSoldier:
-                Debug.Log("Saliendo del estado de curarse");
+                if (console) Debug.Log("Saliendo del estado de curarse");
                 this.deleteAllSteerings();
                 break;
             default:
-                Debug.Log("No se conoce el estado asi que no se sale de ese estado");
+                if (console) Debug.Log("No se conoce el estado asi que no se sale de ese estado");
                 break;
         }
     }

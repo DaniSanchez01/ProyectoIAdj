@@ -125,7 +125,6 @@ public class PathFinding
                 }
                 //Calculo el posible nuevo conste de g
                 float possibleG = nodoActual.g + coste(nodoActual,vecino);
-                
                 //Si el nuevo coste para llegar a este nodo es menor del que había
                 if (possibleG < vecino.g) {
                     //Actualiza los valores del nodo
@@ -152,7 +151,8 @@ public class PathFinding
 
     //Coste entre un nodo y otro
     public float coste(Nodo a, Nodo b) {
-        return (a.Weight + b.Weight) / 2;
+        float c = (agente.getTerrainCost(a) + agente.getTerrainCost(b)) / 2;
+        return c;
     }
 
     //Una vez encontrado el nodo final, reconstruye el camino
@@ -168,8 +168,10 @@ public class PathFinding
         }
         //Le damos la vuelta al camino
         camino.Reverse();
+        TerrainMap t = GameObject.FindObjectOfType<TerrainMap>();
         /*foreach (var n in camino) {
-            Debug.LogFormat("{0},{1}",n.Celda.x,n.Celda.y);
+            Debug.LogFormat("{0},{1} Terreno: {2}",n.Celda.x,n.Celda.y,t.getTerrenoCasilla(n.Celda.x,n.Celda.y));
+
         }*/
         return camino;
     }

@@ -8,7 +8,7 @@ public class Face : Align
     [SerializeField] protected Agent virt; //agente virtual ficticio para llevar acabo el align
     [SerializeField] private float newOrientation; //nueva orientacion del NPC virtual
     [SerializeField] public PathFollowingNoOffset path = null;
-    [SerializeField] private bool listoParaSteering = false; //variable que se usa para saber si el steering Face esta listo para dar un valor o no
+    [SerializeField] protected bool listoParaSteering = false; //variable que se usa para saber si el steering Face esta listo para dar un valor o no
     [SerializeField] public bool giz = false;
 
     Vector3 agentPos;
@@ -20,7 +20,7 @@ public class Face : Align
         base.nameSteering = "Face";
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:giz); //toma radio por defecto -1
         virt.Orientation = newOrientation; //nueva orientacion del agente virtual creado
-        listoParaSteering = true; //hemos hecho la inicialización del Face y ahora esta listo para dar un steering.
+        listoParaSteering = true; //hemos hecho la inicializaciï¿½n del Face y ahora esta listo para dar un steering.
     }
 
     public override void DestroyVirtual(Agent first) {
