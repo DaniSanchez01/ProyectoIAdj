@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Face : Align
 {
-    public Agent FaceTarget;
-    protected Agent virt; //agente virtual ficticio para llevar acabo el align
-    private float newOrientation; //nueva orientacion del NPC virtual
-    public PathFollowingNoOffset path = null;
-    private bool listoParaSteering = false; //variable que se usa para saber si el steering Face esta listo para dar un valor o no
-    public bool giz = false;
+    [SerializeField] public Agent FaceTarget;
+    [SerializeField] protected Agent virt; //agente virtual ficticio para llevar acabo el align
+    [SerializeField] private float newOrientation; //nueva orientacion del NPC virtual
+    [SerializeField] public PathFollowingNoOffset path = null;
+    [SerializeField] private bool listoParaSteering = false; //variable que se usa para saber si el steering Face esta listo para dar un valor o no
+    [SerializeField] public bool giz = false;
 
     Vector3 agentPos;
     Vector3 direction;
@@ -42,7 +42,7 @@ public class Face : Align
 
     public override Steering GetSteering(AgentNPC agent)
     {
-        if (listoParaSteering && target!=null) //solo ejecutamos el steering si sabemos que ha ejecutado awake() 
+        if (listoParaSteering) //solo ejecutamos el steering si sabemos que ha ejecutado awake() 
         {
             Steering steer = new Steering();
             //calculo el vector direccion hacia el objetivo
