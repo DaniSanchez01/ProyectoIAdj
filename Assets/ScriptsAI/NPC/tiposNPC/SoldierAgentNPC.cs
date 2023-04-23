@@ -6,7 +6,7 @@ using UnityEngine;
 public class SoldierAgentNPC : AgentNPC
 {
    
-    [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
+    
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     // Start is called before the first frame update
     protected override void Start()
@@ -24,7 +24,7 @@ public class SoldierAgentNPC : AgentNPC
 
         agentState = State.VigilarSoldier; //el estado normal del soldier
         Vida = 200;
-        inmovil = false;
+        Inmovil = false;
         coataque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
        
     }
@@ -103,7 +103,7 @@ public class SoldierAgentNPC : AgentNPC
                 if (console) Debug.Log("Atacar");
                 EnemigoActual.recibirDamage(3);
                 //quedate quieto durante 2 segundos
-                inmovil = true; //quedate quieto
+                Inmovil = true; //quedate quieto
                 this.Acceleration = Vector3.zero;
                 this.AngularAcc = 0;
                 this.Velocity = Vector3.zero;
@@ -111,7 +111,7 @@ public class SoldierAgentNPC : AgentNPC
                 yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
 
                 //1.2 Despues de haber esperado indicamos que ya se puede mover
-                inmovil = false;
+                Inmovil = false;
             }
 
             //2. Si se ha ejecutado el if entonces la rutina se suspende hasta el siguiente frame para dejar que el update() se ejecute una vez y asi permitir transiciionar si el personaje tiene poca vida
@@ -176,7 +176,7 @@ public class SoldierAgentNPC : AgentNPC
             case State.AtacarSoldier:
                 if (console) Debug.Log("Saliendo del estado de atacar");
                 StopCoroutine(coataque); //se para la rutina de ataque
-                inmovil = false;
+                Inmovil = false;
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
             case State.HuirSoldier:
@@ -265,7 +265,7 @@ public class SoldierAgentNPC : AgentNPC
     // Update is called once per frame
     public override void Update()
     {
-        if (!inmovil) //si no estas inmovil puedes actualizar 
+        if (!Inmovil) //si no estas inmovil puedes actualizar 
         {
            
             base.Update(); //dejamos que se ejecute la lista de steerings que tenemos actualmente

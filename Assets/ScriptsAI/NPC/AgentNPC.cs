@@ -44,8 +44,11 @@ public abstract class AgentNPC : Agent
     private Agent circleVirt;
     private int inicio;
     private bool waiting = false;
+
+    //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
     [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
+    [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     public bool console = false;
 
 
@@ -72,6 +75,12 @@ public abstract class AgentNPC : Agent
         protected set { enemigoActual = value; }
     }
 
+    //El NPC actual puede quedarse inmovilizado o no despues de atacar.
+    public bool Inmovil
+    {
+        get { return inmovil; }
+        protected set { inmovil = value; }
+    }
 
     protected void Awake()
     {
