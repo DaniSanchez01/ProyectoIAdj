@@ -914,6 +914,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7939394003487325150, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
 --- !u!1001 &104347317
@@ -933,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0ad573ef122e81c4181af0f137b71a0f, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0ad573ef122e81c4181af0f137b71a0f, type: 3}
       propertyPath: m_LocalScale.x
@@ -1191,6 +1195,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &107190056 stripped
 Transform:
@@ -2220,6 +2225,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &250084702 stripped
 Transform:
@@ -2530,6 +2536,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
+  console: 0
 --- !u!4 &302693095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -2656,6 +2663,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 317103528}
   vida: 0
+  console: 0
 --- !u!4 &317103532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -3662,7 +3670,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510990027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24, y: 0, z: 67}
+  m_LocalPosition: {x: 19.02, y: 0, z: 70.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4229,6 +4237,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa7494cb1bc7704795e0aa93e22d04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypointCuracionRojo: []
+  waypointCuracionAzul: []
+  waypointEstrategicosRojo: []
+  waypointEstrategicosAzul: []
+  waypointBaseRojo: []
+  waypointBaseAzul: []
+  giz: 1
 --- !u!4 &548941006
 Transform:
   m_ObjectHideFlags: 0
@@ -5261,6 +5276,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
+  console: 0
 --- !u!4 &700741181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -5396,6 +5412,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
+  console: 0
 --- !u!4 &718678506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -7067,6 +7084,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &1078611094 stripped
 Transform:
@@ -7194,6 +7212,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1101587005}
   vida: 0
+  console: 0
 --- !u!4 &1101587009 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -10472,6 +10491,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1664759829}
   vida: 0
+  console: 0
 --- !u!4 &1664759833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -10529,6 +10549,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 1664874837}
   vida: 0
+  console: 0
 --- !u!4 &1664874841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -10801,6 +10822,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 1680084009}
   vida: 0
+  console: 0
 --- !u!4 &1680084013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -11027,6 +11049,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1698680624}
   vida: 0
+  console: 0
 --- !u!4 &1698680628 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -11130,7 +11153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: de56bad3c5656b74d8cc92d71dee9f62, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: de56bad3c5656b74d8cc92d71dee9f62, type: 3}
       propertyPath: m_LocalScale.x
@@ -11688,6 +11711,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &1751643316 stripped
 Transform:
@@ -12169,6 +12193,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &1801564832 stripped
 Transform:
@@ -13434,6 +13459,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 1751643312}
   vida: 0
+  console: 0
 --- !u!4 &1909517007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -14706,6 +14732,7 @@ MonoBehaviour:
   team: 1
   firstTarget: {fileID: 107190052}
   vida: 0
+  console: 0
   inmovil: 0
 --- !u!4 &2063818895 stripped
 Transform:

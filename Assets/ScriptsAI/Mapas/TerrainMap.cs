@@ -10,8 +10,18 @@ public enum TypeTerrain {
     camino,
     invalido
 }
+
 public class TerrainMap : MonoBehaviour
 {
+    
+    public List<Vector3> waypointCuracionRojo = new List<Vector3>();
+    public List<Vector3> waypointCuracionAzul = new List<Vector3>();
+    public List<Vector3> waypointEstrategicosRojo = new List<Vector3>();
+    public List<Vector3> waypointEstrategicosAzul = new List<Vector3>();
+    public List<Vector3> waypointBaseRojo = new List<Vector3>();
+    public List<Vector3> waypointBaseAzul = new List<Vector3>();   
+
+    public bool giz = false;
     TypeTerrain[,] mapa;
     
     void Awake() {
@@ -21,6 +31,24 @@ public class TerrainMap : MonoBehaviour
         putPath();
         putForest();
         putDesert();
+
+        waypointCuracionRojo.Add(new Vector3(19f,0f,13.5f));
+        waypointCuracionAzul.Add(new Vector3(73f,0f,77f));
+
+        waypointEstrategicosAzul.Add(new Vector3(75f,0f,67.5f));
+        waypointEstrategicosAzul.Add(new Vector3(41f,0f,50f));
+        waypointEstrategicosAzul.Add(new Vector3(17f,0f,32f));
+        waypointEstrategicosAzul.Add(new Vector3(43f,0f,64f));
+        waypointEstrategicosAzul.Add(new Vector3(19.5f,0f,64f));
+
+        waypointEstrategicosRojo.Add(new Vector3(75f,0f,58f));
+        waypointEstrategicosRojo.Add(new Vector3(48f,0f,41f));
+        waypointEstrategicosRojo.Add(new Vector3(17f,0f,23f));
+        waypointEstrategicosRojo.Add(new Vector3(73f,0f,38f));
+
+        waypointBaseAzul.Add(new Vector3(19f,0f,70f));
+        
+        waypointBaseRojo.Add(new Vector3(70f,0f,20f));
     }
 
     public TypeTerrain[,] MapaTerreno {
@@ -345,9 +373,9 @@ public class TerrainMap : MonoBehaviour
         mapa[8,7] = t;
         mapa[8,8] = t;
         mapa[8,9] = t;
-        mapa[8,15] = t;
-        mapa[8,16] = t;
         mapa[8,17] = t;
+        mapa[8,18] = t;
+        mapa[8,19] = t;
 
         mapa[9,2] = t;
         mapa[9,3] = t;
@@ -356,15 +384,9 @@ public class TerrainMap : MonoBehaviour
         mapa[9,8] = t;
         mapa[9,9] = t;
         mapa[9,10] = t;
-        mapa[9,15] = t;
-        mapa[9,16] = t;
         mapa[9,17] = t;
-
-        mapa[9,2] = t;
-        mapa[9,8] = t;
-        mapa[9,9] = t;
-        mapa[9,10] = t;
-        mapa[9,11] = t;
+        mapa[9,18] = t;
+        mapa[9,19] = t;
 
         mapa[10,8] = t;
         mapa[10,9] = t;
@@ -472,4 +494,58 @@ public class TerrainMap : MonoBehaviour
         mapa[27,25] = t;
     }
 
+    protected void OnDrawGizmos()
+    {
+        if (giz == true) {    
+            Gizmos.color = Color.blue;
+            foreach (var n in waypointBaseAzul){
+                Gizmos.DrawSphere(n, 1);
+            }
+            foreach (var n in waypointEstrategicosAzul){
+                Gizmos.DrawSphere(n, 1);
+            }
+            foreach (var n in waypointCuracionAzul){
+                Gizmos.DrawSphere(n, 1);
+            }
+            Gizmos.color = Color.red;
+            foreach (var n in waypointBaseRojo){
+                Gizmos.DrawSphere(n, 1);
+            }
+            foreach (var n in waypointEstrategicosRojo){
+                Gizmos.DrawSphere(n, 1);
+            }
+            foreach (var n in waypointCuracionRojo){
+                Gizmos.DrawSphere(n, 1);
+            }
+            /*for (int i=0;i<30;i++) {
+                for (int j=0;j<30;j++) {
+                    TypeTerrain t = mapa[i,j];
+                    switch (t) {
+                        case TypeTerrain.invalido:
+                            Gizmos.color = Color.black;
+                            Gizmos.DrawSphere(new Vector3(j*3f+1.5f,0,i*3f+1.5f), 1);
+                            break;
+                        case TypeTerrain.llanura:
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawSphere(new Vector3(j*3f+1.5f,0,i*3f+1.5f), 1);
+                            break;
+                        case TypeTerrain.desierto:
+                            Gizmos.color = Color.yellow;
+                            Gizmos.DrawSphere(new Vector3(j*3f+1.5f,0,i*3f+1.5f), 1);
+                            break;
+                        case TypeTerrain.camino:
+                            Gizmos.color = Color.gray;
+                            Gizmos.DrawSphere(new Vector3(j*3f+1.5f,0,i*3f+1.5f), 1);
+                            break;
+                        case TypeTerrain.bosque:
+                            Gizmos.color = Color.blue;
+                            Gizmos.DrawSphere(new Vector3(j*3f+1.5f,0,i*3f+1.5f), 1);
+                            break;
+                    }
+                    
+                }
+            }*/
+        }
+    }
+    
 }

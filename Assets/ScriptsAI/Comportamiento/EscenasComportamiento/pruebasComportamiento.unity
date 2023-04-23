@@ -1710,7 +1710,7 @@ MonoBehaviour:
   team: 0
   firstTarget: {fileID: 0}
   vida: 20
-  console: 0
+  console: 1
   inmovil: 0
 --- !u!1 &1771595872 stripped
 GameObject:

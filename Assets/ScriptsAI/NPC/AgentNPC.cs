@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using TMPro;
 
 public enum State
 {
@@ -141,6 +142,45 @@ public abstract class AgentNPC : Agent
         return null;
     }
 
+    public void putBocadillo() {
+        Transform hijo = transform.Find("Bocadillo");
+        hijo  = hijo.Find("Texto");
+        TMP_Text t = hijo.GetComponent<TMP_Text>();
+        string frase;
+        switch (agentState) {
+            case(State.Normal):
+                frase = "Estoy joya";
+                break;
+            case(State.Formation):
+                frase = "Estoy en formación";
+                break;
+            case(State.leaderFollowing):
+                frase = "Estoy siguiendo al lider";
+                break;
+            case(State.runningToPoint):
+                frase = "Estoy yendo a un punto";
+                break;   
+            case(State.LRTA):
+                frase = "Estoy haciendo A*";
+                break;
+            case(State.VigilarSoldier):
+                frase = "Estoy vigilando";
+                break;
+            case(State.AtacarSoldier):
+                frase = "Al ataque!";
+                break;
+            case(State.HuirSoldier):
+                frase = "No quiero morir!!!";
+                break;
+            case(State.CurarseSoldier):
+                frase = "Necesito vida";
+                break;
+            default:
+                frase = "Que habrá para comer?";
+                break;
+        }
+        t.text = frase;
+    }
     public void rodearPunto() {
         changeArbitro(typeArbitro.Posicionar);
         Arrive a = (Arrive) takeSteering("Arrive");
@@ -159,7 +199,9 @@ public abstract class AgentNPC : Agent
 
         ApplySteering(Time.deltaTime);
 
+        putBocadillo();
         // En cada frame podría ejecutar otras componentes IA
+        
     }
 
 
