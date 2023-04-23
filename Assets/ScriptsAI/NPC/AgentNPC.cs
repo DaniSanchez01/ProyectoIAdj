@@ -53,6 +53,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
+    [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     public bool console = false;
 
 
@@ -92,6 +93,13 @@ public abstract class AgentNPC : Agent
         get { return rangoAtaque; }
         protected set { rangoAtaque = value; }
     }
+
+    public IEnumerator CoAtaque
+    {
+        get { return coataque; }
+        protected set { coataque = value; }
+    }
+
 
     protected void Awake()
     {
@@ -394,4 +402,38 @@ public abstract class AgentNPC : Agent
         }
         // if (console) Debug.Log("Fin de la corutina atacar()");
     }
+
+    //funciones relacionadas con los automatas de comportamiento que implementan las clases hijas
+    /*
+     * Metodo que es usado para entrar en un estado determinado, ejecuta las acciones de entrada y cambia el estadoActual al estado indicado como parametro. Recibe parametros que pueden
+     * ser usados o no
+     * Pre: ninguna
+     * Post: estadoAgent = estadoAEntrar, se han ejecutado las acciones de entrada de estadoAEntrar.
+     */
+    public virtual void entrar(State estadoAEntrar)
+    {
+
+    }
+
+    /*
+     * Metodo que se llama para salir del estado actual.
+     * Pre: ninguna
+     * Post: ejecuta las acciones necesarias para salir del estado actual
+     */
+    public virtual void salir(State estadoAEntrar)
+    {
+
+    }
+
+    /*
+     * Este metodo es usado para comporbar si se puede transitar a algun estado desde el estado actual.
+     * Pre: ninguna
+     * Post: si no se puede transitar a ningun estado desde el estado actual entonces no se hace nada, en caso contrario se sale del estado actual y se entra en el estado destino.
+     */
+    public virtual void transitar(State estadoAEntrar)
+    {
+
+    }
+
+
 }

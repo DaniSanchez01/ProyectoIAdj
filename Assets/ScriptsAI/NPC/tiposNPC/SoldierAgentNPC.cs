@@ -7,7 +7,7 @@ public class SoldierAgentNPC : AgentNPC
 {
    
     
-    [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -26,7 +26,7 @@ public class SoldierAgentNPC : AgentNPC
         Vida = 200;
         Inmovil = false;
         RangoAtaque = 0.8f;
-        coataque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
+        CoAtaque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
        
     }
 
@@ -54,13 +54,8 @@ public class SoldierAgentNPC : AgentNPC
    
     
 
-    /*
-     * Metodo que es usado para entrar en un estado determinado, ejecuta las acciones de entrada y cambia el estadoActual al estado indicado como parametro. Recibe parametros que pueden
-     * ser usados o no
-     * Pre: ninguna
-     * Post: estadoAgent = estadoAEntrar, se han ejecutado las acciones de entrada de estadoAEntrar.
-     */
-    private void entrar(State estadoAEntrar)
+    
+    public override void entrar(State estadoAEntrar)
     {
         switch (estadoAEntrar)
         {
@@ -73,7 +68,7 @@ public class SoldierAgentNPC : AgentNPC
                 
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow); //indicamos al enemigo que sigue para atacarle
-                StartCoroutine(coataque);
+                StartCoroutine(CoAtaque);
                 break;
 
             case State.HuirSoldier:
@@ -91,12 +86,9 @@ public class SoldierAgentNPC : AgentNPC
                 break;
         }
     }
-    /*
-     * Metodo que se llama para salir del estado actual.
-     * Pre: ninguna
-     * Post: ejecuta las acciones necesarias para salir del estado actual
-     */
-    private void salir(State estadoActual)
+    
+
+    public override void salir(State estadoActual)
     {
         switch (estadoActual)
         {
@@ -106,7 +98,7 @@ public class SoldierAgentNPC : AgentNPC
                 break;
             case State.AtacarSoldier:
                 if (console) Debug.Log("Saliendo del estado de atacar");
-                StopCoroutine(coataque); //se para la rutina de ataque
+                StopCoroutine(CoAtaque); //se para la rutina de ataque
                 Inmovil = false;
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
@@ -126,12 +118,8 @@ public class SoldierAgentNPC : AgentNPC
 
     
 
-    /*
-     * Este metodo es usado para comporbar si se puede transitar a algun estado desde el estado actual.
-     * Pre: ninguna
-     * Post: si no se puede transitar a ningun estado desde el estado actual entonces no se hace nada, en caso contrario se sale del estado actual y se entra en el estado destino.
-     */
-    private void transitar(State estadoAct)
+    
+    public override void transitar(State estadoAct)
     {
         switch(estadoAct)
         {
