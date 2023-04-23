@@ -28,6 +28,13 @@ public enum Team
     Blue,
     
 }
+
+public enum Modo
+{
+    Defensivo,
+    Ofensivo
+}
+
 public abstract class AgentNPC : Agent
 { 
     // Este será el steering final que se aplique al personaje.
@@ -54,6 +61,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
+    [NonSerialized] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     public bool console = false;
 
 
@@ -94,10 +102,18 @@ public abstract class AgentNPC : Agent
         protected set { rangoAtaque = value; }
     }
 
+    //usado para acceder a la corutina de ataque del NPC
     public IEnumerator CoAtaque
     {
         get { return coataque; }
         protected set { coataque = value; }
+    }
+
+    //Propeidad usada para consultar el modo en el que esta un NPC y modificarlo
+    public Modo modoNPC
+    {
+        get { return modo; }
+        protected set { modo = value; }
     }
 
 
