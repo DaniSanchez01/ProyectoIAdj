@@ -48,63 +48,10 @@ public class SoldierAgentNPC : AgentNPC
 
     }
 
-    /*
-     * Funcion que nos permite localizar un enemigo en un radio determinado dado por el radio interior.
-     * Pre: ninguna
-     * Post: Devuelve el componente AgentNPC del enemigo detectado
-     */
-    private AgentNPC veoEnemigo()
-    {
-       Collider[] colisiones =  Physics.OverlapSphere(this.Position, this.arrivalRadius);
-
-        foreach (Collider obj in colisiones)
-        {
-            AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
-
-            if (componenteNPC != null &&  !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius)) 
-                return componenteNPC;
-        }
-        return null;
-    }
+    
 
     
-    /*
-     * Corutina que es usada para que un personaje ataque, primero si el personaje tiene el enemigo a rango y por tanto le ataca se esperar 2 segundos quedandose inmovil. Observar que este metodo aunque
-     * se tiene que iniciar manualmente parara solo cuando se salga del estado "atacarSoldier" as� que no es necesario pararlo manualmente.
-     * Pre: se debe haber establecido el estado del NPC a "ataqueSoldier" y enemigoActual != null
-     * Post: atacada cada 2 segundos si el enemigo detectado esta en su rango.
-     * 
-     */
-    public IEnumerator atacar()
-    {
-        if (console) Debug.Log("Corutina atacar() comienzo");
-        while (true)
-        {
-            //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
-            if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
-            {
-                //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
-                if (console) Debug.Log("Atacar");
-                EnemigoActual.recibirDamage(3);
-                //quedate quieto durante 2 segundos
-                Inmovil = true; //quedate quieto
-                this.Acceleration = Vector3.zero;
-                this.AngularAcc = 0;
-                this.Velocity = Vector3.zero;
-                this.Rotation = 0;
-                yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
-
-                //1.2 Despues de haber esperado indicamos que ya se puede mover
-                Inmovil = false;
-            }
-
-            //2. Si se ha ejecutado el if entonces la rutina se suspende hasta el siguiente frame para dejar que el update() se ejecute una vez y asi permitir transiciionar si el personaje tiene poca vida
-            //en caso contrario de que no se haya ejecutado el if pues la corutina se ejecutara en el siguiente frame para que asi no caigamos en un bucle infinito y dejemos que continue la ejecucion de otras
-            //funciones como los update() del siguiente frame.
-            yield return null;
-        }
-       // if (console) Debug.Log("Fin de la corutina atacar()");
-    }
+   
     
 
     /*
