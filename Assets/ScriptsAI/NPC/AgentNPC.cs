@@ -45,6 +45,7 @@ public abstract class AgentNPC : Agent
     private int inicio;
     private bool waiting = false;
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
+    [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
     public bool console = false;
 
 
@@ -62,6 +63,13 @@ public abstract class AgentNPC : Agent
     {
         get { return vida; }
         protected set { vida = value; }
+    }
+
+    //El enemigo actual de un NPC puede ser vista por todas las clases pero esta propiedad solo puede ser modificada por las clases hijas es decir solo un NPC puede establecer a su enemigo actual
+    public AgentNPC EnemigoActual
+    {
+        get { return enemigoActual; }
+        protected set { enemigoActual = value; }
     }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SoldierAgentNPC : AgentNPC
 {
-    private AgentNPC enemigoActual; //enemigo actual que se ha detectado
+   
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     // Start is called before the first frame update
@@ -79,7 +79,7 @@ public class SoldierAgentNPC : AgentNPC
      */
     private bool estaARangoEnemigo()
     {
-        if (enemigoActual != null && Vector3.Distance(enemigoActual.Position, this.Position) <= 0.8) return true;
+        if (EnemigoActual != null && Vector3.Distance(EnemigoActual.Position, this.Position) <= 0.8) return true;
         else return false; //observar que puede retornar false porque no haya un enemigo o este no este a rango.
         
     }
@@ -97,11 +97,11 @@ public class SoldierAgentNPC : AgentNPC
         while (agentState == State.AtacarSoldier)
         {
             //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
-            if (!enemigoActual.estaMuerto() && estaARangoEnemigo())
+            if (!EnemigoActual.estaMuerto() && estaARangoEnemigo())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
                 if (console) Debug.Log("Atacar");
-                enemigoActual.recibirDamage(3);
+                EnemigoActual.recibirDamage(3);
                 //quedate quieto durante 2 segundos
                 inmovil = true; //quedate quieto
                 this.Acceleration = Vector3.zero;
@@ -114,9 +114,10 @@ public class SoldierAgentNPC : AgentNPC
                 inmovil = false;
             }
 
-            //2. En otro caso es decir si el enemigo esta muerto
-            //o no esta en mi rango lo intento el siguiente frame
-            else yield return null;
+            //2. Si se ha ejecutado el if entonces la rutina se suspende hasta el siguiente frame para dejar que el update() se ejecute una vez y asi permitir transiciionar si el personaje tiene poca vida
+            //en caso contrario de que no se haya ejecutado el if pues la corutina se ejecutara en el siguiente frame para que asi no caigamos en un bucle infinito y dejemos que continue la ejecucion de otras
+            //funciones como los update() del siguiente frame.
+            yield return null;
         }
         if (console) Debug.Log("Fin de la corutina atacar()");
     }
@@ -140,14 +141,14 @@ public class SoldierAgentNPC : AgentNPC
                 if (console) Debug.Log("Entrando en el estado de atacar");
                 
                 agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, enemigoActual, pathToFollow); //indicamos al enemigo que sigue para atacarle
+                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow); //indicamos al enemigo que sigue para atacarle
                 StartCoroutine(coataque);
                 break;
 
             case State.HuirSoldier:
                 if (console) Debug.Log("Entrando en el estado de huir");
                 agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, enemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
+                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
                 break;
             case State.CurarseSoldier:
                 if (console) Debug.Log("Entrando en el estado de curarse");
@@ -206,10 +207,10 @@ public class SoldierAgentNPC : AgentNPC
             case State.VigilarSoldier:
                 
                 //accion asociada al estado vigilar aparte de los steerings correspondientes.
-                enemigoActual = veoEnemigo();
+                EnemigoActual = veoEnemigo();
 
                 //1. La primera transición del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                if(enemigoActual) //1 transicion de vigilarSoldier
+                if(EnemigoActual) //1 transicion de vigilarSoldier
                 {
                     
                     salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
@@ -226,7 +227,7 @@ public class SoldierAgentNPC : AgentNPC
                 }
 
                 //2. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
-                else if ((enemigoActual.estaMuerto() || !sigoViendoEnemigo(enemigoActual)))
+                else if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
                 {
                     
                     salir(estadoAct);
@@ -239,7 +240,7 @@ public class SoldierAgentNPC : AgentNPC
             case State.HuirSoldier:
 
                 //1. La primera transicion en el estado huir es comprobar si el enemigo actual esta muerto o ya no me ve
-                if(enemigoActual.estaMuerto() || !enemigoActual.sigoViendoEnemigo(this))
+                if(EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                 {
                     salir(estadoAct);
                     entrar(State.CurarseSoldier);
