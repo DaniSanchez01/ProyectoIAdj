@@ -45,6 +45,8 @@ public abstract class AgentNPC : Agent
     private Agent circleVirt;
     private int inicio;
     private bool waiting = false;
+    private bool depuration = false;
+    private bool guerraTotal = false;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
@@ -110,6 +112,16 @@ public abstract class AgentNPC : Agent
 
     public abstract float getTerrainCost(Nodo a);
 
+    public void changeDepuration() {
+        depuration = !depuration;
+        Transform bocadillo = transform.Find("Bocadillo");
+        bocadillo.gameObject.SetActive(depuration);
+
+    }
+
+    public void changeGuerraTotal() {
+        guerraTotal = !guerraTotal;
+    }
 
     public void startTimer() {
         inicio = Environment.TickCount;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 /*
  * L. Daniel Hernández. 2018. Copyleft
@@ -19,7 +20,15 @@ public class LectorTeclado : MonoBehaviour
     List<GameObject> selectedUnits = new List<GameObject>();
     private Agent virt;
 
+    public GameObject textoEsquina;
     public bool giz = true;
+    private bool depuracion = false;
+    private bool guerraTotal = false;
+
+    private string changeToString(bool a){
+        if (a) return "Activado";
+        else return "Desactivado";
+    }
 
     void Start() {
         virt = Agent.CreateStaticVirtual(Vector3.zero,paint:false);
@@ -166,6 +175,26 @@ public class LectorTeclado : MonoBehaviour
             GameObject.FindObjectOfType<makePathfinding>().prepareLRTA();
         
         }
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X)) {
+            if (Input.GetKeyDown(KeyCode.Z)) {
+                depuracion = !depuracion;
+                GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
+                foreach (var npc in agents) {
+                    npc.GetComponent<AgentNPC>().changeDepuration();
+                }
+                agents = GameObject.FindGameObjectsWithTag("NPCazul");
+                foreach (var npc in agents) {
+                    npc.GetComponent<AgentNPC>().changeDepuration();
+                }
+
+            }
+            else guerraTotal = !guerraTotal;
+            TMP_Text t = textoEsquina.GetComponent<TMP_Text>();
+            t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal);
+
+
+        }
+        
         
     }
     
