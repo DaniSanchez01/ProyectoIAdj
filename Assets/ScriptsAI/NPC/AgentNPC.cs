@@ -50,6 +50,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
     [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
+    [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     public bool console = false;
 
 
@@ -81,6 +82,13 @@ public abstract class AgentNPC : Agent
     {
         get { return inmovil; }
         protected set { inmovil = value; }
+    }
+
+    //Propiedad que simboliza el rango de ataque de una unidad determinada
+    public float RangoAtaque
+    {
+        get { return rangoAtaque; }
+        protected set { rangoAtaque = value; }
     }
 
     protected void Awake()
@@ -276,6 +284,8 @@ public abstract class AgentNPC : Agent
         this.steer = kinematicFinal;
     }
 
+    //metodos relacionados con el comportamiento
+
     /*
      * Metodo que dada una cantidad de daño la resta a la vida del personaje.
      * Pre:ninguna
@@ -308,4 +318,10 @@ public abstract class AgentNPC : Agent
         return Vector3.Distance(enemigo.Position, this.Position) <= this.arrivalRadius;
     }
 
+    //Comprueba si el enemigo Actual esta en nuestro rango de ataque para atacarle
+    public bool estaARangoEnemigoAct()
+    {
+        if (EnemigoActual != null && Vector3.Distance(EnemigoActual.Position, this.Position) <= rangoAtaque) return true;
+        else return false; //observar que puede retornar false porque no haya un enemigo o este no este a rango.
+    }
 }

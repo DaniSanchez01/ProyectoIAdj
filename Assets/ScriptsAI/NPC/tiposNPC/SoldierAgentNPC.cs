@@ -25,6 +25,7 @@ public class SoldierAgentNPC : AgentNPC
         agentState = State.VigilarSoldier; //el estado normal del soldier
         Vida = 200;
         Inmovil = false;
+        RangoAtaque = 0.8f;
         coataque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
        
     }
@@ -67,23 +68,6 @@ public class SoldierAgentNPC : AgentNPC
     }
 
     
-
-    
-
-    
-
-    /*
-     * Comprueba si el enemigo al que se esta atacando esta en el rango para poder darle un golpe.
-     * Pre: debes tener algun enemigo seleccionado
-     * Post: devueleve verdadero si esta en el rango de ataque y falso en caso contrario.
-     */
-    private bool estaARangoEnemigo()
-    {
-        if (EnemigoActual != null && Vector3.Distance(EnemigoActual.Position, this.Position) <= 0.8) return true;
-        else return false; //observar que puede retornar false porque no haya un enemigo o este no este a rango.
-        
-    }
-    
     /*
      * Corutina que es usada para que un personaje ataque, primero si el personaje tiene el enemigo a rango y por tanto le ataca se esperar 2 segundos quedandose inmovil. Observar que este metodo aunque
      * se tiene que iniciar manualmente parara solo cuando se salga del estado "atacarSoldier" as� que no es necesario pararlo manualmente.
@@ -94,10 +78,10 @@ public class SoldierAgentNPC : AgentNPC
     public IEnumerator atacar()
     {
         if (console) Debug.Log("Corutina atacar() comienzo");
-        while (agentState == State.AtacarSoldier)
+        while (true)
         {
             //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
-            if (!EnemigoActual.estaMuerto() && estaARangoEnemigo())
+            if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
                 if (console) Debug.Log("Atacar");
@@ -119,7 +103,7 @@ public class SoldierAgentNPC : AgentNPC
             //funciones como los update() del siguiente frame.
             yield return null;
         }
-        if (console) Debug.Log("Fin de la corutina atacar()");
+       // if (console) Debug.Log("Fin de la corutina atacar()");
     }
     
 
@@ -283,7 +267,7 @@ public class SoldierAgentNPC : AgentNPC
     {
         base.OnDrawGizmos();
         Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(transform.position, (float) 0.8);
+        Gizmos.DrawWireSphere(transform.position, (float) RangoAtaque);
     }
 
 
