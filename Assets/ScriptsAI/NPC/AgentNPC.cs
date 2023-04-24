@@ -19,7 +19,7 @@ public enum State
     AtacarSoldier,
     HuirSoldier,
     CurarseSoldier,
-
+    WanderSoldier
 }
 
 public enum Team
@@ -61,7 +61,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
-    [NonSerialized] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
+    [SerializeField] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     public bool console = false;
 
 
@@ -320,7 +320,7 @@ public abstract class AgentNPC : Agent
         this.steer = kinematicFinal;
     }
 
-    //metodos relacionados con el comportamiento
+    ////metodos relacionados con el comportamiento////
 
     /*
      * Metodo que dada una cantidad de daño la resta a la vida del personaje.
@@ -344,6 +344,11 @@ public abstract class AgentNPC : Agent
         return vida == 0;
     }
 
+    public bool estaDefendiendo()
+    {
+        return modo == Modo.Defensivo;
+    }
+
     /*
      * Metodo que comprueba si el enemigo pasado como parametro esta en el rango del NPC.
      * Pre: el "enemigo" pasado como paramtro debe tener un equipo distinto al NPC
@@ -354,7 +359,7 @@ public abstract class AgentNPC : Agent
         return Vector3.Distance(enemigo.Position, this.Position) <= this.arrivalRadius;
     }
 
-    //Comprueba si el enemigo Actual esta en nuestro rango de ataque para atacarle
+    //Funciones relacionadas con el ataque
     public bool estaARangoEnemigoAct()
     {
         if (EnemigoActual != null && Vector3.Distance(EnemigoActual.Position, this.Position) <= rangoAtaque) return true;
@@ -418,6 +423,7 @@ public abstract class AgentNPC : Agent
         }
         // if (console) Debug.Log("Fin de la corutina atacar()");
     }
+
 
     //funciones relacionadas con los automatas de comportamiento que implementan las clases hijas
     /*

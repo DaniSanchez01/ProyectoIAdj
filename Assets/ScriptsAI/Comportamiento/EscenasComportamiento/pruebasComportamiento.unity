@@ -403,6 +403,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  modo: 0
   console: 1
 --- !u!1 &249226145 stripped
 GameObject:
@@ -591,6 +592,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0.3
+  modo: 0
   console: 1
 --- !u!1 &472621611
 GameObject:
