@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8049984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
       propertyPath: m_LocalPosition.z
@@ -393,9 +393,9 @@ MonoBehaviour:
   steer:
     angular: 0
     linear: {x: 0, y: 0, z: 0}
-  useArbitro: 1
+  useArbitro: 0
   agentState: 0
-  arbitro: 4
+  arbitro: 3
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2245506464172409351, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
   m_PrefabInstance: {fileID: 1228159120}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &444683736
+--- !u!114 &444683740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 444683735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373c2bf75148d8c4e8e0d4805524c151, type: 3}
+  m_Script: {fileID: 11500000, guid: 367504004aadc2943a48394efe0dc2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _mass: 1
@@ -588,10 +588,10 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 0}
-  vida: 0
+  vida: 300
   enemigoActual: {fileID: 0}
   inmovil: 0
-  rangoAtaque: 0.3
+  rangoAtaque: 0
   modo: 0
   console: 1
 --- !u!1 &472621611
@@ -1427,7 +1427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8049984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.z

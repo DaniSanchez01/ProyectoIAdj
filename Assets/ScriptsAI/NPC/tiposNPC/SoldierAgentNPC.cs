@@ -65,7 +65,7 @@ public class SoldierAgentNPC : AgentNPC
                 agentState = estadoAEntrar;
                 break;
             case State.WanderSoldier:
-                if (console) Debug.Log("Entrando en el estado Wander");
+                if (console) Debug.Log("Entrando en el estado WanderSoldier");
                 GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, EnemigoActual, pathToFollow);
                 agentState = estadoAEntrar;
                 break;

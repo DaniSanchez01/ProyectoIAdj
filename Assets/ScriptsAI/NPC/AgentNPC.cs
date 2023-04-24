@@ -19,7 +19,15 @@ public enum State
     AtacarSoldier,
     HuirSoldier,
     CurarseSoldier,
-    WanderSoldier
+    WanderSoldier,
+
+    //Estados del tanque
+    WanderTanque,
+    AtacarTanque,
+    HuirTanque,
+    CurarTanque,
+    Berserker,
+    WanderBerserker
 }
 
 public enum Team
