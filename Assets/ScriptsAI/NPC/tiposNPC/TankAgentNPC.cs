@@ -205,6 +205,66 @@ public class TankAgentNPC : AgentNPC
 
             }
         }
+
+        else { 
+        switch(estadoAct)
+            {
+                case State.WanderTanque:
+                    //accion asociada al estado WanderTanque
+                    EnemigoActual = veoEnemigo();
+
+                    //1. Transicion del estado WanderTanque
+                    if (EnemigoActual)
+                    {
+                        salir(estadoAct);
+                        entrar(State.AtacarTanque);
+                    }
+                    break;
+                case State.AtacarTanque:
+                    //1. La primera transicion para el tanque es comprobar si le queda poca vida para huir
+                    if (Vida <= 40)
+                    {
+                        salir(estadoAct);
+                        entrar(State.Berserker);
+                    }
+                    //2. Si tenemos vida suficiente pero no vemos al enemigo o esta muerto o ambas pues volvemos al estado Wander
+                    else if (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
+                    {
+                        salir(estadoAct);
+                        entrar(State.WanderTanque);
+                    }
+                    break;
+                case State.Berserker:
+
+                    //si el enemigo actual esta muerto o no lo sigo viendo pues paso a hacer un wander con la diferencia de que en este busco aliados y enemigos
+                    if(EnemigoActual.estaMuerto() ||!sigoViendoEnemigo(EnemigoActual))
+                    {
+                        salir(estadoAct);
+                        entrar(State.WanderBerserker);
+                    }
+                    break;
+
+                case State.WanderBerserker:
+                    EnemigoActual = veoEnemigo();
+
+                    //1.Transicion al estado berserker
+                    if(EnemigoActual) {
+                        salir(estadoAct);
+                        entrar(State.Berserker);
+                    }
+                    EnemigoActual = veoAliado();
+
+                    //2. Transicion al estado berserker si veo un aliado lo ataco
+                    if(EnemigoActual)
+                    {
+                        salir(estadoAct);
+                        entrar(State.Berserker);
+                    }
+
+                    break;
+
+            }
+        }
     }
 
 

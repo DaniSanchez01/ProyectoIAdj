@@ -393,6 +393,20 @@ public abstract class AgentNPC : Agent
         return null;
     }
 
+    public AgentNPC veoAliado()
+    {
+        Collider[] colisiones = Physics.OverlapSphere(this.Position, this.arrivalRadius);
+
+        foreach (Collider obj in colisiones)
+        {
+            AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
+
+            if (componenteNPC != null && componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius))
+                return componenteNPC;
+        }
+        return null;
+    }
+
 
     /*
     * Corutina que es usada para que un personaje ataque, primero si el personaje tiene el enemigo a rango y por tanto le ataca se esperar 2 segundos quedandose inmovil. Observar que este metodo aunque
