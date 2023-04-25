@@ -19,6 +19,7 @@ public class TankAgentNPC : AgentNPC
         this.MaxForce = 30f;
         this.MaxAngularAcc = 180f;
         this.interiorAngle = 8f;
+        this.influencia = 1f;
         if (team == Team.Blue){
             this.Orientation = 180f;
         }

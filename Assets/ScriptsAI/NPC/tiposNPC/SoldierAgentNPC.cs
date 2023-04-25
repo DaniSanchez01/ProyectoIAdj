@@ -17,6 +17,7 @@ public class SoldierAgentNPC : AgentNPC
         this.MaxForce = 30f;
         this.MaxAngularAcc = 300f;
         this.interiorAngle = 8f;
+        this.influencia = 0.6f;
         if (team == Team.Blue){
             this.Orientation = 180f;
         }

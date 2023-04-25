@@ -13,6 +13,7 @@ public class ArchierAgentNPC : AgentNPC
         this.MaxForce = 30f;
         this.MaxAngularAcc = 300f;
         this.interiorAngle = 8f;
+        this.influencia = 0.4f;
         if (team == Team.Blue){
             this.Orientation = 180f;
         }

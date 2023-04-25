@@ -67,6 +67,7 @@ public abstract class AgentNPC : Agent
     private bool waiting = false;
     private bool depuration = false;
     private bool guerraTotal = false;
+    protected float influencia;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
