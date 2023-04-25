@@ -25,7 +25,7 @@ public class TankAgentNPC : AgentNPC
         base.Start();
 
         //atributos inicializados del tanque
-        agentState = State.WanderTanque;
+        agentState = State.VigilarTanque;
         Vida = 300;
         Inmovil = false;
         RangoAtaque = 0.6f;
@@ -58,12 +58,16 @@ public class TankAgentNPC : AgentNPC
     {
         switch(estadoAEntrar)
         {
-            case State.WanderTanque:
-                if (console) Debug.Log("Entrando en el estado WanderTanque");
-                GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, EnemigoActual, pathToFollow); //en este estado se desplaza de forma aleatoria
+            case State.VigilarTanque:
+                if (console) Debug.Log("Entrando en el estado VigilarTanque");
+                //aqui podemos poner un arrive al punto a vigilar o una ruta
                 agentState = estadoAEntrar;
                 break;
-
+            case State.ConquistarTanque:
+                if (console) Debug.Log("Entrando en el estado de ConquistarTanque");
+                //aqui podemos poner un punto a conquistar
+                agentState = estadoAEntrar;
+                break;
             case State.AtacarTanque:
                 if (console) Debug.Log("Entrando en el estado AtacarTanque");
                 agentState = estadoAEntrar;
@@ -105,12 +109,14 @@ public class TankAgentNPC : AgentNPC
     {
         switch (estadoAEntrar)
         {
-            case State.WanderTanque:
-                if (console) Debug.Log("Saliendo del estado WanderTanque");
-                GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, EnemigoActual, pathToFollow); //en este estado se desplaza de forma aleatoria
+            case State.VigilarTanque:
+                if (console) Debug.Log("Saliendo del estado VigilarTanque");
                 this.deleteAllSteerings();
                 break;
-
+            case State.ConquistarTanque:
+                if (console) Debug.Log("Saliendo del estado ConquistarTanque");
+                this.deleteAllSteerings();
+                break;
             case State.AtacarTanque:
                 if (console) Debug.Log("Saliendo del estado AtacarTanque");
                 StopCoroutine(CoAtaque); //paras de atacar
@@ -154,11 +160,11 @@ public class TankAgentNPC : AgentNPC
         {
             switch(estadoAct)
             {
-                case State.WanderTanque:
-                    //accion asociada al estado WanderTanque
+                case State.VigilarTanque:
+                    //accion asociada al estado VigilarTanque
                     EnemigoActual = veoEnemigo();
 
-                    //1. Transicion del estado WanderTanque
+                    //1. Transicion del estado VigilarTanque
                     if(EnemigoActual)
                     {
                         salir(estadoAct);
@@ -178,7 +184,7 @@ public class TankAgentNPC : AgentNPC
                     else if(EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.WanderTanque);
+                        entrar(State.VigilarTanque);
                     }
                     break;
                 case State.HuirTanque:
@@ -197,7 +203,7 @@ public class TankAgentNPC : AgentNPC
                     if(Vida == 300)
                     {
                         salir(estadoAct);
-                        entrar(State.WanderTanque);
+                        entrar(State.VigilarTanque);
                     }
                     break;
                 default:
@@ -206,14 +212,15 @@ public class TankAgentNPC : AgentNPC
             }
         }
 
+        //automata de ataque que se ejecuta si esta en modo ofensivo
         else { 
         switch(estadoAct)
             {
-                case State.WanderTanque:
-                    //accion asociada al estado WanderTanque
+                case State.ConquistarTanque:
+                    //accion asociada al estado ConquistarTanque
                     EnemigoActual = veoEnemigo();
 
-                    //1. Transicion del estado WanderTanque
+                    //1. Transicion del estado ConquistarTanque
                     if (EnemigoActual)
                     {
                         salir(estadoAct);
@@ -231,7 +238,7 @@ public class TankAgentNPC : AgentNPC
                     else if (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.WanderTanque);
+                        entrar(State.ConquistarTanque);
                     }
                     break;
                 case State.Berserker:

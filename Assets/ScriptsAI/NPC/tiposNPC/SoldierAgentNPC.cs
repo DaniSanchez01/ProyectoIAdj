@@ -64,9 +64,8 @@ public class SoldierAgentNPC : AgentNPC
                 //Aqui podemos hacer que siga alguna ruta o que haga wander para buscar enemigo segun el tipo de modo en el que este
                 agentState = estadoAEntrar;
                 break;
-            case State.WanderSoldier:
-                if (console) Debug.Log("Entrando en el estado WanderSoldier");
-                GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, EnemigoActual, pathToFollow);
+            case State.ConquistarSoldier:
+                if (console) Debug.Log("Entrando en el estado ConquistarSoldier");
                 agentState = estadoAEntrar;
                 break;
             case State.AtacarSoldier:
@@ -102,8 +101,8 @@ public class SoldierAgentNPC : AgentNPC
                 if (console) Debug.Log("Saliendo del estado de vigilar");
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
                 break;
-            case State.WanderSoldier:
-                if (console) Debug.Log("Saliendo del estado de Wander");
+            case State. ConquistarSoldier:
+                if (console) Debug.Log("Saliendo del estado de  ConquistarSoldier");
                 this.deleteAllSteerings();
                 break;
             case State.AtacarSoldier:
@@ -196,7 +195,7 @@ public class SoldierAgentNPC : AgentNPC
         {
             switch (estadoAct)
             {
-                case State.WanderSoldier:
+                case State.ConquistarSoldier:
 
                     //accion asociada al estado Wander aparte de los steerings correspondientes.
                     EnemigoActual = veoEnemigo();
@@ -223,7 +222,7 @@ public class SoldierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.WanderSoldier);
+                        entrar(State.ConquistarSoldier);
                     }
 
                     //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
@@ -243,7 +242,7 @@ public class SoldierAgentNPC : AgentNPC
                     if (Vida == 200)
                     {
                         salir(estadoAct);
-                        entrar(State.WanderSoldier);
+                        entrar(State.ConquistarSoldier);
                     }
                     break;
                 default:
