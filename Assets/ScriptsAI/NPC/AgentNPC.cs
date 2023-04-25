@@ -27,8 +27,12 @@ public enum State
     HuirTanque,
     CurarTanque,
     Berserker,
-    WanderBerserker,
-    ConquistarTanque
+    ConquistarBerserker,
+    ConquistarTanque,
+
+    //Estados del arquero
+    VigilarArquero,
+    AtacarArquero
 }
 
 public enum Team

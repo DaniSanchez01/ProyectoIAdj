@@ -93,8 +93,8 @@ public class TankAgentNPC : AgentNPC
                 agentState = estadoAEntrar;
                 StartCoroutine(CoAtaque);
                 break;
-            case State.WanderBerserker:
-                if (console) Debug.Log("Entrando en modo WanderBerserker");
+            case State.ConquistarBerserker:
+                if (console) Debug.Log("Entrando en modo ConquistarBerserker");
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
                 agentState = estadoAEntrar;
                 break;
@@ -140,8 +140,8 @@ public class TankAgentNPC : AgentNPC
                 this.deleteAllSteerings();
                 Inmovil = false;
                 break;
-            case State.WanderBerserker:
-                if (console) Debug.Log("Saliendo del estado WanderBerserker");
+            case State.ConquistarBerserker:
+                if (console) Debug.Log("Saliendo del estado ConquistarBerserker");
                 this.deleteAllSteerings();
                 break;
             default:
@@ -247,11 +247,11 @@ public class TankAgentNPC : AgentNPC
                     if(EnemigoActual.estaMuerto() ||!sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.WanderBerserker);
+                        entrar(State.ConquistarBerserker);
                     }
                     break;
 
-                case State.WanderBerserker:
+                case State.ConquistarBerserker:
                     EnemigoActual = veoEnemigo();
 
                     //1.Transicion al estado berserker
