@@ -72,7 +72,7 @@ public class MapaInfluencia : MonoBehaviour {
     // Coger con pinzas, ver nodos, listas_coordenadas... // Ver GridPathFinding
     void expandir(float influencia){
         // rellenar
-        lista_coordenadas = getVecinosValidosProf(Nodo n, 1)
+        lista_coordenadas = getVecinosValidosProf(Nodo n, 1);
         foreach (GameObject (x,y) in lista_coordenadas) {
             // es mayor?
             if (array_distancia[x, y] < influencia){    

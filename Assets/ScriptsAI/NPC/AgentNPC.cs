@@ -32,7 +32,10 @@ public enum State
 
     //Estados del arquero
     VigilarArquero,
-    AtacarArquero
+    AtacarArquero,
+    HuirArquero,
+    CurarArquero,
+    ConquistarArquero
 }
 
 public enum Team
