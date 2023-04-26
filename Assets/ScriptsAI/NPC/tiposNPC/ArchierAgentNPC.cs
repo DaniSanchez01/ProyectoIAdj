@@ -132,7 +132,7 @@ public class ArchierAgentNPC : AgentNPC
                     if (EnemigoActual) //1 transicion de vigilarArquero
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
-                        entrar(State.AtacarSoldier); //voy a entrar en ataque y digo el enemigo que he detectado
+                        entrar(State.AtacarArquero); //voy a entrar en ataque y digo el enemigo que he detectado
                     }
                     break;
 
@@ -233,7 +233,11 @@ public class ArchierAgentNPC : AgentNPC
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
+        if (!Inmovil)
+        {
+            base.Update();
+            transitar(agentState);
+        }
     }
 
     public override void LateUpdate()
