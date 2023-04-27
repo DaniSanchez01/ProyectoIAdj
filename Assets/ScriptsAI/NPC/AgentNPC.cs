@@ -14,28 +14,18 @@ public enum State
     runningToPoint,
     LRTA,
 
-    //Estados del soldado
-    VigilarSoldier,
-    AtacarSoldier,
-    HuirSoldier,
-    CurarseSoldier,
-    ConquistarSoldier,
+    //Estados que usan todas las unidades
+    Vigilar,
+    Atacar,
+    Huir,
+    Curarse,
+    Conquistar,
 
-    //Estados del tanque
-    VigilarTanque,
-    AtacarTanque,
-    HuirTanque,
-    CurarTanque,
+    //Estados extra que tiene el tanque propios
     Berserker,
     ConquistarBerserker,
-    ConquistarTanque,
 
-    //Estados del arquero
-    VigilarArquero,
-    AtacarArquero,
-    HuirArquero,
-    CurarArquero,
-    ConquistarArquero
+    
 }
 
 public enum Team
@@ -241,16 +231,16 @@ public abstract class AgentNPC : Agent
             case(State.LRTA):
                 frase = "Estoy haciendo A*";
                 break;
-            case(State.VigilarSoldier):
+            case(State.Vigilar):
                 frase = "Estoy vigilando";
                 break;
-            case(State.AtacarSoldier):
+            case(State.Atacar):
                 frase = "Al ataque!";
                 break;
-            case(State.HuirSoldier):
+            case(State.Huir):
                 frase = "No quiero morir!!!";
                 break;
-            case(State.CurarseSoldier):
+            case(State.Curarse):
                 frase = "Necesito vida";
                 break;
             default:

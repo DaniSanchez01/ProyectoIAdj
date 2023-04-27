@@ -20,7 +20,7 @@ public class ArchierAgentNPC : AgentNPC
         base.Start();
 
         //inicializacion de atributos
-        agentState = State.VigilarArquero;
+        agentState = State.Vigilar;
         Vida = 150;
         Inmovil = false;
         RangoAtaque = 1.5f;
@@ -52,28 +52,28 @@ public class ArchierAgentNPC : AgentNPC
     {
              switch (estadoAEntrar)
         {
-            case State.VigilarArquero:
-                if (console) Debug.Log("Entrando en el estado VigilarArquero");
+            case State.Vigilar:
+                if (console) Debug.Log("Entrando en el estado Vigilar");
                 agentState = estadoAEntrar;
                 break;
-            case State.AtacarArquero:
-                if (console) Debug.Log("Entrando en el estado AtacarArquero");
+            case State.Atacar:
+                if (console) Debug.Log("Entrando en el estado Atacar");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
                 StartCoroutine(CoAtaque);
                 break;
-            case State.HuirArquero:
-                if (console) Debug.Log("Entrando en el estado HuirArquero");
+            case State.Huir:
+                if (console) Debug.Log("Entrando en el estado Huir");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
                 break;
-            case State.CurarArquero:
-                if (console) Debug.Log("Entrando en el estado CurarArquero");
+            case State.Curarse:
+                if (console) Debug.Log("Entrando en el estado Curarse");
                 agentState = estadoAEntrar;
                 //ir a punto de curacion
                 break;
-            case State.ConquistarArquero:
-                if (console) Debug.Log("Entrando en el estado ConquistarArquero");
+            case State.Conquistar:
+                if (console) Debug.Log("Entrando en el estado Conquistar");
                 agentState = estadoAEntrar;
                 //ir a punto de conquista
                 break;
@@ -88,26 +88,26 @@ public class ArchierAgentNPC : AgentNPC
     {
         switch (estadoActual)
         {
-            case State.VigilarArquero:
-                if (console) Debug.Log("Saliendo en el estado VigilarArquero");
+            case State.Vigilar:
+                if (console) Debug.Log("Saliendo en el estado Vigilar");
                 this.deleteAllSteerings();
                 break;
-            case State.AtacarArquero:
-                if (console) Debug.Log("Saliendo en el estado AtacarArquero");
+            case State.Atacar:
+                if (console) Debug.Log("Saliendo en el estado Atacar");
                 StopCoroutine(CoAtaque);
                 Inmovil = false;
                 this.deleteAllSteerings();
                 break;
-            case State.HuirArquero:
-                if (console) Debug.Log("Saliendo en el estado HuirArquero");
+            case State.Huir:
+                if (console) Debug.Log("Saliendo en el estado Huir");
                 this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "huir"
                 break;
-            case State.CurarArquero:
-                if (console) Debug.Log("Saliendo en el estado CurarArquero");
+            case State.Curarse:
+                if (console) Debug.Log("Saliendo en el estado Curarse");
                 this.deleteAllSteerings();
                 break;
-            case State.ConquistarArquero:
-                if (console) Debug.Log("Saliendo en el estado ConquistarArquero");
+            case State.Conquistar:
+                if (console) Debug.Log("Saliendo en el estado Conquistar");
                 this.deleteAllSteerings();
                 break;
             default:
@@ -124,25 +124,25 @@ public class ArchierAgentNPC : AgentNPC
         {
             switch (estadoAct)
             {
-                case State.VigilarArquero:
+                case State.Vigilar:
                     //accion asociada al estado vigilar aparte de los steerings correspondientes.
                     EnemigoActual = veoEnemigo();
 
                     //1. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de vigilarArquero
+                    if (EnemigoActual) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
-                        entrar(State.AtacarArquero); //voy a entrar en ataque y digo el enemigo que he detectado
+                        entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
                     }
                     break;
 
-                case State.AtacarArquero:
+                case State.Atacar:
 
                     //1. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
                     if (Vida <= 50) //si nos falta vida huimos
                     {
                         salir(estadoAct);
-                        entrar(State.HuirArquero);
+                        entrar(State.Huir);
                     }
 
                     //2. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
@@ -150,23 +150,23 @@ public class ArchierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.VigilarArquero);
+                        entrar(State.Vigilar);
                     }
                     break;
-                case State.HuirArquero:
+                case State.Huir:
                     //1. La primera transicion en el estado huir es comprobar si el enemigo actual esta muerto o ya no me ve
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.CurarArquero);
+                        entrar(State.Curarse);
                     }
                     break;
-                case State.CurarArquero:
+                case State.Curarse:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 150)
                     {
                         salir(estadoAct);
-                        entrar(State.VigilarArquero);
+                        entrar(State.Vigilar);
                     }
                     break;
                 default:
@@ -179,25 +179,25 @@ public class ArchierAgentNPC : AgentNPC
         {
             switch (estadoAct)
             {
-                case State.ConquistarArquero:
+                case State.Conquistar:
                     //accion asociada al estado vigilar aparte de los steerings correspondientes.
                     EnemigoActual = veoEnemigo();
 
                     //1. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de vigilarArquero
+                    if (EnemigoActual) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
-                        entrar(State.AtacarSoldier); //voy a entrar en ataque y digo el enemigo que he detectado
+                        entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
                     }
                     break;
 
-                case State.AtacarArquero:
+                case State.Atacar:
 
                     //1. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
                     if (Vida <= 50) //si nos falta vida huimos
                     {
                         salir(estadoAct);
-                        entrar(State.HuirArquero);
+                        entrar(State.Huir);
                     }
 
                     //2. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
@@ -205,23 +205,23 @@ public class ArchierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.ConquistarArquero);
+                        entrar(State.Conquistar);
                     }
                     break;
-                case State.HuirArquero:
+                case State.Huir:
                     //1. La primera transicion en el estado huir es comprobar si el enemigo actual esta muerto o ya no me ve
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.CurarArquero);
+                        entrar(State.Curarse);
                     }
                     break;
-                case State.CurarArquero:
+                case State.Curarse:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 150)
                     {
                         salir(estadoAct);
-                        entrar(State.ConquistarArquero);
+                        entrar(State.Conquistar);
                     }
                     break;
                 default:

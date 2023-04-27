@@ -26,7 +26,7 @@ public class TankAgentNPC : AgentNPC
         base.Start();
 
         //atributos inicializados del tanque
-        agentState = State.VigilarTanque;
+        agentState = State.Vigilar;
         Vida = 300;
         Inmovil = false;
         RangoAtaque = 0.6f;
@@ -59,31 +59,31 @@ public class TankAgentNPC : AgentNPC
     {
         switch(estadoAEntrar)
         {
-            case State.VigilarTanque:
-                if (console) Debug.Log("Entrando en el estado VigilarTanque");
+            case State.Vigilar:
+                if (console) Debug.Log("Entrando en el estado Vigilar");
                 //aqui podemos poner un arrive al punto a vigilar o una ruta
                 agentState = estadoAEntrar;
                 break;
-            case State.ConquistarTanque:
-                if (console) Debug.Log("Entrando en el estado de ConquistarTanque");
+            case State.Conquistar:
+                if (console) Debug.Log("Entrando en el estado de Conquistar");
                 //aqui podemos poner un punto a conquistar
                 agentState = estadoAEntrar;
                 break;
-            case State.AtacarTanque:
-                if (console) Debug.Log("Entrando en el estado AtacarTanque");
+            case State.Atacar:
+                if (console) Debug.Log("Entrando en el estado Atacar");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
                 StartCoroutine(CoAtaque);
                 break;
 
-            case State.HuirTanque:
-                if (console) Debug.Log("Entrando en el estado de huirTanque");
+            case State.Huir:
+                if (console) Debug.Log("Entrando en el estado de Huir");
                 agentState = estadoAEntrar;
                 GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
                 break;
 
-            case State.CurarTanque:
-                if (console) Debug.Log("Entrando en el estado de CurarTanque");
+            case State.Curarse:
+                if (console) Debug.Log("Entrando en el estado de Curarse");
                 agentState = estadoAEntrar;
                 //aqui podemos poner un arrive a algun waypoint de curacion o algun pathfollowing
                 break;
@@ -110,28 +110,28 @@ public class TankAgentNPC : AgentNPC
     {
         switch (estadoAEntrar)
         {
-            case State.VigilarTanque:
-                if (console) Debug.Log("Saliendo del estado VigilarTanque");
+            case State.Vigilar:
+                if (console) Debug.Log("Saliendo del estado Vigilar");
                 this.deleteAllSteerings();
                 break;
-            case State.ConquistarTanque:
-                if (console) Debug.Log("Saliendo del estado ConquistarTanque");
+            case State.Conquistar:
+                if (console) Debug.Log("Saliendo del estado Conquistar");
                 this.deleteAllSteerings();
                 break;
-            case State.AtacarTanque:
-                if (console) Debug.Log("Saliendo del estado AtacarTanque");
+            case State.Atacar:
+                if (console) Debug.Log("Saliendo del estado Atacar");
                 StopCoroutine(CoAtaque); //paras de atacar
                 this.deleteAllSteerings(); //eliminas steerings
                 Inmovil = false; //ya no estas inmovil
                 break;
 
-            case State.HuirTanque:
-                if (console) Debug.Log("Saliendo del estado de huirTanque");
+            case State.Huir:
+                if (console) Debug.Log("Saliendo del estado de Huir");
                 this.deleteAllSteerings();
                 break;
 
-            case State.CurarTanque:
-                if (console) Debug.Log("Saliendo del estado de CurarTanque");
+            case State.Curarse:
+                if (console) Debug.Log("Saliendo del estado de Curarse");
                 this.deleteAllSteerings();
                 break;
 
@@ -161,50 +161,50 @@ public class TankAgentNPC : AgentNPC
         {
             switch(estadoAct)
             {
-                case State.VigilarTanque:
-                    //accion asociada al estado VigilarTanque
+                case State.Vigilar:
+                    //accion asociada al estado Vigilar
                     EnemigoActual = veoEnemigo();
 
-                    //1. Transicion del estado VigilarTanque
+                    //1. Transicion del estado Vigilar
                     if(EnemigoActual)
                     {
                         salir(estadoAct);
-                        entrar(State.AtacarTanque);
+                        entrar(State.Atacar);
                     }
                     break;
-                case State.AtacarTanque:
+                case State.Atacar:
 
                     //1. La primera transicion para el tanque es comprobar si le queda poca vida para huir
                     if(Vida <= 40)
                     {
                         salir(estadoAct);
-                        entrar(State.HuirTanque);
+                        entrar(State.Huir);
                     }
 
                     //2. Si tenemos vida suficiente pero no vemos al enemigo o esta muerto o ambas pues volvemos al estado Wander
                     else if(EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.VigilarTanque);
+                        entrar(State.Vigilar);
                     }
                     break;
-                case State.HuirTanque:
+                case State.Huir:
 
                     //1. Si el enemigo que me esta siguiendo ha muerto o ya no me ve voy a curarme
                     if(EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.CurarTanque);
+                        entrar(State.Curarse);
                     }
                     break;
 
-                case State.CurarTanque:
+                case State.Curarse:
                     
                     //1. Si tengo la vida maxima ya puedo volver a buscar enemigos
                     if(Vida == 300)
                     {
                         salir(estadoAct);
-                        entrar(State.VigilarTanque);
+                        entrar(State.Vigilar);
                     }
                     break;
                 default:
@@ -217,18 +217,18 @@ public class TankAgentNPC : AgentNPC
         else { 
         switch(estadoAct)
             {
-                case State.ConquistarTanque:
-                    //accion asociada al estado ConquistarTanque
+                case State.Conquistar:
+                    //accion asociada al estado Conquistar
                     EnemigoActual = veoEnemigo();
 
-                    //1. Transicion del estado ConquistarTanque
+                    //1. Transicion del estado Conquistar
                     if (EnemigoActual)
                     {
                         salir(estadoAct);
-                        entrar(State.AtacarTanque);
+                        entrar(State.Atacar);
                     }
                     break;
-                case State.AtacarTanque:
+                case State.Atacar:
                     //1. La primera transicion para el tanque es comprobar si le queda poca vida para huir
                     if (Vida <= 40)
                     {
@@ -239,7 +239,7 @@ public class TankAgentNPC : AgentNPC
                     else if (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.ConquistarTanque);
+                        entrar(State.Conquistar);
                     }
                     break;
                 case State.Berserker:
