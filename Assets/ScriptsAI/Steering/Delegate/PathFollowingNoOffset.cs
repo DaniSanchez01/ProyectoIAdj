@@ -166,6 +166,7 @@ public class PathFollowingNoOffset : SeekCraig
         float distance = Mathf.Abs((target.Position - agent.Position).magnitude); 
         if (distance <= target.interiorRadius) { 
             currentNode += pathDir;
+            //Debug.LogFormat("{0},{1}",currentNode,nodes.Count);
             if (currentNode >= nodes.Count) {
                 //Modo 0 = Me quedo al final
                 if (mode == 0) {

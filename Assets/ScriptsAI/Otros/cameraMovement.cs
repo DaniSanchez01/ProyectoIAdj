@@ -6,7 +6,7 @@ public class cameraMovement : MonoBehaviour
 {
     // Start is called before the first frame update
     float speed = 0.4f;
-    float rotationSpeed = 1f;
+    float rotationSpeed = 1.5f;
     void Start()
     {
         

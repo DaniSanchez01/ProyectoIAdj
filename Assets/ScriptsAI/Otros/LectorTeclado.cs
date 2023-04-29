@@ -21,10 +21,11 @@ public class LectorTeclado : MonoBehaviour
     private Agent virt;
 
     public GameObject textoEsquina;
+    public MapasTacticos scriptMapas;
     public bool giz = true;
     private bool depuracion = false;
     private bool guerraTotal = false;
-
+    private typeMap mapa = typeMap.Ninguno;
     private string changeToString(bool a){
         if (a) return "Activado";
         else return "Desactivado";
@@ -175,7 +176,7 @@ public class LectorTeclado : MonoBehaviour
             GameObject.FindObjectOfType<makePathfinding>().prepareLRTA();
         
         }
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X)) {
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C)) {
             if (Input.GetKeyDown(KeyCode.Z)) {
                 depuracion = !depuracion;
                 GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
@@ -188,9 +189,13 @@ public class LectorTeclado : MonoBehaviour
                 }
 
             }
+            else if (Input.GetKeyDown(KeyCode.C)) {
+                scriptMapas.nextMap();
+                mapa = scriptMapas.TipoMapa;
+            }
             else guerraTotal = !guerraTotal;
             TMP_Text t = textoEsquina.GetComponent<TMP_Text>();
-            t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal);
+            t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal)+"\nMapa activo: "+mapa;
 
 
         }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
+  m_IndirectSpecularColor: {r: 0.17975011, g: 0.22506611, b: 0.3065676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -757,6 +757,79 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
+--- !u!1 &77792551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77792552}
+  - component: {fileID: 77792554}
+  - component: {fileID: 77792553}
+  m_Layer: 5
+  m_Name: camara
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &77792552
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77792551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2090412096}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &77792553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77792551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: 3d1d69f6a1077af44833cab15008a5a3, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &77792554
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77792551}
+  m_CullTransparentMesh: 1
 --- !u!1001 &89425956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1194,9 +1267,12 @@ MonoBehaviour:
   pathToFollow: 9
   team: 1
   firstTarget: {fileID: 107190052}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &107190056 stripped
 Transform:
@@ -2225,9 +2301,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 107190052}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &250084702 stripped
 Transform:
@@ -2537,9 +2616,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 1751643312}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &302693095 stripped
 Transform:
@@ -2666,9 +2748,12 @@ MonoBehaviour:
   pathToFollow: 4
   team: 1
   firstTarget: {fileID: 317103528}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &317103532 stripped
 Transform:
@@ -3496,11 +3581,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 2
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -3541,6 +3626,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2133360675}
+  - {fileID: 2090412096}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4325,6 +4411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 548941006}
   - component: {fileID: 548941005}
+  - component: {fileID: 548941007}
   m_Layer: 0
   m_Name: Mapas
   m_TagString: Untagged
@@ -4366,6 +4453,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &548941007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548941004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e32dd0c3b9a84b07b3e95c3b5c9a700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heuristica: 0
 --- !u!1001 &562828856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5450,9 +5550,12 @@ MonoBehaviour:
   pathToFollow: 11
   team: 1
   firstTarget: {fileID: 107190052}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &700741181 stripped
 Transform:
@@ -5476,6 +5579,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b6b49c2a049bf0a49a11d0664a05b57c, type: 3}
   m_PrefabInstance: {fileID: 1232371417}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &710900295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710900296}
+  - component: {fileID: 710900298}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &710900296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710900295}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.8, y: 14.1, z: -26.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 732069218}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &710900298
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710900295}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.19215687, g: 0.3137255, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0.8
+    width: 0.2
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 55
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 3d1d69f6a1077af44833cab15008a5a3, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1001 &713348162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5588,9 +5766,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 107190052}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &718678506 stripped
 Transform:
@@ -5706,6 +5887,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724509485}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &732069216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 732069218}
+  - component: {fileID: 732069217}
+  m_Layer: 0
+  m_Name: minimapa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &732069217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732069216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52eb6a87e8e45644d805358b4b4810d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &732069218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732069216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.910817, y: 632.6447, z: -668.9766}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 710900296}
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &742136826
 GameObject:
   m_ObjectHideFlags: 0
@@ -7127,8 +7353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7494ebadb6be7ec459de0b5f8e6f50b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npc: {fileID: 1680084009}
-  Objetivo: {fileID: 302693090}
+  npc: {fileID: 302693091}
+  Objetivo: {fileID: 1680084008}
   prof: 0
   heur: 0
   giz: 1
@@ -7263,9 +7489,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 1751643312}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1078611094 stripped
 Transform:
@@ -7392,9 +7621,12 @@ MonoBehaviour:
   pathToFollow: 3
   team: 0
   firstTarget: {fileID: 1101587005}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1101587009 stripped
 Transform:
@@ -10673,9 +10905,12 @@ MonoBehaviour:
   pathToFollow: 10
   team: 0
   firstTarget: {fileID: 1664759829}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1664759833 stripped
 Transform:
@@ -10733,9 +10968,12 @@ MonoBehaviour:
   pathToFollow: 11
   team: 1
   firstTarget: {fileID: 1664874837}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1664874841 stripped
 Transform:
@@ -11008,9 +11246,12 @@ MonoBehaviour:
   pathToFollow: 2
   team: 1
   firstTarget: {fileID: 1680084009}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1680084013 stripped
 Transform:
@@ -11237,9 +11478,12 @@ MonoBehaviour:
   pathToFollow: 5
   team: 0
   firstTarget: {fileID: 1698680624}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1698680628 stripped
 Transform:
@@ -11901,9 +12145,12 @@ MonoBehaviour:
   pathToFollow: 8
   team: 0
   firstTarget: {fileID: 1751643312}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1751643316 stripped
 Transform:
@@ -12384,9 +12631,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 1751643312}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1801564832 stripped
 Transform:
@@ -13456,7 +13706,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -13487,7 +13737,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -13507,14 +13757,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908356937}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.4383711, y: 0, z: 0, w: 0.89879405}
   m_LocalPosition: {x: 9.465301, y: -1, z: 7.1520367}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 52, y: 0, z: 0}
 --- !u!1 &1908867920
 GameObject:
   m_ObjectHideFlags: 0
@@ -13651,9 +13901,12 @@ MonoBehaviour:
   pathToFollow: 10
   team: 0
   firstTarget: {fileID: 1751643312}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &1909517007 stripped
 Transform:
@@ -14398,7 +14651,6 @@ GameObject:
   - component: {fileID: 1995663583}
   - component: {fileID: 1995663582}
   - component: {fileID: 1995663581}
-  - component: {fileID: 1995663579}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -14406,20 +14658,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1995663579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995663578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0806b4be1ff61f343874bd35ec108c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textoEsquina: {fileID: 0}
-  giz: 1
 --- !u!81 &1995663581
 AudioListener:
   m_ObjectHideFlags: 0
@@ -14927,9 +15165,12 @@ MonoBehaviour:
   pathToFollow: 0
   team: 1
   firstTarget: {fileID: 107190052}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
+  rangoAtaque: 0
+  modo: 0
   console: 0
 --- !u!4 &2063818895 stripped
 Transform:
@@ -15142,6 +15383,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6b49c2a049bf0a49a11d0664a05b57c, type: 3}
+--- !u!1 &2090412095
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090412096}
+  m_Layer: 5
+  m_Name: minimapa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2090412096
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090412095}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 77792552}
+  m_Father: {fileID: 435529086}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 600, y: 600}
+  m_Pivot: {x: 0, y: 1}
 --- !u!1001 &2101298016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15387,10 +15665,10 @@ RectTransform:
   m_Father: {fileID: 435529086}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 523, y: 182}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -104.00011, y: -25.999992}
+  m_SizeDelta: {x: 200, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133360676
 MonoBehaviour:
@@ -15414,7 +15692,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Modo depuracion: Desactivado
 
-    Guerra Total: Desactivado'
+    Guerra Total: Desactivado
+
+    Mapa
+    activo: Ninguno '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15441,8 +15722,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

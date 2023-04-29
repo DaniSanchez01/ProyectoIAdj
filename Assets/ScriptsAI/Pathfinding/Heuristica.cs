@@ -12,6 +12,7 @@ public interface Heuristica
      * que las celdas son validas y que se puede llegar desde una a las otras, es decir que forman una componente conexa.
      */
     public List<Vector2Int> espacioLocal(Vector2Int celda,int prof,int filas,int cols,Nodo [,] nodos);
+    public List<Vector2Int> espacioLocal(Vector2Int celda,int prof,int filas,int cols,TypeTerrain [,] celdas);
 
     /*
      * Dada 2 celdas obtiene la distancia que sera claculada segun la heuristica
