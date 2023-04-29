@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /*
- * Suposiciones: que el mapa su esquina inferior izquiera empieza en el (0,0,0), 
+ * Suposiciones: que el mapa su esquina inferior izquiera empieza en el (0,0,0),
  * 
  */
 
@@ -14,6 +14,8 @@ public class GridPathFinding : MonoBehaviour
     [SerializeField] private int filas; //numero de celdas que hay a lo largo del ancho notese que NO es lo mismo que filas porque esto representa las celdas de longitud "cellSize" a lo largo del ancho
     [SerializeField] private int columnas; //numero de celdas que hay para cada columna
     [SerializeField] private float cellSize; //longitud del cuadrado del grid
+    [SerializeField] private bool tactics = true; 
+
     private Nodo[,] celdasGrid; //sera un array bidimensional donde se accede a la celda i,j-esima
     private Heuristica heuristicagrid;
     [SerializeField] bool activarGizmos; //se usa para activar los gizmos o no.
@@ -30,6 +32,12 @@ public class GridPathFinding : MonoBehaviour
         get {return heuristicagrid;}
     }
     
+    public bool Tactics {
+        get {return tactics;}
+        set {
+            tactics = value;}
+    }
+
     public int Filas 
     {
         get {return filas;}

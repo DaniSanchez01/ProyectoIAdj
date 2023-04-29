@@ -38,11 +38,11 @@ public class Arrive : SteeringBehaviour
                     agent.agentState = State.Formation;
                     GameObject.FindObjectOfType<FormationManager>().notifyLeaderArrival();
                 }
-                if (agent.agentState == State.runningToPoint)
+                /*if (agent.agentState == State.runningToPoint)
                 {
                     agent.agentState = State.Normal;
                     agent.rodearPunto();
-                }
+                }*/
                 return steer;
 
             }

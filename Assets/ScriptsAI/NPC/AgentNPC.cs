@@ -5,6 +5,9 @@ using System.Linq;
 using System;
 using TMPro;
 
+
+
+
 public enum State
 {
     //Estados base es decir que se dan para todas las clases de NPC que tengamos
@@ -61,6 +64,7 @@ public abstract class AgentNPC : Agent
     private bool depuration = false;
     private bool guerraTotal = false;
     public float influencia;
+    private GameObject bocadillo;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
@@ -70,6 +74,11 @@ public abstract class AgentNPC : Agent
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     [SerializeField] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     public bool console = false;
+    
+    Color lightRed = new Color(1f, 0.5f, 0.5f, 1f);
+    Color darkRed = new Color(0.5f, 0f, 0f, 1f);
+    Color lightBlue = new Color(0.5f, 0.5f, 1f, 1f);
+    Color darkBlue = new Color(0f, 0f, 0.5f, 1f);
 
 
     public Agent CircleVirt {
@@ -146,15 +155,66 @@ public abstract class AgentNPC : Agent
                 firstArbitro = arbitro;
                 listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
             }
+        
+        bocadillo = transform.Find("Bocadillo").gameObject;
+        paintBocadillo();
+        GridPathFinding grid = gameObject.AddComponent<GridPathFinding>();
+        grid.inicializarGrid(30,30,3,typeHeuristica.Manhattan,false);
 
+    }
+
+    public void changeMode() {
+        if (modo == Modo.Ofensivo) modo = Modo.Defensivo;
+        else modo = Modo.Ofensivo;
+        paintBocadillo();
+    }
+
+    public void changeToDefensive() {
+        if (modo!=Modo.Defensivo) {
+            modo = Modo.Defensivo;
+            paintBocadillo();
+        }
+    }
+
+    public void changeToOffensive() {
+        if (modo!=Modo.Ofensivo) {
+            modo = Modo.Ofensivo;
+            paintBocadillo();
+        }
+    }
+
+    void paintBocadillo() {
+        Renderer r = bocadillo.GetComponent<Renderer>();
+        Renderer r2 = bocadillo.transform.Find("circuloMed").gameObject.GetComponent<Renderer>();
+        Renderer r3 = bocadillo.transform.Find("circuloPeq").gameObject.GetComponent<Renderer>();
+
+        if (modo == Modo.Defensivo) {
+            
+            r.material.color = Color.white;
+            r2.material.color = Color.white;
+            r3.material.color = Color.white;
+            
+        }
+        else {
+            if (team==Team.Red) {
+                r.material.color = darkRed;
+                r2.material.color = darkRed;
+                r3.material.color = darkRed;
+
+            }
+            else {
+                r.material.color = darkBlue;
+                r2.material.color = darkBlue;
+                r3.material.color = darkBlue;
+            }
+        }
     }
 
     public abstract float getTerrainCost(Nodo a);
 
     public void changeDepuration() {
         depuration = !depuration;
-        Transform bocadillo = transform.Find("Bocadillo");
-        bocadillo.gameObject.SetActive(depuration);
+        bocadillo.SetActive(depuration);
 
     }
 
@@ -211,9 +271,9 @@ public abstract class AgentNPC : Agent
     }
 
     public void putBocadillo() {
-        Transform hijo = transform.Find("Bocadillo");
-        hijo  = hijo.Find("Texto");
-        TMP_Text t = hijo.GetComponent<TMP_Text>();
+        Transform b = bocadillo.transform;
+        b  = b.Find("Texto");
+        TMP_Text t = b.GetComponent<TMP_Text>();
         string frase;
         switch (agentState) {
             case(State.Normal):

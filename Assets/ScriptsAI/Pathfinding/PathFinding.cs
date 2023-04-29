@@ -24,6 +24,7 @@ public class PathFinding
     //Lista que guarda el espacio local de cada momento
     List<Nodo> localSpace = new List<Nodo>();
     public bool giz;
+    MapasTacticos mapas;
 
     
     public PathFinding(GridPathFinding grid, Nodo posicion, Nodo objetivo, AgentNPC npc, int prof, bool giz) {
@@ -124,7 +125,7 @@ public class PathFinding
                     continue;
                 }
                 //Calculo el posible nuevo conste de g
-                float possibleG = nodoActual.g + coste(nodoActual,vecino);
+                float possibleG = Mathf.Max(0,nodoActual.g + coste(nodoActual,vecino) + costeTactico(nodoActual,vecino));
                 //Si el nuevo coste para llegar a este nodo es menor del que había
                 if (possibleG < vecino.g) {
                     //Actualiza los valores del nodo
@@ -153,6 +154,24 @@ public class PathFinding
     public float coste(Nodo a, Nodo b) {
         float c = (agente.getTerrainCost(a) + agente.getTerrainCost(b)) / 2;
         return c;
+    }
+
+    public float costeTactico(Nodo a, Nodo b){
+        if (grid.Tactics){
+            Vector2Int celdaActual = a.Celda;
+            Vector2Int celdaDestino = b.Celda;
+            if (mapas==null) mapas = GameObject.FindObjectOfType<MapasTacticos>();
+            float inf1 = mapas.getInfluencia(celdaActual.x,celdaActual.y);
+            float inf2 = mapas.getInfluencia(celdaActual.x,celdaActual.y);
+            //Que haya enemigos cerca hace que el coste sea más alto, si hay amigos cerca hace que el coste sea más bajo
+            if (agente.team == Team.Blue){
+                inf1 =-inf1;
+                inf2 =-inf2;
+            }
+            float total = (float) System.Math.Round((inf1+inf2)/2,2);
+            return total;
+        }
+        else return 0f;
     }
 
     //Una vez encontrado el nodo final, reconstruye el camino

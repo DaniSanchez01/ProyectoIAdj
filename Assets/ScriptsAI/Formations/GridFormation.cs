@@ -162,7 +162,7 @@ public class GridFormation: MonoBehaviour {
 
     }
 
-    //A esta función se le llama cuando el lider hallegado a la nueva posición del grid (Cuando entra en el radio interior del 
+    //A esta función se le llama cuando el lider ha llegado a la nueva posición del grid (Cuando entra en el radio interior del 
     //virtualAgent de su ranura, (mirar cambios en el script Arrive))
     //Esta función hace que cada npc vaya a su celda correspondiente y que se orienten como deben
     public void agentsToCell() {

@@ -13,6 +13,12 @@ public class MapasTacticos : MonoBehaviour {
     private float[,] array_rojo;
     private float[,] array_azul;
     private float[,] array_final;
+
+    private float[,] influencia;
+    private float[,] tension;
+    private float[,] vulnerabilidad;
+
+
     private int cellSize = 3;
     private float reduccion_influencia = 0.2f;
 
@@ -30,36 +36,64 @@ public class MapasTacticos : MonoBehaviour {
         get{return tipoMapa;}
     }
 
+    public float[,] mapaInfluencia {
+        get {return influencia;}
+    }
+
+    public float[,] mapaTension {
+        get {return tension;}
+    }
+
+    public float[,] mapaVulnerabilidad {
+        get {return vulnerabilidad;}
+    }
+
+    public float getInfluencia(int x, int y) {
+        return influencia[x,y];
+    }
+
+    public float getTension(int x, int y) {
+        return tension[x,y];
+    }
+
+    public float getVulnerabilidad(int x, int y) {
+        return vulnerabilidad[x,y];
+    }
+    
     void Start() {
 
         // Inicializar los arrays de distancia y colores
         array_rojo = new float[30, 30]; // Inicializamos el array a 0
         array_azul = new float[30, 30]; // Inicializamos el array a 0
-        array_final = new float[30, 30]; // Inicializamos el array a 0                
+        array_final = new float[30, 30]; // Inicializamos el array a 0
+        influencia = new float[30, 30]; // Inicializamos el array a 0                
+        tension = new float[30, 30]; // Inicializamos el array a 0                
+        vulnerabilidad = new float[30, 30]; // Inicializamos el array a 0                
         minimapa= FindObjectOfType<MinimapaQuad>();
         TerrainMap scriptMapa= FindObjectOfType<TerrainMap>();
         mapaTerreno = scriptMapa.MapaTerreno;
         h = FactoriaHeuristica.crearHeuristica(heuristica);
+        StartCoroutine(calcularMapas());
         StartCoroutine(decrementarMapa());
+
 
         
     }
 
     void Update() {
         // Calcular la distancia desde cada celda hasta los NPC de cada equipo
-        CalcularDistancia("NPCazul"); //, 1);
-        CalcularDistancia("NPCrojo"); //, -1);
+        
         switch (tipoMapa) {
             case (typeMap.Influencia):
-                array_final = calculaInfluencia();
+                array_final = influencia;
                 minimapa.ChangeColor(array_final);
                 break;
             case (typeMap.Tension):
-                array_final = calculaTension();
+                array_final = tension;
                 minimapa.ChangeColorTension(array_final);
                 break;
             case (typeMap.Vulnerabilidad):
-                array_final = calculaVulnerabilidad();
+                array_final = vulnerabilidad;
                 minimapa.ChangeColorTension(array_final);
                 break;
             default:
@@ -81,7 +115,7 @@ public class MapasTacticos : MonoBehaviour {
     public IEnumerator decrementarMapa()
     {
         while (true) {
-            yield return new WaitForSeconds(1); //Esperate 2 segundos quieto
+            yield return new WaitForSeconds(1);
             for (int i=0;i<30;i++) {
                 for (int j=0;j<30;j++) {
                     array_azul[i,j] = Mathf.Max(0, array_azul[i,j]-0.05f);
@@ -90,9 +124,24 @@ public class MapasTacticos : MonoBehaviour {
             }
         }
     }
-    
 
-    void CalcularDistancia(string tag) {
+    public IEnumerator calcularMapas()
+    {
+        while (true) {
+            algoritmoInundacion("NPCazul");
+            algoritmoInundacion("NPCrojo"); 
+            for (int i=0;i<30;i++) {
+                for (int j=0;j<30;j++) {
+                    influencia[i,j] = array_azul[i,j]-array_rojo[i,j];
+                    tension[i,j] = array_azul[i,j]+array_rojo[i,j];
+                    vulnerabilidad[i,j] = tension[i,j]-Mathf.Abs(influencia[i,j]);
+                }
+            }
+            yield return new WaitForSeconds(0.5f); //Esperate 2 segundos quieto                
+        }
+    }
+
+    void algoritmoInundacion(string tag) {
         float[,] mapa;
         // Obtener los NPC del equipo correspondiente
         if (tag == "NPCazul") mapa = array_azul;
@@ -111,37 +160,6 @@ public class MapasTacticos : MonoBehaviour {
                 if (npc.influencia > reduccion_influencia) expandir(mapa,celda, npc.influencia-reduccion_influencia);
             }
         }
-    }
-    float[,] calculaInfluencia() {
-        float[,] array = new float[30,30];
-        for (int i=0;i<30;i++) {
-            for (int j=0;j<30;j++) {
-                array[i,j] = array_azul[i,j]-array_rojo[i,j]; 
-            }
-        }
-        return array;
-    }
-
-    float[,] calculaTension() {
-        float[,] array = new float[30,30];
-        for (int i=0;i<30;i++) {
-            for (int j=0;j<30;j++) {
-                array[i,j] = array_azul[i,j]+array_rojo[i,j]; 
-            }
-        }
-        return array;
-    }
-
-    float[,] calculaVulnerabilidad() {
-        float[,] array = new float[30,30];
-        for (int i=0;i<30;i++) {
-            for (int j=0;j<30;j++) {
-                float tension = array_azul[i,j]+array_rojo[i,j];
-                float influencia = Mathf.Abs(array_azul[i,j]-array_rojo[i,j]);
-                array[i,j] = tension-influencia;
-            }
-        }
-        return array;
     }
 
     

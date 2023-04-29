@@ -4462,9 +4462,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 548941004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e32dd0c3b9a84b07b3e95c3b5c9a700, type: 3}
+  m_Script: {fileID: 11500000, guid: a9137b40706c48c48b94caec11fda22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minim: {fileID: 2090412095}
   heuristica: 0
 --- !u!1001 &562828856
 PrefabInstance:
@@ -7300,7 +7301,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1042169390}
-  - component: {fileID: 1042169392}
   - component: {fileID: 1042169393}
   - component: {fileID: 1042169394}
   m_Layer: 0
@@ -7325,22 +7325,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1042169392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042169389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e26951816d49a45b97005c383ef0a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filas: 30
-  columnas: 30
-  cellSize: 3
-  activarGizmos: 0
 --- !u!114 &1042169393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7371,6 +7355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textoEsquina: {fileID: 2133360674}
+  scriptMapas: {fileID: 548941007}
   giz: 1
 --- !u!1001 &1071880462
 PrefabInstance:
@@ -12637,7 +12622,7 @@ MonoBehaviour:
   inmovil: 0
   rangoAtaque: 0
   modo: 0
-  console: 0
+  console: 1
 --- !u!4 &1801564832 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -15398,7 +15383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2090412096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15690,12 +15675,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Modo depuracion: Desactivado
-
-    Guerra Total: Desactivado
-
-    Mapa
-    activo: Ninguno '
+  m_text: "Modo depuracion: Desactivado\nGuerra Total: Desactivado\nMapa activo:
+    Ninguno \nPathFinding Tactico: Activado"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

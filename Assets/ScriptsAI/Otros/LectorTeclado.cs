@@ -25,6 +25,10 @@ public class LectorTeclado : MonoBehaviour
     public bool giz = true;
     private bool depuracion = false;
     private bool guerraTotal = false;
+    private bool defensiveRed = true;
+    private bool defensiveBlue = true;
+    private bool tactico = true;
+
     private typeMap mapa = typeMap.Ninguno;
     private string changeToString(bool a){
         if (a) return "Activado";
@@ -67,45 +71,41 @@ public class LectorTeclado : MonoBehaviour
             //Al pulsar con el raton
             if (Input.GetMouseButtonUp(0))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                //Si da en algo
-                if (Physics.Raycast(ray, out hitInfo))
-                {
-                    AgentNPC a;
-                    //Si es un NPC
-                    if (hitInfo.transform.gameObject.TryGetComponent<AgentNPC>(out a))
+                if (selectedUnits.Count==0) {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hitInfo;
+                    //Si da en algo
+                    if (Physics.Raycast(ray, out hitInfo))
                     {
-                        //Si este NPC todavia no se encuentra en la lista
-                        if (!selectedUnits.Contains(hitInfo.transform.gameObject))
+                        AgentNPC a;
+                        //Si es un NPC
+                        if (hitInfo.transform.gameObject.TryGetComponent<AgentNPC>(out a))
                         {
-                            //Añadirlos a la lista
                             selectedUnits.Add(hitInfo.transform.gameObject);
                             hitInfo.transform.gameObject.GetComponent<Cubo>().enable();
                         }
+                        
                     }
                 }
+
             }
             // Shift+F
-            else if (Input.GetKeyDown(KeyCode.F)) {
+            /*else if (Input.GetKeyDown(KeyCode.F)) {
                     GameObject.FindObjectOfType<FormationManager>().formar();       
-            }
-        {
-        }
+            }*/
         }
         //Si estamos pulsando el espacio
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             //Si hay una formación activa, descativarla
-            GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
+            //GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
 
             //Hacer desaparecer los cubos y borrar la lista
             foreach (var npc in selectedUnits)
             {
                 npc.GetComponent<Cubo>().enable();
                 AgentNPC n = npc.GetComponent<AgentNPC>();
-                n.changeArbitro(n.FirstArbitro);
-                
+                n.changeArbitro(typeArbitro.Quieto);
             }
             selectedUnits.Clear();
         }
@@ -122,51 +122,33 @@ public class LectorTeclado : MonoBehaviour
                 {
                     Vector3 newTarget = hitInfo.point;
                     //Si todos los npcs seleccionados pertenecer a una formación, moverse en formación
-                    if (allInFormation(getSelectedUnitsAgents())) {
+                    /*if (allInFormation(getSelectedUnitsAgents())) {
                         GameObject.FindObjectOfType<FormationManager>().moveToPoint(newTarget);
-                    }
+                    }*/
                     //Si no, mover cada npc de manera individual al punto
-                    else {
-                        if (selectedUnits.Count!=0) {
-                            GameObject.FindObjectOfType<FormationManager>().disactivateGrid();
-                            GameObject.FindObjectOfType<FormationManager>().acabarFormacion();
-                            virt.Position = newTarget;
-                            int nUnits = selectedUnits.Count;
-                            float angleDistance = 360f;
-                            if (nUnits >0) {
-                                angleDistance = 360.0f/nUnits;
-                            }
-                            float angle = 0f;
-                            float distance = 0.3f*nUnits;
-                            AgentNPC[] agents = getSelectedUnitsAgents();
-            
+                    if (selectedUnits.Count!=0) {
+                        AgentNPC[] agents = getSelectedUnitsAgents();
+                        virt.Position = newTarget;
+                        foreach (var npc in agents)
+                        {
+                            
+                            npc.agentState = State.runningToPoint;
+                            npc.TryGetComponent<GridPathFinding>(out GridPathFinding grid);
+                            //Calcula en que celda se encuentra el npc
+                            Vector2Int celda = grid.getCeldaDePuntoPlano(npc.Position);
+                            Nodo posicion = grid.GetNodo(celda.x,celda.y);
+                            //Calcula en que celda se encuentra el objetivo
+                            Vector2Int celdaObjetivo = grid.getCeldaDePuntoPlano(newTarget);
+                            Nodo obj = grid.GetNodo(celdaObjetivo.x,celdaObjetivo.y);
+                            //Crea el algoritmo de PathFinding
+                            PathFinding algorithm= new PathFinding(grid,posicion,obj, npc, 1, false);
+                            algorithm.A();
+                            //angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
 
-                            foreach (var npc in agents)
-                            {
-                                //npc.SendMessage("NewTarget", newTarget);
-                                // Nota: Estructura jerárquica -> BroadcastMessage.
-                                npc.NoWait();
-                                Vector3 newPosition = npc.OrientationToVector(angle)*distance+newTarget;
-                                float newOrientation = Bodi.MapToRange(angle+180,Range.grados180);
-                                if (npc.CircleVirt == null) {
-                                    npc.CircleVirt = Agent.CreateStaticVirtual(newPosition,ori: newOrientation,intRadius:0.1f,paint:false);
-                                }
-                                else {
-                                    npc.CircleVirt.Position = newPosition;
-                                    npc.CircleVirt.Orientation = newOrientation;
-                                }
-                                npc.agentState = State.runningToPoint;
-                                npc.changeArbitro(typeArbitro.Perseguidor);
-                                Arrive a = (Arrive) npc.takeSteering("Arrive");
-                                Face b = (Face) npc.takeSteering("Face");
-                                a.NewTarget(virt);
-                                b.FaceNewTarget(virt);
-                                angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
-
-                            }
                         }
-                        
                     }
+                        
+                    
                     
                 }
             }
@@ -176,7 +158,39 @@ public class LectorTeclado : MonoBehaviour
             GameObject.FindObjectOfType<makePathfinding>().prepareLRTA();
         
         }
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C)) {
+        else if (Input.GetKeyDown(KeyCode.B)){
+            GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCazul");
+                if (defensiveBlue) {
+                    defensiveBlue = false;
+                    foreach (var npc in agents) {
+                        npc.GetComponent<AgentNPC>().changeToOffensive();
+                    }
+                }
+                else {
+                    defensiveBlue = true;
+                    foreach (var npc in agents) {
+                        npc.GetComponent<AgentNPC>().changeToDefensive();
+                    }
+                }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.R)){
+            GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
+                if (defensiveRed) {
+                    defensiveRed = false;
+                    foreach (var npc in agents) {
+                        npc.GetComponent<AgentNPC>().changeToOffensive();
+                    }
+                }
+                else {
+                    defensiveRed = true;
+                    foreach (var npc in agents) {
+                        npc.GetComponent<AgentNPC>().changeToDefensive();
+                    }
+                }
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.V)) {
             if (Input.GetKeyDown(KeyCode.Z)) {
                 depuracion = !depuracion;
                 GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
@@ -193,9 +207,24 @@ public class LectorTeclado : MonoBehaviour
                 scriptMapas.nextMap();
                 mapa = scriptMapas.TipoMapa;
             }
+            else if (Input.GetKeyDown(KeyCode.V)) {
+                tactico = !tactico;
+                GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
+                foreach (var npc in agents) {
+                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a)){
+                        a.Tactics = tactico;
+                    }
+                }
+                agents = GameObject.FindGameObjectsWithTag("NPCazul");
+                foreach (var npc in agents) {
+                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a)){
+                        a.Tactics = tactico;
+                    }
+                }
+            }
             else guerraTotal = !guerraTotal;
             TMP_Text t = textoEsquina.GetComponent<TMP_Text>();
-            t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal)+"\nMapa activo: "+mapa;
+            t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal)+"\nMapa activo: "+mapa+"\nPathFinding Tactico: "+changeToString(tactico);
 
 
         }
