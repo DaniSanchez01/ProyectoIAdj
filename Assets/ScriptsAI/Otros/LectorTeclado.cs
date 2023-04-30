@@ -207,6 +207,7 @@ public class LectorTeclado : MonoBehaviour
                 scriptMapas.nextMap();
                 mapa = scriptMapas.TipoMapa;
             }
+            
             else if (Input.GetKeyDown(KeyCode.V)) {
                 tactico = !tactico;
                 GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");

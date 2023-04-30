@@ -17,8 +17,6 @@ public class ArchierAgentNPC : AgentNPC
         if (team == Team.Blue){
             this.Orientation = 180f;
         }
-        base.Start();
-
         //inicializacion de atributos
         agentState = State.Vigilar;
         Vida = 150;
@@ -26,6 +24,9 @@ public class ArchierAgentNPC : AgentNPC
         RangoAtaque = 1.5f;
         CoAtaque = atacar();
         modoNPC = Modo.Defensivo;
+        base.Start();
+
+        
 
     }
 

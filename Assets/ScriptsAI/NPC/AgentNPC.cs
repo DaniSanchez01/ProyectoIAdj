@@ -66,6 +66,8 @@ public abstract class AgentNPC : Agent
     public float influencia;
     private GameObject bocadillo;
 
+    private TMP_Text contador;
+
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
     [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
@@ -158,6 +160,8 @@ public abstract class AgentNPC : Agent
         
         bocadillo = transform.Find("Bocadillo").gameObject;
         paintBocadillo();
+        contador = transform.Find("Contador").Find("Vida").GetComponent<TMP_Text>();
+        UpdateContador();
         GridPathFinding grid = gameObject.AddComponent<GridPathFinding>();
         grid.inicializarGrid(30,30,3,typeHeuristica.Manhattan,false);
 
@@ -167,6 +171,10 @@ public abstract class AgentNPC : Agent
         if (modo == Modo.Ofensivo) modo = Modo.Defensivo;
         else modo = Modo.Ofensivo;
         paintBocadillo();
+    }
+
+    private void UpdateContador() {
+        contador.text = "Vida: "+vida;
     }
 
     public void changeToDefensive() {
@@ -277,7 +285,7 @@ public abstract class AgentNPC : Agent
         string frase;
         switch (agentState) {
             case(State.Normal):
-                frase = "Estoy joya";
+                frase = "Estoy tranquilo";
                 break;
             case(State.Formation):
                 frase = "Estoy en formación";
@@ -398,6 +406,7 @@ public abstract class AgentNPC : Agent
     {
         vida = vida - cantidad;
         if (vida < 0) vida = 0;
+        UpdateContador();
         return vida;
     }
 

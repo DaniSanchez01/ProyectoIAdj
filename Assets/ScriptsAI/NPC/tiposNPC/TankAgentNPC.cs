@@ -23,8 +23,6 @@ public class TankAgentNPC : AgentNPC
         if (team == Team.Blue){
             this.Orientation = 180f;
         }
-        base.Start();
-
         //atributos inicializados del tanque
         agentState = State.Vigilar;
         Vida = 300;
@@ -32,6 +30,9 @@ public class TankAgentNPC : AgentNPC
         RangoAtaque = 0.6f;
         CoAtaque = atacar();
         modoNPC = Modo.Defensivo;
+        base.Start();
+
+
 
 
     }
