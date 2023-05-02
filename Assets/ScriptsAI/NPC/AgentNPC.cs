@@ -524,7 +524,54 @@ public abstract class AgentNPC : Agent
      */
     public virtual void entrar(State estadoAEntrar)
     {
+        switch (estadoAEntrar)
+        {
+            case State.Vigilar:
+                if (console) Debug.Log("Entrando en el estado Vigilar");
+                //aqui podemos poner un arrive al punto a vigilar o una ruta
+                //GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
+                agentState = estadoAEntrar;
+                break;
+            case State.Conquistar:
+                if (console) Debug.Log("Entrando en el estado de Conquistar");
+                //aqui podemos poner un punto a conquistar
+                agentState = estadoAEntrar;
+                break;
+            case State.Atacar:
+                if (console) Debug.Log("Entrando en el estado Atacar");
+                agentState = estadoAEntrar;
+                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                StartCoroutine(CoAtaque);
+                break;
 
+            case State.Huir:
+                if (console) Debug.Log("Entrando en el estado de Huir");
+                agentState = estadoAEntrar;
+                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
+                break;
+
+            case State.Curarse:
+                if (console) Debug.Log("Entrando en el estado de Curarse");
+                agentState = estadoAEntrar;
+                //aqui podemos poner un arrive a algun waypoint de curacion o algun pathfollowing
+                break;
+
+            case State.Berserker:
+                if (console) Debug.Log("Entrando en modo Berserker");
+                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                agentState = estadoAEntrar;
+                StartCoroutine(CoAtaque);
+                break;
+            case State.ConquistarBerserker:
+                if (console) Debug.Log("Entrando en modo ConquistarBerserker");
+                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                agentState = estadoAEntrar;
+                break;
+            default:
+                if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
+                break;
+
+        }
     }
 
     /*
@@ -534,7 +581,48 @@ public abstract class AgentNPC : Agent
      */
     public virtual void salir(State estadoAEntrar)
     {
+        switch (estadoAEntrar)
+        {
+            case State.Vigilar:
+                if (console) Debug.Log("Saliendo del estado Vigilar");
+                this.deleteAllSteerings();
+                break;
+            case State.Conquistar:
+                if (console) Debug.Log("Saliendo del estado Conquistar");
+                this.deleteAllSteerings();
+                break;
+            case State.Atacar:
+                if (console) Debug.Log("Saliendo del estado Atacar");
+                StopCoroutine(CoAtaque); //paras de atacar
+                this.deleteAllSteerings(); //eliminas steerings
+                Inmovil = false; //ya no estas inmovil
+                break;
 
+            case State.Huir:
+                if (console) Debug.Log("Saliendo del estado de Huir");
+                this.deleteAllSteerings();
+                break;
+
+            case State.Curarse:
+                if (console) Debug.Log("Saliendo del estado de Curarse");
+                this.deleteAllSteerings();
+                break;
+
+            case State.Berserker:
+                if (console) Debug.Log("Saliendo del estado Berserker");
+                StopCoroutine(CoAtaque);
+                this.deleteAllSteerings();
+                Inmovil = false;
+                break;
+            case State.ConquistarBerserker:
+                if (console) Debug.Log("Saliendo del estado ConquistarBerserker");
+                this.deleteAllSteerings();
+                break;
+            default:
+                if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
+                break;
+
+        }
     }
 
     /*

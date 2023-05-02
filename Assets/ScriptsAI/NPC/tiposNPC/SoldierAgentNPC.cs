@@ -56,78 +56,7 @@ public class SoldierAgentNPC : AgentNPC
    
     
 
-    
-    public override void entrar(State estadoAEntrar)
-    {
-        switch (estadoAEntrar)
-        {
-            case State.Vigilar:
-                if (console) Debug.Log("Entrando en el estado de vigilar");
-                //Aqui podemos hacer que siga alguna ruta o que haga wander para buscar enemigo segun el tipo de modo en el que este
-                agentState = estadoAEntrar;
-                break;
-            case State.Conquistar:
-                if (console) Debug.Log("Entrando en el estado Conquistar");
-                agentState = estadoAEntrar;
-                break;
-            case State.Atacar:
-                if (console) Debug.Log("Entrando en el estado de atacar");
-                
-                agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow); //indicamos al enemigo que sigue para atacarle
-                StartCoroutine(CoAtaque);
-                break;
-
-            case State.Huir:
-                if (console) Debug.Log("Entrando en el estado de huir");
-                agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow); //indicamos que queremos que huya del enemigo actual.
-                break;
-            case State.Curarse:
-                if (console) Debug.Log("Entrando en el estado de curarse");
-                agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Aleatorio, this, null, pathToFollow); //habria que cambiarlo con seguir a algun NPC del mapa
-                break;
-            default:
-                if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
-                break;
-        }
-    }
-    
-
-    public override void salir(State estadoActual)
-    {
-        switch (estadoActual)
-        {
-            case State.Vigilar:
-                if (console) Debug.Log("Saliendo del estado de vigilar");
-                this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
-                break;
-            case State. Conquistar:
-                if (console) Debug.Log("Saliendo del estado de  ConquistarSoldier");
-                this.deleteAllSteerings();
-                break;
-            case State.Atacar:
-                if (console) Debug.Log("Saliendo del estado de atacar");
-                StopCoroutine(CoAtaque); //se para la rutina de ataque
-                Inmovil = false;
-                this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "ataque"
-                break;
-            case State.Huir:
-                if (console) Debug.Log("Saliendo del estado de huir");
-                this.deleteAllSteerings(); //se eliminan los steerings al salir del estado de "huir"
-                break;
-            case State.Curarse:
-                if (console) Debug.Log("Saliendo del estado de curarse");
-                this.deleteAllSteerings();
-                break;
-            default:
-                if (console) Debug.Log("No se conoce el estado asi que no se sale de ese estado");
-                break;
-        }
-    }
-
-    
+  
 
     
     public override void transitar(State estadoAct)
