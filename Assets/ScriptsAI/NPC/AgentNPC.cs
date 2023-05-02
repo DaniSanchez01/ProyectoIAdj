@@ -529,7 +529,7 @@ public abstract class AgentNPC : Agent
             case State.Vigilar:
                 if (console) Debug.Log("Entrando en el estado Vigilar");
                 //aqui podemos poner un arrive al punto a vigilar o una ruta
-                //GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
+                GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
                 agentState = estadoAEntrar;
                 break;
             case State.Conquistar:
@@ -581,7 +581,8 @@ public abstract class AgentNPC : Agent
      */
     public virtual void salir(State estadoAEntrar)
     {
-        switch (estadoAEntrar)
+        Debug.Log("Saliendo");
+;        switch (estadoAEntrar)
         {
             case State.Vigilar:
                 if (console) Debug.Log("Saliendo del estado Vigilar");

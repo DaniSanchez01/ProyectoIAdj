@@ -42,7 +42,8 @@ public class Face : Align
 
     public override Steering GetSteering(AgentNPC agent)
     {
-        if (listoParaSteering) //solo ejecutamos el steering si sabemos que ha ejecutado awake() 
+        
+        if (listoParaSteering && FaceTarget!=null) //solo ejecutamos el steering si sabemos que ha ejecutado awake() 
         {
             Steering steer = new Steering();
             //calculo el vector direccion hacia el objetivo

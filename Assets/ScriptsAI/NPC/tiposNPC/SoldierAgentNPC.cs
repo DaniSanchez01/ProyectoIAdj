@@ -27,6 +27,7 @@ public class SoldierAgentNPC : AgentNPC
         RangoAtaque = 0.8f;
         CoAtaque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
         modoNPC = Modo.Defensivo; //al principio los NPC comenzaran en un modo defensivo
+        entrar(State.Vigilar);
         base.Start();
 
 
