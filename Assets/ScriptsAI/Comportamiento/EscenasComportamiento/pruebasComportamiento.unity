@@ -486,12 +486,13 @@ MonoBehaviour:
   pathToFollow: 0
   team: 0
   firstTarget: {fileID: 0}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
   modo: 0
-  console: 0
+  console: 1
 --- !u!1 &472621611
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +884,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 351491893605249572, guid: ac6caa01f708d7441b911bb4c08a113e, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 351491893605249572, guid: ac6caa01f708d7441b911bb4c08a113e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1317,11 +1318,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.33
+      value: 15.18
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1329,7 +1330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.64
+      value: 43.28
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2248,7 +2249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4621291737449474972, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4621291737449474972, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
       propertyPath: m_LocalScale.x
@@ -2800,7 +2801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.3574796
+      value: 17.9
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2808,7 +2809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 45.2411
+      value: 43.6
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2877,14 +2878,15 @@ MonoBehaviour:
   agentState: 0
   arbitro: 3
   pathToFollow: 0
-  team: 0
+  team: 1
   firstTarget: {fileID: 0}
+  influencia: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
   modo: 0
-  console: 0
+  console: 1
 --- !u!1 &2001963460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3063996295419783364, guid: e0162f6c0a9794d249bd7e7fa003b228, type: 3}
