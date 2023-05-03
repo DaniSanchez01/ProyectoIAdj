@@ -24,10 +24,6 @@ public enum State
     Curarse,
     Conquistar,
 
-    //Estados extra que tiene el tanque propios
-    Berserker,
-    ConquistarBerserker,
-
     
 }
 
@@ -583,18 +579,6 @@ public abstract class AgentNPC : Agent
                 agentState = estadoAEntrar;
                 //aqui podemos poner un arrive a algun waypoint de curacion o algun pathfollowing
                 break;
-
-            case State.Berserker:
-                if (console) Debug.Log("Entrando en modo Berserker");
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-                agentState = estadoAEntrar;
-                StartCoroutine(CoAtaque);
-                break;
-            case State.ConquistarBerserker:
-                if (console) Debug.Log("Entrando en modo ConquistarBerserker");
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-                agentState = estadoAEntrar;
-                break;
             default:
                 if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
                 break;
@@ -634,17 +618,6 @@ public abstract class AgentNPC : Agent
 
             case State.Curarse:
                 if (console) Debug.Log("Saliendo del estado de Curarse");
-                this.deleteAllSteerings();
-                break;
-
-            case State.Berserker:
-                if (console) Debug.Log("Saliendo del estado Berserker");
-                StopCoroutine(CoAtaque);
-                this.deleteAllSteerings();
-                Inmovil = false;
-                break;
-            case State.ConquistarBerserker:
-                if (console) Debug.Log("Saliendo del estado ConquistarBerserker");
                 this.deleteAllSteerings();
                 break;
             default:
