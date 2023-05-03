@@ -60,10 +60,10 @@ public class ArchierAgentNPC : AgentNPC
             {
                 case State.Vigilar:
                     //accion asociada al estado vigilar aparte de los steerings correspondientes.
-                    EnemigoActual = veoEnemigo();
+;
 
                     //1. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de Vigilar
+                    if(veoEnemigo()) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
                         entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
@@ -108,6 +108,11 @@ public class ArchierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Vigilar);
                     }
+                    else if(veoEnemigo()) {
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     break;
                 default:
                     break;
@@ -121,10 +126,10 @@ public class ArchierAgentNPC : AgentNPC
             {
                 case State.Conquistar:
                     //accion asociada al estado vigilar aparte de los steerings correspondientes.
-                    EnemigoActual = veoEnemigo();
+
 
                     //1. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de Vigilar
+                    if(veoEnemigo()) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
                         entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
@@ -169,6 +174,11 @@ public class ArchierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Conquistar);
                     }
+                    else if(veoEnemigo()) {
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     break;
                 default:
                     break;

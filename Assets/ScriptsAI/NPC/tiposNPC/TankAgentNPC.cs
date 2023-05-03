@@ -70,10 +70,10 @@ public class TankAgentNPC : AgentNPC
             {
                 case State.Vigilar:
                     //accion asociada al estado Vigilar
-                    EnemigoActual = veoEnemigo();
+                   
 
                     //1. Transicion del estado Vigilar
-                    if(EnemigoActual)
+                    if(veoEnemigo())
                     {
                         salir(estadoAct);
                         entrar(State.Atacar);
@@ -121,10 +121,10 @@ public class TankAgentNPC : AgentNPC
                     }
                     else {
                         //accion asociada al estado Vigilar
-                        EnemigoActual = veoEnemigo();
+
 
                         //1. Transicion del estado Vigilar
-                        if(EnemigoActual)
+                        if(veoEnemigo())
                         {
                             salir(estadoAct);
                             entrar(State.Atacar);
@@ -145,10 +145,10 @@ public class TankAgentNPC : AgentNPC
             {
                 case State.Conquistar:
                     //accion asociada al estado Conquistar
-                    EnemigoActual = veoEnemigo();
+
 
                     //1. Transicion del estado Conquistar
-                    if (EnemigoActual)
+                    if(veoEnemigo())
                     {
                         salir(estadoAct);
                         entrar(State.Atacar);
@@ -183,10 +183,10 @@ public class TankAgentNPC : AgentNPC
                     }
                     else {
                         //accion asociada al estado Vigilar
-                        EnemigoActual = veoEnemigo();
+
 
                         //1. Transicion del estado Vigilar
-                        if(EnemigoActual)
+                        if(veoEnemigo())
                         {
                             salir(estadoAct);
                             entrar(State.Atacar);

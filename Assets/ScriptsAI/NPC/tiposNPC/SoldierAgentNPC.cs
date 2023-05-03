@@ -65,16 +65,16 @@ public class SoldierAgentNPC : AgentNPC
         //Si esta defendiendo se usa el automata que especifica el comportamiento de defensa
         if (estaDefendiendo())
         {
-            if (console) Debug.Log(estadoAct);
+            //if (console) Debug.Log(estadoAct);
             switch (estadoAct)
             {
                 case State.Vigilar:
 
                     //accion asociada al estado vigilar aparte de los steerings correspondientes.
-                    EnemigoActual = veoEnemigo();
+                   
 
                     //1. La primera transición del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de vigilarSoldier
+                    if(veoEnemigo()) //1 transicion de vigilarSoldier
                     {
 
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
@@ -124,17 +124,12 @@ public class SoldierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Vigilar);
                     }
-                    else {
-                        //accion asociada al estado Vigilar
-                        EnemigoActual = veoEnemigo();
-                        //1. Transicion del estado Vigilar
-                        if(EnemigoActual)
-                        {
+                    else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);
                         }
-                    }
+                    
                     break;
                 default:
                     break;
@@ -149,10 +144,9 @@ public class SoldierAgentNPC : AgentNPC
                 case State.Conquistar:
 
                     //accion asociada al estado Wander aparte de los steerings correspondientes.
-                    EnemigoActual = veoEnemigo();
-
+                    
                     //1. La primera transición del estado Wander se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    if (EnemigoActual) //1 transicion de WanderSoldier
+                    if(veoEnemigo()) //1 transicion de WanderSoldier
                     {
 
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
@@ -202,17 +196,11 @@ public class SoldierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Conquistar);
                     }
-                    else {
-                        //accion asociada al estado Vigilar
-                        EnemigoActual = veoEnemigo();
-                        //1. Transicion del estado Vigilar
-                        if(EnemigoActual)
-                        {
+                    else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);
                         }
-                    }
                     break;
                 default:
                     break;

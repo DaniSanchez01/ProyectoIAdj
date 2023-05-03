@@ -72,7 +72,7 @@ public abstract class AgentNPC : Agent
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
-    [SerializeField] private AgentNPC enemigoActual;  //enemigo actual que se ha detectado
+    [SerializeField] private AgentNPC enemigoActual = null;  //enemigo actual que se ha detectado
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
@@ -407,6 +407,7 @@ public abstract class AgentNPC : Agent
      */
     public virtual int recibirDamage(int cantidad)
     {
+        //if (console) Debug.Log("auch");
         vida = vida - cantidad;
         if (vida < 0) {
             vida = 0;
@@ -484,7 +485,7 @@ public abstract class AgentNPC : Agent
      * Pre: ninguna
      * Post: Devuelve el componente AgentNPC del enemigo detectado
      */
-    public AgentNPC veoEnemigo()
+    public bool veoEnemigo()
     {
         Collider[] colisiones = Physics.OverlapSphere(this.Position, this.arrivalRadius);
 
@@ -492,10 +493,13 @@ public abstract class AgentNPC : Agent
         {
             AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
 
-            if (componenteNPC != null && !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius))
-                return componenteNPC;
+            if (componenteNPC != null && !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius)) {            
+                //if (console) Debug.Log(componenteNPC.gameObject.name);
+                EnemigoActual = componenteNPC;
+                return true;
+            }
         }
-        return null;
+        return false;
     }
 
     public AgentNPC veoAliado()
@@ -530,11 +534,14 @@ public abstract class AgentNPC : Agent
         if (console) Debug.Log("Corutina atacar() comienzo");
         while (true)
         {
+            
             //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
             if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
-                if (console) Debug.Log("Atacar");
+                if (console) Debug.Log(EnemigoActual);
+                if (console) Debug.Log("Hola");
+
                 EnemigoActual.recibirDamage(3);
                 //quedate quieto durante 2 segundos
                 Inmovil = true; //quedate quieto
