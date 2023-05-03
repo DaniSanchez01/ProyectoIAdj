@@ -103,6 +103,12 @@ public class ArchierAgentNPC : AgentNPC
                         entrar(State.Vigilar);
                     }
                     break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Vigilar);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -154,6 +160,12 @@ public class ArchierAgentNPC : AgentNPC
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 150)
                     {
+                        salir(estadoAct);
+                        entrar(State.Conquistar);
+                    }
+                    break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
                         salir(estadoAct);
                         entrar(State.Conquistar);
                     }

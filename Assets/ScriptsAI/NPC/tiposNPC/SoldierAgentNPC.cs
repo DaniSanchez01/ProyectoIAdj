@@ -65,6 +65,7 @@ public class SoldierAgentNPC : AgentNPC
         //Si esta defendiendo se usa el automata que especifica el comportamiento de defensa
         if (estaDefendiendo())
         {
+            if (console) Debug.Log(estadoAct);
             switch (estadoAct)
             {
                 case State.Vigilar:
@@ -115,6 +116,24 @@ public class SoldierAgentNPC : AgentNPC
                     {
                         salir(estadoAct);
                         entrar(State.Vigilar);
+                    }
+                    break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        FindObjectOfType<LectorTeclado>().clearList(this);
+                        salir(estadoAct);
+                        entrar(State.Vigilar);
+                    }
+                    else {
+                        //accion asociada al estado Vigilar
+                        EnemigoActual = veoEnemigo();
+                        //1. Transicion del estado Vigilar
+                        if(EnemigoActual)
+                        {
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     }
                     break;
                 default:
@@ -175,6 +194,24 @@ public class SoldierAgentNPC : AgentNPC
                     {
                         salir(estadoAct);
                         entrar(State.Conquistar);
+                    }
+                    break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        FindObjectOfType<LectorTeclado>().clearList(this);
+                        salir(estadoAct);
+                        entrar(State.Conquistar);
+                    }
+                    else {
+                        //accion asociada al estado Vigilar
+                        EnemigoActual = veoEnemigo();
+                        //1. Transicion del estado Vigilar
+                        if(EnemigoActual)
+                        {
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     }
                     break;
                 default:

@@ -62,6 +62,12 @@ public class LectorTeclado : MonoBehaviour
         return answer;
     }
 
+    public void clearList(AgentNPC npc) {
+        if (selectedUnits[0] == npc.gameObject) {
+            npc.GetComponent<Cubo>().enable();
+            selectedUnits.Clear();
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -132,19 +138,9 @@ public class LectorTeclado : MonoBehaviour
                         foreach (var npc in agents)
                         {
                             
-                            npc.agentState = State.runningToPoint;
-                            npc.TryGetComponent<GridPathFinding>(out GridPathFinding grid);
-                            //Calcula en que celda se encuentra el npc
-                            Vector2Int celda = grid.getCeldaDePuntoPlano(npc.Position);
-                            Nodo posicion = grid.GetNodo(celda.x,celda.y);
-                            //Calcula en que celda se encuentra el objetivo
-                            Vector2Int celdaObjetivo = grid.getCeldaDePuntoPlano(newTarget);
-                            Nodo obj = grid.GetNodo(celdaObjetivo.x,celdaObjetivo.y);
-                            //Crea el algoritmo de PathFinding
-                            PathFinding algorithm= new PathFinding(grid,posicion,obj, npc, 1, false);
-                            algorithm.A();
-                            //angle = Bodi.MapToRange(angle+angleDistance,Range.grados180);
-
+                            npc.PuntoInteres = newTarget;
+                            npc.salir(npc.agentState);
+                            npc.entrar(State.RecorriendoCamino);
                         }
                     }
                         

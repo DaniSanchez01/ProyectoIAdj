@@ -10,20 +10,21 @@ using TMPro;
 
 public enum State
 {
-    //Estados base es decir que se dan para todas las clases de NPC que tengamos
+    //Estados de la primera entrega
     Normal,
     Formation,
     leaderFollowing,
     runningToPoint,
     LRTA,
 
-    //Estados que usan todas las unidades
+    //Estados de la segunda entrega
     Vigilar,
     Atacar,
     Huir,
     Curarse,
     Conquistar,
     Muerto,
+    RecorriendoCamino,
 
     
 }
@@ -67,6 +68,7 @@ public abstract class AgentNPC : Agent
 
     private TMP_Text contador;
     private bool reviviendo = true;
+    protected Vector3 puntoInteres;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
@@ -87,6 +89,11 @@ public abstract class AgentNPC : Agent
     public Agent CircleVirt {
         set { circleVirt = value;}
         get { return circleVirt; }
+    }
+
+    public Vector3 PuntoInteres {
+        set { puntoInteres = value;}
+        get { return puntoInteres; }
     }
 
     public typeArbitro FirstArbitro {
@@ -286,18 +293,6 @@ public abstract class AgentNPC : Agent
         TMP_Text t = b.GetComponent<TMP_Text>();
         string frase;
         switch (agentState) {
-            case(State.Normal):
-                frase = "Estoy tranquilo";
-                break;
-            case(State.Formation):
-                frase = "Estoy en formación";
-                break;
-            case(State.leaderFollowing):
-                frase = "Estoy siguiendo al lider";
-                break;
-            case(State.runningToPoint):
-                frase = "Estoy yendo a un punto";
-                break;   
             case(State.LRTA):
                 frase = "Estoy haciendo A*";
                 break;
@@ -338,7 +333,6 @@ public abstract class AgentNPC : Agent
         }
 
         if (!useArbitro) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
-        
         finishTimer();
 
         ApplySteering(Time.deltaTime);
@@ -383,6 +377,7 @@ public abstract class AgentNPC : Agent
         {
             if (behavior != null)
             {
+                //if (console) Debug.Log(behavior.NameSteering);
                 Steering steeringActual = behavior.GetSteering(this);
                 kinematicFinal.linear = kinematicFinal.linear + steeringActual.linear * behavior.Weight;
                 kinematicFinal.angular = kinematicFinal.angular + steeringActual.angular * behavior.Weight;
@@ -424,7 +419,7 @@ public abstract class AgentNPC : Agent
     IEnumerator reaparecer() {
         //Debug.Log("Estoy muerto");
         salir(agentState);
-        Vector3 posicionMuerte = Position;
+        puntoInteres = Position;
         if (team == Team.Blue) 
         Position = new Vector3(2f,0f,88.5f);
         else Position = new Vector3(88f,0f,2f);
@@ -441,10 +436,12 @@ public abstract class AgentNPC : Agent
         System.Random rnd = new System.Random();
         int indiceAleatorio = rnd.Next(waypoints.Count);
         Position = waypoints[indiceAleatorio];
-        salir(State.Muerto);
-        entrar(State.Vigilar);
         reviviendo = false;
         revivir();
+        salir(State.Muerto);
+        entrar(State.RecorriendoCamino);
+        UpdateContador();
+
     }
 
     protected virtual void revivir() {}
@@ -515,7 +512,12 @@ public abstract class AgentNPC : Agent
         return null;
     }
 
-
+    public bool haLlegadoADestino(Vector3 puntoDestino) {
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        Vector2Int celdaDestino= grid.getCeldaDePuntoPlano(puntoDestino);
+        //Debug.LogFormat("({0},{1}), destino: ({2},{3})",celdaActual.x,celdaActual.y,celdaDestino.x,celdaDestino.y);
+        return (celdaActual.x == celdaDestino.x && celdaActual.y == celdaDestino.y);
+    }
     /*
     * Corutina que es usada para que un personaje ataque, primero si el personaje tiene el enemigo a rango y por tanto le ataca se esperar 2 segundos quedandose inmovil. Observar que este metodo aunque
     * se tiene que iniciar manualmente parara solo cuando se salga del estado "atacarSoldier" as� que no es necesario pararlo manualmente.
@@ -574,10 +576,9 @@ public abstract class AgentNPC : Agent
         {
             case State.Vigilar:
                 if (console) Debug.Log("Entrando en el estado Vigilar");
-                GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
                 agentState = estadoAEntrar;
                 break;
-
             case State.Conquistar:
                 if (console) Debug.Log("Entrando en el estado de Conquistar");
                 //si estamos en guerra total siempre iremos a la base enemiga y en caso contrario iremos con un 50 % probabilidad
@@ -599,14 +600,14 @@ public abstract class AgentNPC : Agent
             case State.Atacar:
                 if (console) Debug.Log("Entrando en el estado Atacar");
                 agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
                 StartCoroutine(CoAtaque);
                 break;
 
             case State.Huir:
                 if (console) Debug.Log("Entrando en el estado de Huir");
                 agentState = estadoAEntrar;
-                GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
                 break;
 
             case State.Curarse:
@@ -623,8 +624,18 @@ public abstract class AgentNPC : Agent
                 break;
             case State.Muerto:
                 if (console) Debug.Log("Entrando en modo Muerto");
-                GestorArbitros.GetArbitraje(typeArbitro.Quieto,this, EnemigoActual, pathToFollow);
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this, EnemigoActual, pathToFollow);
                 agentState = estadoAEntrar;
+                break;
+            case State.RecorriendoCamino:
+                if (console) Debug.Log("Caminando hacia un punto");
+                agentState = estadoAEntrar;
+                celda = grid.getCeldaDePuntoPlano(this.Position);
+                posicion = grid.GetNodo(celda.x, celda.y);
+                celdaObjetivo = grid.getCeldaDePuntoPlano(puntoInteres);
+                destino = grid.GetNodo(celdaObjetivo.x, celdaObjetivo.y);
+                algoritmo = new PathFinding(grid, posicion, destino, this, 1, false);
+                algoritmo.A();
                 break;
             default:
                 if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
@@ -669,6 +680,10 @@ public abstract class AgentNPC : Agent
                 break;
             case State.Muerto:
                 if (console) Debug.Log("Saliendo del estado muerto");
+                this.deleteAllSteerings();
+                break;
+            case State.RecorriendoCamino:
+                if (console) Debug.Log("Saliendo del estado de recorrer camino");
                 this.deleteAllSteerings();
                 break;
             default:

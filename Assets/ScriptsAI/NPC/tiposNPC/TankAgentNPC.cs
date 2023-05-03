@@ -114,6 +114,25 @@ public class TankAgentNPC : AgentNPC
                         entrar(State.Vigilar);
                     }
                     break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Vigilar);
+                    }
+                    else {
+                        //accion asociada al estado Vigilar
+                        EnemigoActual = veoEnemigo();
+
+                        //1. Transicion del estado Vigilar
+                        if(EnemigoActual)
+                        {
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
+                    }
+                    
+
+                    break;
                 default:
                     break;
 
@@ -155,6 +174,23 @@ public class TankAgentNPC : AgentNPC
                     {
                         salir(estadoAct);
                         entrar(State.Conquistar);
+                    }
+                    break;
+                case State.RecorriendoCamino:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Conquistar);
+                    }
+                    else {
+                        //accion asociada al estado Vigilar
+                        EnemigoActual = veoEnemigo();
+
+                        //1. Transicion del estado Vigilar
+                        if(EnemigoActual)
+                        {
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     }
                     break;
                 default:
