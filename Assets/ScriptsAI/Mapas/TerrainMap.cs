@@ -19,7 +19,9 @@ public class TerrainMap : MonoBehaviour
     public List<Vector3> waypointEstrategicosRojo = new List<Vector3>();
     public List<Vector3> waypointEstrategicosAzul = new List<Vector3>();
     public List<Vector3> waypointBaseRojo = new List<Vector3>();
-    public List<Vector3> waypointBaseAzul = new List<Vector3>();   
+    public List<Vector3> waypointBaseAzul = new List<Vector3>();
+    public List<Vector3> waypointReaparicionRojo = new List<Vector3>();
+    public List<Vector3> waypointReaparicionAzul = new List<Vector3>();
 
     public bool giz = false;
     TypeTerrain[,] mapa;
@@ -49,6 +51,17 @@ public class TerrainMap : MonoBehaviour
         waypointBaseAzul.Add(new Vector3(19f,0f,70f));
         
         waypointBaseRojo.Add(new Vector3(70f,0f,20f));
+
+        waypointReaparicionRojo.Add(new Vector3(70f,0f,20f));
+        waypointReaparicionRojo.Add(new Vector3(50f,0f,10f));
+        waypointReaparicionRojo.Add(new Vector3(80f,0f,35f));
+
+        waypointReaparicionAzul.Add(new Vector3(19f,0f,70f));
+        waypointReaparicionAzul.Add(new Vector3(43f,0f,74f));
+        waypointReaparicionAzul.Add(new Vector3(10f,0f,50f));
+
+
+
     }
 
     public TypeTerrain[,] MapaTerreno {

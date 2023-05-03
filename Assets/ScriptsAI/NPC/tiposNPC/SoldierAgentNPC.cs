@@ -11,8 +11,8 @@ public class SoldierAgentNPC : AgentNPC
     // Start is called before the first frame update
     protected override void Start()
     {
-        this.MaxSpeed = 8f;
-        this.MaxAcceleration = 20f;
+        this.MaxSpeed = 5f;
+        this.MaxAcceleration = 16f;
         this.MaxRotation = 180f;
         this.MaxForce = 30f;
         this.MaxAngularAcc = 300f;
@@ -35,7 +35,7 @@ public class SoldierAgentNPC : AgentNPC
 
     public override float getTerrainCost(Nodo a) {
             
-            TypeTerrain t = GameObject.FindObjectOfType<TerrainMap>().getTerrenoCasilla(a.Celda.x,a.Celda.y);
+            TypeTerrain t = mapaTerrenos.getTerrenoCasilla(a.Celda.x,a.Celda.y);
             switch (t) {
                 case (TypeTerrain.camino):
                     return 1;
@@ -198,6 +198,10 @@ public class SoldierAgentNPC : AgentNPC
         
     }
 
+    protected override void revivir() {
+        Vida = 150;
+    }
+    
     public override void LateUpdate()
     {
         base.LateUpdate();

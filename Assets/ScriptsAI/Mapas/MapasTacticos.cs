@@ -151,6 +151,9 @@ public class MapasTacticos : MonoBehaviour {
         // Marcar todas las celdas adyacentes a los NPC como visitadas y meterlas en la cola
         foreach (GameObject gObject in npcs) {
             AgentNPC npc = gObject.GetComponent<AgentNPC>();
+            if (npc.agentState == State.Muerto) {
+                continue;
+            }
             Vector2Int celda = getCeldaDePuntoPlano(npc.Position);
             int x = celda.x;
             int y = celda.y;

@@ -8661,7 +8661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.19
+      value: 2.46
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13026,7 +13026,7 @@ MonoBehaviour:
   inmovil: 0
   rangoAtaque: 0
   modo: 0
-  console: 1
+  console: 0
 --- !u!4 &1801564832 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}

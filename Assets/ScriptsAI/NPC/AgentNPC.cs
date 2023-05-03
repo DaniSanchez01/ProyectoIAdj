@@ -23,6 +23,7 @@ public enum State
     Huir,
     Curarse,
     Conquistar,
+    Muerto,
 
     //Estados extra que tiene el tanque propios
     Berserker,
@@ -65,8 +66,10 @@ public abstract class AgentNPC : Agent
     private bool guerraTotal = false;
     public float influencia;
     private GameObject bocadillo;
+    protected TerrainMap mapaTerrenos;
 
     private TMP_Text contador;
+    private bool reviviendo = true;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
@@ -162,6 +165,7 @@ public abstract class AgentNPC : Agent
         paintBocadillo();
         contador = transform.Find("Contador").Find("Vida").GetComponent<TMP_Text>();
         UpdateContador();
+        mapaTerrenos = GameObject.FindObjectOfType<TerrainMap>();
         GridPathFinding grid = gameObject.AddComponent<GridPathFinding>();
         grid.inicializarGrid(30,30,3,typeHeuristica.Manhattan,false);
 
@@ -329,6 +333,12 @@ public abstract class AgentNPC : Agent
     // Update is called once per frame
     public virtual void Update()
     {
+
+        if (!reviviendo) {
+            reviviendo = true;
+            StopCoroutine(reaparecer());
+        }
+
         if (!useArbitro) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
         
         finishTimer();
@@ -405,10 +415,42 @@ public abstract class AgentNPC : Agent
     public virtual int recibirDamage(int cantidad)
     {
         vida = vida - cantidad;
-        if (vida < 0) vida = 0;
+        if (vida < 0) {
+            vida = 0;
+            StartCoroutine(reaparecer());
+        }         
         UpdateContador();
         return vida;
     }
+    
+    IEnumerator reaparecer() {
+        //Debug.Log("Estoy muerto");
+        salir(agentState);
+        Vector3 posicionMuerte = Position;
+        if (team == Team.Blue) 
+        Position = new Vector3(2f,0f,88.5f);
+        else Position = new Vector3(88f,0f,2f);
+        entrar(State.Muerto);
+        //Debug.Log("Espero para estar vivo");
+        yield return new WaitForSeconds(5);
+        //Debug.Log("Quiero revivir");
+        List<Vector3> waypoints;
+        if (team == Team.Blue) {
+            waypoints = mapaTerrenos.waypointReaparicionAzul;
+        }
+        else waypoints = mapaTerrenos.waypointReaparicionRojo;
+
+        System.Random rnd = new System.Random();
+        int indiceAleatorio = rnd.Next(waypoints.Count);
+        Position = waypoints[indiceAleatorio];
+        salir(State.Muerto);
+        entrar(State.Vigilar);
+        reviviendo = false;
+        revivir();
+    }
+
+    protected virtual void revivir() {}
+
 
     /*
      * Comprueba si el NPC no tiene vida
@@ -567,6 +609,11 @@ public abstract class AgentNPC : Agent
                 GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
                 agentState = estadoAEntrar;
                 break;
+            case State.Muerto:
+                if (console) Debug.Log("Entrando en modo Muerto");
+                GestorArbitros.GetArbitraje(typeArbitro.Quieto,this, EnemigoActual, pathToFollow);
+                agentState = estadoAEntrar;
+                break;
             default:
                 if (console) Debug.Log("No se conoce el estado asi que no se entra en ningun estado");
                 break;
@@ -581,8 +628,8 @@ public abstract class AgentNPC : Agent
      */
     public virtual void salir(State estadoAEntrar)
     {
-        Debug.Log("Saliendo");
-;        switch (estadoAEntrar)
+        if (console) Debug.Log("Saliendo");
+        switch (estadoAEntrar)
         {
             case State.Vigilar:
                 if (console) Debug.Log("Saliendo del estado Vigilar");
@@ -617,6 +664,10 @@ public abstract class AgentNPC : Agent
                 break;
             case State.ConquistarBerserker:
                 if (console) Debug.Log("Saliendo del estado ConquistarBerserker");
+                this.deleteAllSteerings();
+                break;
+            case State.Muerto:
+                if (console) Debug.Log("Saliendo del estado muerto");
                 this.deleteAllSteerings();
                 break;
             default:
