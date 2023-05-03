@@ -25,10 +25,6 @@ public enum State
     Conquistar,
     Muerto,
 
-    //Estados extra que tiene el tanque propios
-    Berserker,
-    ConquistarBerserker,
-
     
 }
 
@@ -57,6 +53,7 @@ public abstract class AgentNPC : Agent
     public typeArbitro arbitro = typeArbitro.Quieto;  
     private typeArbitro firstArbitro;
     public typePath pathToFollow;
+    public typePath OffensivePathToFollow;
     public Team team;
     public Agent firstTarget;
     private Agent circleVirt;
@@ -78,6 +75,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     [SerializeField] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
+    [SerializeField] private GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
     public bool console = false;
     
     Color lightRed = new Color(1f, 0.5f, 0.5f, 1f);
@@ -166,7 +164,7 @@ public abstract class AgentNPC : Agent
         contador = transform.Find("Contador").Find("Vida").GetComponent<TMP_Text>();
         UpdateContador();
         mapaTerrenos = GameObject.FindObjectOfType<TerrainMap>();
-        GridPathFinding grid = gameObject.AddComponent<GridPathFinding>();
+        grid = gameObject.AddComponent<GridPathFinding>();
         grid.inicializarGrid(30,30,3,typeHeuristica.Manhattan,false);
 
     }
@@ -566,17 +564,36 @@ public abstract class AgentNPC : Agent
      */
     public virtual void entrar(State estadoAEntrar)
     {
+        //variables locales que podrian ser usadas en caso de tener que hacer pathfinding por un camino
+        Vector2Int celda;
+        Nodo posicion;
+        Vector2Int celdaObjetivo;
+        Nodo destino;
+        PathFinding algoritmo;
         switch (estadoAEntrar)
         {
             case State.Vigilar:
                 if (console) Debug.Log("Entrando en el estado Vigilar");
-                //aqui podemos poner un arrive al punto a vigilar o una ruta
                 GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, pathToFollow); //recorre un camino establecido
                 agentState = estadoAEntrar;
                 break;
+
             case State.Conquistar:
                 if (console) Debug.Log("Entrando en el estado de Conquistar");
-                //aqui podemos poner un punto a conquistar
+                //si estamos en guerra total siempre iremos a la base enemiga y en caso contrario iremos con un 50 % probabilidad
+                if (guerraTotal || UnityEngine.Random.value < 0.5f)
+                {
+                    celda = grid.getCeldaDePuntoPlano(this.Position);
+                    posicion = grid.GetNodo(celda.x, celda.y);
+                    if (team == Team.Blue) celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointBaseRojo[0]);
+                    else celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointBaseRojo[0]);
+                    destino = grid.GetNodo(celdaObjetivo.x, celdaObjetivo.y);
+                    algoritmo = new PathFinding(grid, posicion, destino, this, 1, false);
+                    algoritmo.A();
+                }
+                //en caso de que no estemos en guerra total con un 50% de probabilidad iremos a recorrer un camino ofensivo.
+                else GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, OffensivePathToFollow);
+          
                 agentState = estadoAEntrar;
                 break;
             case State.Atacar:
@@ -594,20 +611,15 @@ public abstract class AgentNPC : Agent
 
             case State.Curarse:
                 if (console) Debug.Log("Entrando en el estado de Curarse");
+                celda = grid.getCeldaDePuntoPlano(this.Position);
+                posicion = grid.GetNodo(celda.x, celda.y);
+                if (team == Team.Blue) celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointCuracionAzul[0]);
+                else celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointCuracionRojo[0]);
+                destino = grid.GetNodo(celdaObjetivo.x, celdaObjetivo.y);
+                algoritmo = new PathFinding(grid, posicion, destino, this, 1, false);
+                algoritmo.A();
                 agentState = estadoAEntrar;
                 //aqui podemos poner un arrive a algun waypoint de curacion o algun pathfollowing
-                break;
-
-            case State.Berserker:
-                if (console) Debug.Log("Entrando en modo Berserker");
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-                agentState = estadoAEntrar;
-                StartCoroutine(CoAtaque);
-                break;
-            case State.ConquistarBerserker:
-                if (console) Debug.Log("Entrando en modo ConquistarBerserker");
-                GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-                agentState = estadoAEntrar;
                 break;
             case State.Muerto:
                 if (console) Debug.Log("Entrando en modo Muerto");
@@ -653,17 +665,6 @@ public abstract class AgentNPC : Agent
 
             case State.Curarse:
                 if (console) Debug.Log("Saliendo del estado de Curarse");
-                this.deleteAllSteerings();
-                break;
-
-            case State.Berserker:
-                if (console) Debug.Log("Saliendo del estado Berserker");
-                StopCoroutine(CoAtaque);
-                this.deleteAllSteerings();
-                Inmovil = false;
-                break;
-            case State.ConquistarBerserker:
-                if (console) Debug.Log("Saliendo del estado ConquistarBerserker");
                 this.deleteAllSteerings();
                 break;
             case State.Muerto:
