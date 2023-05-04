@@ -20,7 +20,7 @@ public class MapasTacticos : MonoBehaviour {
 
 
     private int cellSize = 3;
-    private float reduccion_influencia = 0.2f;
+    private float reduccion_influencia = 0.15f;
 
     public GameObject minim;
 
