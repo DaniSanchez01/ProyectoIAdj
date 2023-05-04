@@ -68,7 +68,6 @@ public abstract class AgentNPC : Agent
     protected TerrainMap mapaTerrenos;
     protected int baseDamage = 10;
     private TMP_Text contador;
-    private bool reviviendo = true;
     protected Vector3 puntoInteres;
     private Curacion hospital;
 
@@ -339,10 +338,7 @@ public abstract class AgentNPC : Agent
     public virtual void Update()
     {
 
-        if (!reviviendo) {
-            reviviendo = true;
-            StopCoroutine(reaparecer());
-        }
+        
 
         if (!useArbitro) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
         finishTimer();
@@ -423,19 +419,19 @@ public abstract class AgentNPC : Agent
         vida = vida - cantidad;
         if (vida < 0) {
             vida = 0;
-            StartCoroutine(reaparecer());
+            //StartCoroutine(reaparecer());
         }         
         UpdateContador();
     }
     
     IEnumerator reaparecer() {
         //Debug.Log("Estoy muerto");
-        salir(agentState);
+        //salir(agentState);
         puntoInteres = Position;
         if (team == Team.Blue) 
         Position = new Vector3(2f,0f,88.5f);
         else Position = new Vector3(88f,0f,2f);
-        entrar(State.Muerto);
+        //entrar(State.Muerto);
         //Debug.Log("Espero para estar vivo");
         yield return new WaitForSeconds(5);
         //Debug.Log("Quiero revivir");
@@ -448,10 +444,9 @@ public abstract class AgentNPC : Agent
         System.Random rnd = new System.Random();
         int indiceAleatorio = rnd.Next(waypoints.Count);
         Position = waypoints[indiceAleatorio];
-        reviviendo = false;
         Vida = VidaMax;
-        salir(State.Muerto);
-        entrar(State.RecorriendoCamino);
+        //salir(State.Muerto);
+        //entrar(State.RecorriendoCamino);
         UpdateContador();
 
     }
@@ -655,6 +650,7 @@ public abstract class AgentNPC : Agent
             case State.Muerto:
                 if (console) Debug.Log("Entrando en modo Muerto");
                 listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this, EnemigoActual, pathToFollow);
+                StartCoroutine(reaparecer());
                 agentState = estadoAEntrar;
                 break;
             case State.RecorriendoCamino:
