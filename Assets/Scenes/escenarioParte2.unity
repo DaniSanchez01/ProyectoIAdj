@@ -5995,7 +5995,7 @@ MonoBehaviour:
   rangoAtaque: 0
   modo: 0
   grid: {fileID: 0}
-  console: 0
+  console: 1
 --- !u!4 &718678506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -7697,6 +7697,7 @@ GameObject:
   - component: {fileID: 1042169390}
   - component: {fileID: 1042169393}
   - component: {fileID: 1042169394}
+  - component: {fileID: 1042169395}
   m_Layer: 0
   m_Name: structureManager
   m_TagString: Untagged
@@ -7751,6 +7752,18 @@ MonoBehaviour:
   textoEsquina: {fileID: 2133360674}
   scriptMapas: {fileID: 548941007}
   giz: 1
+--- !u!114 &1042169395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042169389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c06eadb95c1a7141963958bc545f2e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1071880462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7865,7 +7878,7 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 6
-  pathToFollow: 0
+  pathToFollow: 8
   OffensivePathToFollow: 0
   team: 0
   firstTarget: {fileID: 1751643312}
@@ -7876,7 +7889,7 @@ MonoBehaviour:
   rangoAtaque: 0
   modo: 0
   grid: {fileID: 0}
-  console: 1
+  console: 0
 --- !u!4 &1078611094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -14742,7 +14755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.4
+      value: 62.3
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14750,7 +14763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 59.1
+      value: 44.2
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalRotation.w

@@ -20,6 +20,7 @@ public class ArchierAgentNPC : AgentNPC
         //inicializacion de atributos
         agentState = State.Vigilar;
         Vida = 150;
+        VidaMax = 150;
         Inmovil = false;
         RangoAtaque = 1.5f;
         CoAtaque = atacar();
@@ -47,9 +48,6 @@ public class ArchierAgentNPC : AgentNPC
             }
 
     }
-
-
-
 
     public override void transitar(State estadoAct)
     {
@@ -92,10 +90,16 @@ public class ArchierAgentNPC : AgentNPC
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.Curarse);
+                        entrar(State.BuscandoCuracion);
                     }
                     break;
-                case State.Curarse:
+                case State.BuscandoCuracion:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Curandose);
+                    }
+                    break;
+                case State.Curandose:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 150)
                     {
@@ -158,10 +162,16 @@ public class ArchierAgentNPC : AgentNPC
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.Curarse);
+                        entrar(State.BuscandoCuracion);
                     }
                     break;
-                case State.Curarse:
+                case State.BuscandoCuracion:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Curandose);
+                    }
+                    break;
+                case State.Curandose:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 150)
                     {
@@ -186,8 +196,36 @@ public class ArchierAgentNPC : AgentNPC
         }
     }
 
-    protected override void revivir() {
-        Vida = 100;
+    protected override int calculateDamage() {
+        float terrainMultiplier = 1f;
+        float enemyMultiplier = 1f;
+        if (EnemigoActual is ArchierAgentNPC) {
+            enemyMultiplier = 1.5f;
+        }
+        else if(EnemigoActual is SoldierAgentNPC) {
+            enemyMultiplier = 1.25f;
+        }
+        else enemyMultiplier = 0.5f;
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+        switch (t) {
+            case TypeTerrain.camino:
+                terrainMultiplier = 0.75f;
+                break;
+            case TypeTerrain.llanura:
+                terrainMultiplier = 1.25f;
+                break;
+            case TypeTerrain.bosque:
+                terrainMultiplier = 2f;
+                break;
+            case TypeTerrain.desierto:
+                terrainMultiplier = 0.5f;
+                break;
+            default:
+                break;
+        }
+        int realDamage = (int) System.Math.Round(baseDamage * enemyMultiplier * terrainMultiplier);
+        return realDamage;
     }
 
     // Update is called once per frame

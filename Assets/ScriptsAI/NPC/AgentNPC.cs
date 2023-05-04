@@ -21,7 +21,8 @@ public enum State
     Vigilar,
     Atacar,
     Huir,
-    Curarse,
+    BuscandoCuracion,
+    Curandose,
     Conquistar,
     Muerto,
     RecorriendoCamino,
@@ -65,10 +66,11 @@ public abstract class AgentNPC : Agent
     public float influencia;
     private GameObject bocadillo;
     protected TerrainMap mapaTerrenos;
-
+    protected int baseDamage = 10;
     private TMP_Text contador;
     private bool reviviendo = true;
     protected Vector3 puntoInteres;
+    private Curacion hospital;
 
     //atributos relacionados con el comportamiento
     [SerializeField] private int vida; //nuevo atributo para saber la vida del personaje
@@ -77,8 +79,10 @@ public abstract class AgentNPC : Agent
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     [SerializeField] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
-    [SerializeField] private GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
+    [SerializeField] protected GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
     public bool console = false;
+
+    private int vidaMax;
     
     Color lightRed = new Color(1f, 0.5f, 0.5f, 1f);
     Color darkRed = new Color(0.5f, 0f, 0f, 1f);
@@ -89,6 +93,11 @@ public abstract class AgentNPC : Agent
     public Agent CircleVirt {
         set { circleVirt = value;}
         get { return circleVirt; }
+    }
+
+    public int VidaMax {
+        set { vidaMax = value;}
+        get { return vidaMax; }
     }
 
     public Vector3 PuntoInteres {
@@ -104,7 +113,7 @@ public abstract class AgentNPC : Agent
     public int Vida
     {
         get { return vida; }
-        protected set { vida = value; }
+        set { vida = value; }
     }
 
     //El enemigo actual de un NPC puede ser vista por todas las clases pero esta propiedad solo puede ser modificada por las clases hijas es decir solo un NPC puede establecer a su enemigo actual
@@ -165,7 +174,7 @@ public abstract class AgentNPC : Agent
                 firstArbitro = arbitro;
                 listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
             }
-        
+        hospital = GameObject.FindObjectOfType<Curacion>();
         bocadillo = transform.Find("Bocadillo").gameObject;
         paintBocadillo();
         contador = transform.Find("Contador").Find("Vida").GetComponent<TMP_Text>();
@@ -182,7 +191,7 @@ public abstract class AgentNPC : Agent
         paintBocadillo();
     }
 
-    private void UpdateContador() {
+    public void UpdateContador() {
         contador.text = "Vida: "+vida;
     }
 
@@ -305,8 +314,11 @@ public abstract class AgentNPC : Agent
             case(State.Huir):
                 frase = "No quiero morir!!!";
                 break;
-            case(State.Curarse):
-                frase = "Necesito vida";
+            case(State.BuscandoCuracion):
+                frase = "Corriendo a la enfermería";
+                break;
+            case(State.Curandose):
+                frase = "Recuperando vida :)";
                 break;
             default:
                 frase = "Que habrá para comer?";
@@ -405,7 +417,7 @@ public abstract class AgentNPC : Agent
      * Pre:ninguna
      * Post:devuelve la vida del NPC despues de recibir el daño
      */
-    public virtual int recibirDamage(int cantidad)
+    public virtual void recibirDamage(int cantidad)
     {
         //if (console) Debug.Log("auch");
         vida = vida - cantidad;
@@ -414,7 +426,6 @@ public abstract class AgentNPC : Agent
             StartCoroutine(reaparecer());
         }         
         UpdateContador();
-        return vida;
     }
     
     IEnumerator reaparecer() {
@@ -438,14 +449,13 @@ public abstract class AgentNPC : Agent
         int indiceAleatorio = rnd.Next(waypoints.Count);
         Position = waypoints[indiceAleatorio];
         reviviendo = false;
-        revivir();
+        Vida = VidaMax;
         salir(State.Muerto);
         entrar(State.RecorriendoCamino);
         UpdateContador();
 
     }
 
-    protected virtual void revivir() {}
 
 
     /*
@@ -539,10 +549,9 @@ public abstract class AgentNPC : Agent
             if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
-                if (console) Debug.Log(EnemigoActual);
-                if (console) Debug.Log("Hola");
-
-                EnemigoActual.recibirDamage(3);
+                int realDamage = calculateDamage();
+                if (console) Debug.Log(realDamage);
+                EnemigoActual.recibirDamage(realDamage);
                 //quedate quieto durante 2 segundos
                 Inmovil = true; //quedate quieto
                 this.Acceleration = Vector3.zero;
@@ -563,7 +572,8 @@ public abstract class AgentNPC : Agent
         // if (console) Debug.Log("Fin de la corutina atacar()");
     }
 
-
+    protected abstract int calculateDamage();
+        
     //funciones relacionadas con los automatas de comportamiento que implementan las clases hijas
     /*
      * Metodo que es usado para entrar en un estado determinado, ejecuta las acciones de entrada y cambia el estadoActual al estado indicado como parametro. Recibe parametros que pueden
@@ -617,17 +627,30 @@ public abstract class AgentNPC : Agent
                 listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
                 break;
 
-            case State.Curarse:
-                if (console) Debug.Log("Entrando en el estado de Curarse");
+            case State.BuscandoCuracion:
+                if (console) Debug.Log("Entrando en el estado de buscar curación");
                 celda = grid.getCeldaDePuntoPlano(this.Position);
                 posicion = grid.GetNodo(celda.x, celda.y);
-                if (team == Team.Blue) celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointCuracionAzul[0]);
-                else celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointCuracionRojo[0]);
+                if (team == Team.Blue) {
+                    puntoInteres = mapaTerrenos.waypointCuracionAzul[0];
+                    celdaObjetivo = grid.getCeldaDePuntoPlano(puntoInteres);
+                }
+                else {
+                    puntoInteres = mapaTerrenos.waypointCuracionRojo[0];
+                    celdaObjetivo = grid.getCeldaDePuntoPlano(puntoInteres);
+                }
                 destino = grid.GetNodo(celdaObjetivo.x, celdaObjetivo.y);
                 algoritmo = new PathFinding(grid, posicion, destino, this, 1, false);
                 algoritmo.A();
                 agentState = estadoAEntrar;
                 //aqui podemos poner un arrive a algun waypoint de curacion o algun pathfollowing
+                break;
+            case State.Curandose:
+                
+                if (console) Debug.Log("Entrando en modo Curación");
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto,this, EnemigoActual, pathToFollow);
+                agentState = estadoAEntrar;
+                hospital.AnadirHerido(this);
                 break;
             case State.Muerto:
                 if (console) Debug.Log("Entrando en modo Muerto");
@@ -681,8 +704,12 @@ public abstract class AgentNPC : Agent
                 this.deleteAllSteerings();
                 break;
 
-            case State.Curarse:
-                if (console) Debug.Log("Saliendo del estado de Curarse");
+            case State.Curandose:
+                if (console) Debug.Log("Saliendo del estado de curarse");
+                this.deleteAllSteerings();
+                break;
+            case State.BuscandoCuracion:
+                if (console) Debug.Log("Saliendo del estado de buscar curacion");
                 this.deleteAllSteerings();
                 break;
             case State.Muerto:

@@ -24,6 +24,9 @@ public class SpeedAgentNPC : AgentNPC
     }
     // Update is called once per frame
 
+protected override int calculateDamage() {
+        return baseDamage;
+    }
     public override void Update()
     {
         base.Update();

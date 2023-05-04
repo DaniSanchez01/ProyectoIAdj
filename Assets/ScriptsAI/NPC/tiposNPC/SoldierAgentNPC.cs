@@ -23,8 +23,9 @@ public class SoldierAgentNPC : AgentNPC
         }
         agentState = State.Vigilar; //el estado normal del soldier
         Vida = 200;
+        VidaMax = 200;
         Inmovil = false;
-        RangoAtaque = 0.8f;
+        RangoAtaque = 1.2f;
         CoAtaque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
         modoNPC = Modo.Defensivo; //al principio los NPC comenzaran en un modo defensivo
         entrar(State.Vigilar);
@@ -102,15 +103,20 @@ public class SoldierAgentNPC : AgentNPC
                     break;
 
                 case State.Huir:
-
                     //1. La primera transicion en el estado huir es comprobar si el enemigo actual esta muerto o ya no me ve
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.Curarse);
+                        entrar(State.BuscandoCuracion);
                     }
                     break;
-                case State.Curarse:
+                case State.BuscandoCuracion:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Curandose);
+                    }
+                    break;
+                case State.Curandose:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
                     if (Vida == 200)
                     {
@@ -179,10 +185,16 @@ public class SoldierAgentNPC : AgentNPC
                     if (EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.Curarse);
+                        entrar(State.BuscandoCuracion);
                     }
                     break;
-                case State.Curarse:
+                case State.BuscandoCuracion:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Curandose);
+                    }
+                    break;
+                case State.Curandose:
                     //1. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado Wander
                     if (Vida == 200)
                     {
@@ -209,6 +221,39 @@ public class SoldierAgentNPC : AgentNPC
 
     }
 
+    protected override int calculateDamage() {
+        float terrainMultiplier = 1f;
+        float enemyMultiplier = 1f;
+        if(EnemigoActual is SoldierAgentNPC) {
+            enemyMultiplier = 1f;
+        }
+        else if (EnemigoActual is ArchierAgentNPC) {
+            enemyMultiplier = 1.5f;
+        }
+        else enemyMultiplier = 0.75f;
+        
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+        switch (t) {
+            case TypeTerrain.camino:
+                terrainMultiplier = 1.75f;
+                break;
+            case TypeTerrain.llanura:
+                terrainMultiplier = 1.5f;
+                break;
+            case TypeTerrain.bosque:
+                terrainMultiplier = 0.5f;
+                break;
+            case TypeTerrain.desierto:
+                terrainMultiplier = 0.5f;
+                break;
+            default:
+                break;
+        }
+        int realDamage = (int) System.Math.Round(baseDamage * enemyMultiplier * terrainMultiplier);
+        return realDamage;
+    }
+
     
 
     // Update is called once per frame
@@ -223,9 +268,6 @@ public class SoldierAgentNPC : AgentNPC
         
     }
 
-    protected override void revivir() {
-        Vida = 150;
-    }
     
     public override void LateUpdate()
     {

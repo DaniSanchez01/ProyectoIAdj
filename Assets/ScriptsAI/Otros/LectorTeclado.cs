@@ -63,10 +63,13 @@ public class LectorTeclado : MonoBehaviour
     }
 
     public void clearList(AgentNPC npc) {
-        if (selectedUnits[0] == npc.gameObject) {
-            npc.GetComponent<Cubo>().enable();
-            selectedUnits.Clear();
+        if (selectedUnits.Count!=0) {
+            if (selectedUnits[0] == npc.gameObject) {
+                npc.GetComponent<Cubo>().enable();
+                selectedUnits.Clear();
+            }
         }
+        
     }
     // Update is called once per frame
     void Update()

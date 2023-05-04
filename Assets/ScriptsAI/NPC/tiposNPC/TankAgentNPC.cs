@@ -26,14 +26,12 @@ public class TankAgentNPC : AgentNPC
         //atributos inicializados del tanque
         agentState = State.Vigilar;
         Vida = 300;
+        VidaMax = 300;
         Inmovil = false;
-        RangoAtaque = 0.6f;
+        RangoAtaque = 1.2f;
         CoAtaque = atacar();
         modoNPC = Modo.Defensivo;
         base.Start();
-
-
-
 
     }
 
@@ -101,11 +99,16 @@ public class TankAgentNPC : AgentNPC
                     if(EnemigoActual.estaMuerto() || !EnemigoActual.sigoViendoEnemigo(this))
                     {
                         salir(estadoAct);
-                        entrar(State.Curarse);
+                        entrar(State.BuscandoCuracion);
                     }
                     break;
-
-                case State.Curarse:
+                case State.BuscandoCuracion:
+                    if (haLlegadoADestino(puntoInteres)) {
+                        salir(estadoAct);
+                        entrar(State.Curandose);
+                    }
+                    break;
+                case State.Curandose:
                     
                     //1. Si tengo la vida maxima ya puedo volver a buscar enemigos
                     if(Vida == 300)
@@ -200,6 +203,38 @@ public class TankAgentNPC : AgentNPC
         }
     }
 
+    protected override int calculateDamage() {
+        float terrainMultiplier = 1f;
+        float enemyMultiplier = 1f;
+        if(EnemigoActual is SoldierAgentNPC) {
+            enemyMultiplier = 1.5f;
+        }
+        else if (EnemigoActual is ArchierAgentNPC) {
+            enemyMultiplier = 2f;
+        }
+        else enemyMultiplier = 1f;
+        
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+        switch (t) {
+            case TypeTerrain.camino:
+                terrainMultiplier = 1f;
+                break;
+            case TypeTerrain.llanura:
+                terrainMultiplier = 0.75f;
+                break;
+            case TypeTerrain.bosque:
+                terrainMultiplier = 0.25f;
+                break;
+            case TypeTerrain.desierto:
+                terrainMultiplier = 1.5f;
+                break;
+            default:
+                break;
+        }
+        int realDamage = (int) System.Math.Round(baseDamage * enemyMultiplier * terrainMultiplier);
+        return realDamage;
+    }
 
     // Update is called once per frame
     public  override void Update()
@@ -216,11 +251,6 @@ public class TankAgentNPC : AgentNPC
     {
         base.LateUpdate();
     }
-
-    protected override void revivir() {
-        Vida = 300;
-    }
-
 
     protected override void OnDrawGizmos()
     {
