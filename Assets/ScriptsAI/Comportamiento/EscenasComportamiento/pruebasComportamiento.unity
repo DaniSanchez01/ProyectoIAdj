@@ -484,6 +484,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 3
   pathToFollow: 0
+  OffensivePathToFollow: 0
   team: 0
   firstTarget: {fileID: 0}
   influencia: 0
@@ -492,6 +493,7 @@ MonoBehaviour:
   inmovil: 0
   rangoAtaque: 0
   modo: 0
+  grid: {fileID: 0}
   console: 1
 --- !u!1 &472621611
 GameObject:
@@ -2801,15 +2803,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.9
+      value: 19.57
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8049984
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 43.6
+      value: 42.62
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2878,6 +2880,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 3
   pathToFollow: 0
+  OffensivePathToFollow: 0
   team: 1
   firstTarget: {fileID: 0}
   influencia: 0
@@ -2886,6 +2889,7 @@ MonoBehaviour:
   inmovil: 0
   rangoAtaque: 0
   modo: 0
+  grid: {fileID: 0}
   console: 1
 --- !u!1 &2001963460 stripped
 GameObject:
