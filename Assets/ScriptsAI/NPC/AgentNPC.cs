@@ -149,7 +149,10 @@ public abstract class AgentNPC : Agent
         get { return modo; }
         protected set { modo = value; }
     }
-
+    public bool GuerraTotal
+    {
+        get { return guerraTotal; }
+    }
 
     protected void Awake()
     {
@@ -245,6 +248,12 @@ public abstract class AgentNPC : Agent
 
     public void changeGuerraTotal() {
         guerraTotal = !guerraTotal;
+
+        //si se cambia al modo ofensivo entonces volvemos al estado inicial y si cambiamos al modo guerra volvemos tambien al estado inicial en cualquier caso siempre nos quedamos en el automata
+        //ofensivo
+        salir(agentState);
+        agentState = State.Conquistar;
+        entrar(State.Conquistar);
     }
 
     public void startTimer() {

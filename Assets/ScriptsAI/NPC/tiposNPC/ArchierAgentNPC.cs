@@ -211,7 +211,7 @@ public class ArchierAgentNPC : AgentNPC
                     }
 
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
-                    else if (Vida <= 50) //si nos falta vida huimos
+                    else if (Vida <= 50 && !GuerraTotal) //si nos falta vida huimos y si no estamos en guerrra total
                     {
                         salir(estadoAct);
                         entrar(State.Huir);

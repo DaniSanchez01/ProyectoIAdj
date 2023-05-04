@@ -190,39 +190,75 @@ public class LectorTeclado : MonoBehaviour
 
         }
         else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.V)) {
-            if (Input.GetKeyDown(KeyCode.Z)) {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
                 depuracion = !depuracion;
                 GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
-                foreach (var npc in agents) {
+                foreach (var npc in agents)
+                {
                     npc.GetComponent<AgentNPC>().changeDepuration();
                 }
                 agents = GameObject.FindGameObjectsWithTag("NPCazul");
-                foreach (var npc in agents) {
+                foreach (var npc in agents)
+                {
                     npc.GetComponent<AgentNPC>().changeDepuration();
                 }
 
             }
-            else if (Input.GetKeyDown(KeyCode.C)) {
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
                 scriptMapas.nextMap();
                 mapa = scriptMapas.TipoMapa;
             }
-            
-            else if (Input.GetKeyDown(KeyCode.V)) {
+
+            else if (Input.GetKeyDown(KeyCode.V))
+            {
                 tactico = !tactico;
                 GameObject[] agents = GameObject.FindGameObjectsWithTag("NPCrojo");
-                foreach (var npc in agents) {
-                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a)){
+                foreach (var npc in agents)
+                {
+                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a))
+                    {
                         a.Tactics = tactico;
                     }
                 }
                 agents = GameObject.FindGameObjectsWithTag("NPCazul");
-                foreach (var npc in agents) {
-                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a)){
+                foreach (var npc in agents)
+                {
+                    if (npc.TryGetComponent<GridPathFinding>(out GridPathFinding a))
+                    {
                         a.Tactics = tactico;
                     }
                 }
             }
-            else guerraTotal = !guerraTotal;
+            else { 
+                //se cambia el modo
+                guerraTotal = !guerraTotal;
+
+                //se buscan los gameobjects para cambiarlos al modo guerra total
+                GameObject[] agents;
+                agents = GameObject.FindGameObjectsWithTag("NPCrojo");
+                
+                foreach(var npc in agents)
+                {
+                    //se cambia el modo a guerra total de todos los NPCs.
+                    if(npc.TryGetComponent<AgentNPC>(out AgentNPC agente)) agente.changeGuerraTotal();
+                    
+                }
+
+                agents = GameObject.FindGameObjectsWithTag("NPCazul");
+
+                foreach (var npc in agents)
+                {
+                    //se cambia el modo a guerra total de todos los NPCs.
+                    if (npc.TryGetComponent<AgentNPC>(out AgentNPC agente)) agente.changeGuerraTotal();
+
+                }
+                //se establecen los booleanos a falso si se ha activado la guerra total y si no tambien porque pasan a modo ofensivo
+                defensiveRed = false;
+                defensiveBlue = false;
+                
+            }
             TMP_Text t = textoEsquina.GetComponent<TMP_Text>();
             t.text = "Modo Depuracion: "+changeToString(depuracion)+"\nGuerra Total: "+changeToString(guerraTotal)+"\nMapa activo: "+mapa+"\nPathFinding Tactico: "+changeToString(tactico);
 
