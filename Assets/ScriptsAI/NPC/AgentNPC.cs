@@ -57,6 +57,10 @@ public abstract class AgentNPC : Agent
     private List<SteeringBehaviour> listSteerings;
     public bool useArbitro = false;
 
+    private Torre torre;
+    private Torre torreEnemiga;
+
+    protected bool veoTorre;
     public State agentState = State.Normal;
     public typeArbitro arbitro = typeArbitro.Quieto;  
     private typeArbitro firstArbitro;
@@ -138,7 +142,7 @@ public abstract class AgentNPC : Agent
     public bool Inmovil
     {
         get { return inmovil; }
-        protected set { inmovil = value; }
+        set { inmovil = value; }
     }
 
     //Propiedad que simboliza el rango de ataque de una unidad determinada
@@ -188,6 +192,12 @@ public abstract class AgentNPC : Agent
                 firstArbitro = arbitro;
                 listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
             }
+        Torre[] torres = FindObjectsOfType<Torre>();
+        for (int i = 0; i < torres.Length; i++){
+            if (torres[i].team == this.team) torre = torres[i];
+            else torreEnemiga = torres[i];
+        }
+        EnemigoActual = this;
         hospital = GameObject.FindObjectOfType<Curacion>();
         bocadillo = transform.Find("Bocadillo").gameObject;
         paintBocadillo();
@@ -608,6 +618,13 @@ public abstract class AgentNPC : Agent
         else return false; //observar que puede retornar false porque no haya un enemigo o este no este a rango.
     }
 
+    public bool estaARangoTorre()
+    {
+        Agent v = torreEnemiga.virtualAgent;
+        if (Vector3.Distance(v.Position, this.Position) <= 8+rangoAtaque) return true;
+        else return false; //observar que puede retornar false porque no haya un enemigo o este no este a rango.
+    }
+
     /*
      * Funcion que nos permite localizar un enemigo en un radio determinado dado por el radio interior.
      * Pre: ninguna
@@ -620,7 +637,6 @@ public abstract class AgentNPC : Agent
         foreach (Collider obj in colisiones)
         {
             AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
-
             if (componenteNPC != null && !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius)) {            
                 //if (console) Debug.Log(componenteNPC.gameObject.name);
                 EnemigoActual = componenteNPC;
@@ -628,6 +644,22 @@ public abstract class AgentNPC : Agent
             }
         }
         return false;
+    }
+
+    public bool veoTorreEnemiga() 
+    {
+        //Si es la torre rival y la vemos con nuestro rango
+        Vector3 positionTorre = torreEnemiga.gameObject.transform.position;
+        if ((Vector3.Distance(Position, positionTorre) <= arrivalRadius+12)) {
+            //Devolver true
+            veoTorre = true;
+            return true;
+        }
+        //Si no encontramos la torre enemiga devolver False
+        else {
+            veoTorre = false;
+            return false;
+            }
     }
 
     public AgentNPC veoAliado()
@@ -662,9 +694,24 @@ public abstract class AgentNPC : Agent
         if (console) Debug.Log("Corutina atacar() comienzo");
         while (true)
         {
-            
+            if (veoTorre) {
+                if (estaARangoTorre()) {
+                    torreEnemiga.recibirDamage(baseDamage);
+                    //quedate quieto durante 2 segundos
+                    Inmovil = true; //quedate quieto
+                    this.Acceleration = Vector3.zero;
+                    this.AngularAcc = 0;
+                    this.Velocity = Vector3.zero;
+                    this.Rotation = 0;
+                    yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
+
+                    //1.2 Despues de haber esperado indicamos que ya se puede mover
+                    Inmovil = false;
+                }
+
+            }
             //1. La corutina comprueba que el enemigo no esta muerto y que el NPC lo tiene a rango
-            if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
+            else if (!EnemigoActual.estaMuerto() && estaARangoEnemigoAct())
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
                 int realDamage = calculateDamage();
@@ -734,10 +781,18 @@ public abstract class AgentNPC : Agent
                 agentState = estadoAEntrar;
                 break;
             case State.Atacar:
-                if (console) Debug.Log("Entrando en el estado Atacar");
                 agentState = estadoAEntrar;
-                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-                StartCoroutine(CoAtaque);
+                if (veoTorre) {
+                    if (console) Debug.Log("Entrando en el estado Atacar (A la torre)");
+                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, torreEnemiga.virtualAgent, pathToFollow);
+                    StartCoroutine(CoAtaque);
+                }
+                else {
+                    if (console) Debug.Log("Entrando en el estado Atacar (A un enemigo)");
+                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                    StartCoroutine(CoAtaque);
+                }
+                
                 break;
 
             case State.Huir:

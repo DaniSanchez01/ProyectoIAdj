@@ -51,15 +51,6 @@ public class SoldierAgentNPC : AgentNPC
             }
 
     }
-
-    
-
-    
-   
-    
-
-  
-
     
     public override void transitar(State estadoAct)
     {
@@ -92,6 +83,7 @@ public class SoldierAgentNPC : AgentNPC
                     //1.Transicion que es comprobar si me han matado
                     if (Vida == 0)
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
@@ -100,18 +92,21 @@ public class SoldierAgentNPC : AgentNPC
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
                    else  if (Vida <= 20) //si nos falta vida huimos
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Huir);
                     }
 
                     //3. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
-                    else if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
-                    {
-
-                        salir(estadoAct);
-                        finalidadPathFinding = typeRecorrerCamino.aVigilar;
-                        puntoInteres = getFirstPointPath(pathToFollow);
-                        entrar(State.RecorriendoCamino);
+                    else if (!veoTorre) {
+                        if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
+                        {
+                            veoTorre = false;
+                            salir(estadoAct);
+                            finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                            puntoInteres = getFirstPointPath(pathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
 
                     //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
@@ -196,8 +191,14 @@ public class SoldierAgentNPC : AgentNPC
                         }
                         else entrar(State.Vigilar);
                     }
-
-                    //3.Si veo a un enemigo a mitad de camino
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
+                    //4.Si veo a un enemigo a mitad de camino
                     else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
@@ -223,7 +224,13 @@ public class SoldierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
-
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     //2. La primera transición del estado Wander se corresponde a cambiar a estado de ataque si se ve un enemigo.
                     else if (veoEnemigo()) //1 transicion de WanderSoldier
                     {
@@ -237,6 +244,7 @@ public class SoldierAgentNPC : AgentNPC
                     //1.Transicion que es comprobar si me han matado
                     if (Vida == 0)
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
@@ -244,6 +252,7 @@ public class SoldierAgentNPC : AgentNPC
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
                     else if (Vida <= 20 && !GuerraTotal) //si nos falta vida huimos y si no estamos en guerra total
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Huir);
                     }
@@ -251,7 +260,7 @@ public class SoldierAgentNPC : AgentNPC
                     //2. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de Wander.
                     else if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
                     {
-
+                        veoTorre = false;
                         salir(estadoAct);
                         //Si vamos a atacar la torre, entrar directamente en modo conquistar
                         if (irATorre){
@@ -359,6 +368,13 @@ public class SoldierAgentNPC : AgentNPC
                         //Vamos a la torre
                         else entrar(State.Conquistar);
                     }
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     //si veo al enemigo
                     else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);

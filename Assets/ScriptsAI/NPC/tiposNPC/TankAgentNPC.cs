@@ -74,8 +74,6 @@ public class TankAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
-
-
                     //2. Transicion si veo un enemigo
                     else if (veoEnemigo())
                     {
@@ -88,6 +86,7 @@ public class TankAgentNPC : AgentNPC
                     //1.Transicion que es comprobar si me han matado
                     if (Vida == 0)
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
@@ -95,6 +94,7 @@ public class TankAgentNPC : AgentNPC
                     //2. La primera transicion para el tanque es comprobar si le queda poca vida para huir
                     else if (Vida <= 40)
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Huir);
                     }
@@ -102,6 +102,7 @@ public class TankAgentNPC : AgentNPC
                     //3. Si tenemos vida suficiente pero no vemos al enemigo o esta muerto o ambas pues volvemos al estado Wander
                     else if(EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         finalidadPathFinding = typeRecorrerCamino.aVigilar;
                         puntoInteres = getFirstPointPath(pathToFollow);
@@ -186,7 +187,14 @@ public class TankAgentNPC : AgentNPC
                         }
                         else entrar(State.Vigilar);
                     }
-                    //3. si ve un enemigo
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
+                    //4. si ve un enemigo
                     else if(veoEnemigo())
                         {
                             FindObjectOfType<LectorTeclado>().clearList(this);
@@ -215,8 +223,13 @@ public class TankAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
-
-
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
+                        }
                     //2. Transicion del estado Conquistar
                     else if (veoEnemigo())
                     {
@@ -242,6 +255,7 @@ public class TankAgentNPC : AgentNPC
                     //1.Transicion que es comprobar si me han matado
                     if (Vida == 0)
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
@@ -249,6 +263,7 @@ public class TankAgentNPC : AgentNPC
                     //2. Si tenemos vida suficiente pero no vemos al enemigo o esta muerto o ambas pues volvemos al estado Wander
                     else if (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
+                        veoTorre = false;
                         salir(estadoAct);
                         //Si vamos a atacar la torre, entrar directamente en modo conquistar
                         if (irATorre){
@@ -294,15 +309,18 @@ public class TankAgentNPC : AgentNPC
                         //Vamos a la torre
                         else entrar(State.Conquistar);
                     }
-                    else {
-
-                        //3. si veo enemigo
-                        if (veoEnemigo())
-                        {
+                    //3.Si veo la torre enemiga a mitad de camino
+                    else if(veoTorreEnemiga()) {
+                            FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);
                         }
+                    else if (veoEnemigo()){
+                            FindObjectOfType<LectorTeclado>().clearList(this);
+                            salir(estadoAct);
+                            entrar(State.Atacar);
                     }
+                    
                     break;
                 default:
                     break;
