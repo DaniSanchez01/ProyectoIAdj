@@ -114,7 +114,7 @@ public class LectorTeclado : MonoBehaviour
             {
                 npc.GetComponent<Cubo>().enable();
                 AgentNPC n = npc.GetComponent<AgentNPC>();
-                n.changeArbitro(typeArbitro.Quieto);
+                n.volverAPosicion();
             }
             selectedUnits.Clear();
         }
@@ -143,6 +143,7 @@ public class LectorTeclado : MonoBehaviour
                             
                             npc.PuntoInteres = newTarget;
                             npc.salir(npc.agentState);
+                            npc.finalidadPathFinding = typeRecorrerCamino.seleccionUsuario;
                             npc.entrar(State.RecorriendoCamino);
                         }
                     }

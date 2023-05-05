@@ -95,7 +95,8 @@ public class ArchierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.Huir:
@@ -142,7 +143,8 @@ public class ArchierAgentNPC : AgentNPC
                     else if (Vida == 150)
                     {
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.Muerto:

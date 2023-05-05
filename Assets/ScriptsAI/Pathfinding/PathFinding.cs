@@ -90,7 +90,7 @@ public class PathFinding
         Nodo[,] nodes = grid.CeldasGrid;
 
         //La lista abierta tendrá prioridad(siempre devolverá el elemento cuyo coste sea menor)
-        ColaPrioridad openList = new ColaPrioridad();
+        BinaryHeap openList = new BinaryHeap();
         List<Nodo> closedList = new List<Nodo>();
         openList.Enqueue(posicion);
         //Establece g = Infinito para todo nodo
@@ -131,7 +131,7 @@ public class PathFinding
                     //Actualiza los valores del nodo
                     vecino.g = possibleG;
                     vecino.Parent = nodoActual;
-                    //Si todavia no se havia encontrado este nodo
+                    //Si todavia no se habia encontrado este nodo
                     if (!openList.contiene(vecino)) {
                         //Calcula la heurística para llegar al objetivo
                         vecino.h = grid.HeuristicaGrid.coste(vecino.Celda,objetivo.Celda);

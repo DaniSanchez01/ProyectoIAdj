@@ -20,14 +20,17 @@ public class Curacion : MonoBehaviour
     IEnumerator curar() {
         while(true) {
             foreach (var npc in heridos) {
+                Debug.Log(npc.gameObject.name);
                 npc.Vida+=20;
                 if (npc.Vida >= npc.VidaMax) {
                     npc.Vida = npc.VidaMax;
+                                    
+
                     curados.Add(npc);
                 }
                 npc.UpdateContador();
             }
-            List<AgentNPC> listaRestada = heridos.Except(curados).ToList();
+            heridos = heridos.Except(curados).ToList();
             curados.Clear();
             yield return new WaitForSeconds(2);
         }

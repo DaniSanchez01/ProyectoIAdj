@@ -109,7 +109,9 @@ public class SoldierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
 
                     //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
@@ -160,7 +162,9 @@ public class SoldierAgentNPC : AgentNPC
                     else if (Vida == 200)
                     {
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.Muerto:
@@ -168,26 +172,32 @@ public class SoldierAgentNPC : AgentNPC
                     if(Vida == VidaMax)
                     {
                         salir(estadoAct);
+                        finalidadPathFinding = typeRecorrerCamino.reaperecer;
                         entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.RecorriendoCamino:
 
-                    //1.Transicion que es comprobar si me han matado
+                    //1. Si me han matado
                     if (Vida == 0)
                     {
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
 
-                    //2. He llegado al punto de interes
+                    //2. Si he llegado al punto de interes (final del camino)
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        if (finalidadPathFinding == typeRecorrerCamino.reaperecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) {
+                            finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                            puntoInteres = getFirstPointPath(pathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
+                        else entrar(State.Vigilar);
                     }
 
-                    //3.Si veo a un enemigo
+                    //3.Si veo a un enemigo a mitad de camino
                     else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
@@ -200,7 +210,7 @@ public class SoldierAgentNPC : AgentNPC
             }
         }
 
-        //En otro caso se aplica el automata de ataque
+        //Si el NPC está en modo ofensivo se aplica el automata de ataque
         else
         {
             switch (estadoAct)
@@ -243,7 +253,16 @@ public class SoldierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        //Si vamos a atacar la torre, entrar directamente en modo conquistar
+                        if (irATorre){
+                            entrar(State.Conquistar);
+                        }
+                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
 
                     //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
@@ -292,7 +311,16 @@ public class SoldierAgentNPC : AgentNPC
                     else if (Vida == 200)
                     {
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        //Si vamos a atacar la torre, entrar directamente en modo conquistar
+                        if (irATorre){
+                            entrar(State.Conquistar);
+                        }
+                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
                     break;
                 case State.Muerto:
@@ -300,6 +328,7 @@ public class SoldierAgentNPC : AgentNPC
                     if (Vida == VidaMax)
                     {
                         salir(estadoAct);
+                        finalidadPathFinding = typeRecorrerCamino.reaperecer;
                         entrar(State.RecorriendoCamino);
                     }
                     break;
@@ -315,7 +344,14 @@ public class SoldierAgentNPC : AgentNPC
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        //Si acabamos de llegar al punto donde morimos o donde nos seleccionaron, y tenemos que patrullar en el campo enemigo
+                        if ((finalidadPathFinding == typeRecorrerCamino.reaperecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) && !irATorre) {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(pathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
+                        //Vamos a la torre
+                        else entrar(State.Conquistar);
                     }
                     //si veo al enemigo
                     else if(veoEnemigo()) {

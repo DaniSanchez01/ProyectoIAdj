@@ -6,8 +6,14 @@ using System;
 using TMPro;
 
 
+public enum typeRecorrerCamino {
+    
+    reaperecer,
+    aVigilar,
+    seleccionUsuario,
+    aConquistar
 
-
+}
 public enum State
 {
     //Estados de la primera entrega
@@ -63,9 +69,11 @@ public abstract class AgentNPC : Agent
     private bool waiting = false;
     private bool depuration = false;
     private bool guerraTotal = false;
+    protected bool irATorre;
     public float influencia;
     private GameObject bocadillo;
     protected TerrainMap mapaTerrenos;
+    public typeRecorrerCamino finalidadPathFinding;
     protected int baseDamage = 10;
     private TMP_Text contador;
     protected Vector3 puntoInteres;
@@ -97,6 +105,10 @@ public abstract class AgentNPC : Agent
     public int VidaMax {
         set { vidaMax = value;}
         get { return vidaMax; }
+    }
+
+    public State AgentState {
+        get {return agentState;}
     }
 
     public Vector3 PuntoInteres {
@@ -189,14 +201,37 @@ public abstract class AgentNPC : Agent
 
     public void changeMode() {
         if (modo == Modo.Ofensivo) modo = Modo.Defensivo;
-        else modo = Modo.Ofensivo;
+        else {
+            modo = Modo.Ofensivo;
+            probIrATorre();
+        } 
         paintBocadillo();
+    }
+
+    //Decide aleatoriamente si al conquistar se irá a torre o se hará una patrulla en territorio enemigo
+    public bool probIrATorre() {
+        if (UnityEngine.Random.value < 0.5f) irATorre=false;
+        else irATorre=true;
+        return irATorre;
     }
 
     public void UpdateContador() {
         contador.text = "Vida: "+vida;
     }
 
+    //Volver a la posición cuando se deselecciona un npc
+    public void volverAPosicion(){
+        salir(agentState);
+        if (modo == Modo.Defensivo) {
+            finalidadPathFinding = typeRecorrerCamino.aVigilar;
+            puntoInteres = getFirstPointPath(pathToFollow);
+        }
+        else {
+            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+        }
+        entrar(State.RecorriendoCamino);
+    }
     public void changeToDefensive() {
         if (modo!=Modo.Defensivo) {
             modo = Modo.Defensivo;
@@ -207,6 +242,7 @@ public abstract class AgentNPC : Agent
     public void changeToOffensive() {
         if (modo!=Modo.Ofensivo) {
             modo = Modo.Ofensivo;
+            probIrATorre();
             paintBocadillo();
         }
     }
@@ -238,6 +274,21 @@ public abstract class AgentNPC : Agent
         }
     }
 
+    public Vector3 getFirstPointPath(typePath camino) {
+        switch (camino) {
+            case (typePath.vigilaBaseRoja):
+                return new Vector3(67f,0f,22f);
+            case (typePath.vigilaBaseAzul):
+                return new Vector3(24f,0f,67f);
+            case (typePath.vigilaRioRojo):
+                return new Vector3(28f,0f,21f);
+            case (typePath.vigilaRioAzul):
+                return new Vector3(23f,0f,35f);
+            default:
+                return new Vector3(0f,0f,0f);
+        }
+    }
+
     public abstract float getTerrainCost(Nodo a);
 
     public void changeDepuration() {
@@ -252,7 +303,9 @@ public abstract class AgentNPC : Agent
         //si se cambia al modo ofensivo entonces volvemos al estado inicial y si cambiamos al modo guerra volvemos tambien al estado inicial en cualquier caso siempre nos quedamos en el automata
         //ofensivo
         salir(agentState);
+        modo = Modo.Ofensivo;
         agentState = State.Conquistar;
+        paintBocadillo();
         entrar(State.Conquistar);
     }
 
@@ -327,6 +380,25 @@ public abstract class AgentNPC : Agent
                 break;
             case(State.Curandose):
                 frase = "Recuperando vida :)";
+                break;
+            case(State.RecorriendoCamino):
+                switch (finalidadPathFinding){
+                    case(typeRecorrerCamino.reaperecer):
+                        frase = "Volviendo al punto de muerte";
+                        break;
+                    case(typeRecorrerCamino.seleccionUsuario):
+                        frase = "De camino al punto seleccionado";
+                        break;
+                    case(typeRecorrerCamino.aVigilar):
+                        frase = "Volviendo a mi puesto";
+                        break;
+                    case(typeRecorrerCamino.aConquistar):
+                        frase = "Volviendo a mi puesto de ataque";
+                        break;
+                    default:
+                        frase = "falloRecorrerCamino";
+                        break;
+                }
                 break;
             default:
                 frase = "Que habrá para comer?";
@@ -603,7 +675,7 @@ public abstract class AgentNPC : Agent
             case State.Conquistar:
                 if (console) Debug.Log("Entrando en el estado de Conquistar");
                 //si estamos en guerra total siempre iremos a la base enemiga y en caso contrario iremos con un 50 % probabilidad
-                if (guerraTotal || UnityEngine.Random.value < 0.5f)
+                if (guerraTotal || irATorre)
                 {
                     celda = grid.getCeldaDePuntoPlano(this.Position);
                     posicion = grid.GetNodo(celda.x, celda.y);
@@ -615,7 +687,6 @@ public abstract class AgentNPC : Agent
                 }
                 //en caso de que no estemos en guerra total con un 50% de probabilidad iremos a recorrer un camino ofensivo.
                 else GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, OffensivePathToFollow);
-          
                 agentState = estadoAEntrar;
                 break;
             case State.Atacar:

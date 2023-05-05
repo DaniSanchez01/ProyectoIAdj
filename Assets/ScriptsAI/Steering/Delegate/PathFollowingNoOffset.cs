@@ -15,6 +15,9 @@ public enum typePath {
     vigilaBaseAzul,
     vigilaRioRojo,
     vigilaRioAzul,
+    hospitalAzul,
+    hospitalRojo,
+    
 }
 
 public class PathFollowingNoOffset : SeekCraig
@@ -125,7 +128,18 @@ public class PathFollowingNoOffset : SeekCraig
                 path.Add(new Vector3(23f,0f,35f));
                 path.Add(new Vector3(59f,0f,66f));
                 break;
-
+            case typePath.hospitalAzul:
+                path.Add(new Vector3(77f,0f,70f));
+                path.Add(new Vector3(65f,0f,70f));
+                path.Add(new Vector3(65f,0f,80f));
+                path.Add(new Vector3(65f,0f,70f));
+                break;
+            case typePath.hospitalRojo:
+                path.Add(new Vector3(13f,0f,15f));
+                path.Add(new Vector3(28.5f,0f,15f));
+                path.Add(new Vector3(28.5f,0f,8f));
+                path.Add(new Vector3(28.5f,0f,15f));
+                break;
             default:
                 break;    
         }

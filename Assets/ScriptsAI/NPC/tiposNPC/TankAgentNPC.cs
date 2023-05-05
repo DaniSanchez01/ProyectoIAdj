@@ -46,7 +46,7 @@ public class TankAgentNPC : AgentNPC
                 case (TypeTerrain.bosque):
                     return 5;
                 case (TypeTerrain.desierto):
-                    return 3;
+                    return 2;
                 default:
                     return 9999;             
             }
@@ -103,7 +103,8 @@ public class TankAgentNPC : AgentNPC
                     else if(EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual))
                     {
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.Huir:
@@ -150,7 +151,8 @@ public class TankAgentNPC : AgentNPC
                     else if (Vida == 300)
                     {
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        puntoInteres = getFirstPointPath(pathToFollow);
+                        entrar(State.RecorriendoCamino);
                     }
                     break;
                 case State.Muerto:

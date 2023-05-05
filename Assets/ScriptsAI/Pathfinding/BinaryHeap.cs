@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColaPrioridad
+public class BinaryHeap
 {
     private List<Nodo> nodos;
-    public ColaPrioridad()
+    public BinaryHeap()
     {
         this.nodos = new List<Nodo>();
     }
