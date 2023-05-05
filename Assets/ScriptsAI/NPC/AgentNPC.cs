@@ -251,6 +251,7 @@ public abstract class AgentNPC : Agent
 
         //si se cambia al modo ofensivo entonces volvemos al estado inicial y si cambiamos al modo guerra volvemos tambien al estado inicial en cualquier caso siempre nos quedamos en el automata
         //ofensivo
+        this.changeToOffensive();
         salir(agentState);
         agentState = State.Conquistar;
         entrar(State.Conquistar);
@@ -607,8 +608,9 @@ public abstract class AgentNPC : Agent
                 {
                     celda = grid.getCeldaDePuntoPlano(this.Position);
                     posicion = grid.GetNodo(celda.x, celda.y);
+                    //segun el equipo que seas vas a ir a una base o a otra
                     if (team == Team.Blue) celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointBaseRojo[0]);
-                    else celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointBaseRojo[0]);
+                    else celdaObjetivo = grid.getCeldaDePuntoPlano(GameObject.FindObjectOfType<TerrainMap>().waypointBaseAzul[0]);
                     destino = grid.GetNodo(celdaObjetivo.x, celdaObjetivo.y);
                     algoritmo = new PathFinding(grid, posicion, destino, this, 1, false);
                     algoritmo.A();
