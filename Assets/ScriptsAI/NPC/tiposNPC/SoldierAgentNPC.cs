@@ -159,7 +159,7 @@ public class SoldierAgentNPC : AgentNPC
 
 
                     //2. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
-                    else if (Vida == 200)
+                    else if (Vida == VidaMax)
                     {
                         salir(estadoAct);
                         finalidadPathFinding = typeRecorrerCamino.aVigilar;
@@ -172,7 +172,7 @@ public class SoldierAgentNPC : AgentNPC
                     if(Vida == VidaMax)
                     {
                         salir(estadoAct);
-                        finalidadPathFinding = typeRecorrerCamino.reaperecer;
+                        finalidadPathFinding = typeRecorrerCamino.reaparecer;
                         entrar(State.RecorriendoCamino);
                     }
                     break;
@@ -189,7 +189,7 @@ public class SoldierAgentNPC : AgentNPC
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        if (finalidadPathFinding == typeRecorrerCamino.reaperecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) {
+                        if (finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) {
                             finalidadPathFinding = typeRecorrerCamino.aVigilar;
                             puntoInteres = getFirstPointPath(pathToFollow);
                             entrar(State.RecorriendoCamino);
@@ -215,6 +215,18 @@ public class SoldierAgentNPC : AgentNPC
         {
             switch (estadoAct)
             {
+                case State.Vigilar:
+                    salir(estadoAct);
+                    if (irATorre){
+                            entrar(State.Conquistar);
+                        }
+                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
+                    break;
                 case State.Conquistar:
 
                     //1.Transicion que es comprobar si me han matado
@@ -327,9 +339,15 @@ public class SoldierAgentNPC : AgentNPC
                     //1. si la corutina reaparecer() ya se ha ejecutado despues de los 5 segundos
                     if (Vida == VidaMax)
                     {
-                        salir(estadoAct);
-                        finalidadPathFinding = typeRecorrerCamino.reaperecer;
-                        entrar(State.RecorriendoCamino);
+                         salir(estadoAct);
+                        if (GuerraTotal) {
+                            entrar(State.Conquistar);
+                        }
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.reaparecer;
+                            entrar(State.RecorriendoCamino);
+                        }
+                        
                     }
                     break;
                 case State.RecorriendoCamino:
@@ -345,7 +363,7 @@ public class SoldierAgentNPC : AgentNPC
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
                         //Si acabamos de llegar al punto donde morimos o donde nos seleccionaron, y tenemos que patrullar en el campo enemigo
-                        if ((finalidadPathFinding == typeRecorrerCamino.reaperecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) && !irATorre) {
+                        if ((finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario)) {
                             finalidadPathFinding = typeRecorrerCamino.aConquistar;
                             puntoInteres = getFirstPointPath(pathToFollow);
                             entrar(State.RecorriendoCamino);

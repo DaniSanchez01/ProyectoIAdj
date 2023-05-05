@@ -20,7 +20,6 @@ public class Curacion : MonoBehaviour
     IEnumerator curar() {
         while(true) {
             foreach (var npc in heridos) {
-                Debug.Log(npc.gameObject.name);
                 npc.Vida+=20;
                 if (npc.Vida >= npc.VidaMax) {
                     npc.Vida = npc.VidaMax;

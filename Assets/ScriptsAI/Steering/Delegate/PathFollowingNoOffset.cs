@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum typePath {
-    pruebaPathFollowing,
-    pruebaPathFollowing2,
-    rodeaCasasAzules,
-    rodeaCasasRojas,
-    patrullaPuenteAzul,
-    patrullaPuenteRojo,
-    liderAzul,
-    liderRojo,
     vigilaBaseRoja,
     vigilaBaseAzul,
     vigilaRioRojo,
     vigilaRioAzul,
     hospitalAzul,
     hospitalRojo,
+    soldadoHospitalRojo,
+    soldadoDesiertoRojo,
+    Vikingo1Rojo,
+    Vikingo2Rojo,
+    ArqueroRojo,
+    soldadoHospitalAzul,
+    soldadoDesiertoAzul,
+    Vikingo1Azul,
+    Vikingo2Azul,
+    ArqueroAzul,
+
     
 }
 
@@ -49,62 +52,6 @@ public class PathFollowingNoOffset : SeekCraig
         type= typePath;
         path.Clear();
         switch (type) {
-            case typePath.pruebaPathFollowing:
-                path.Add(new Vector3(30f,0f,38f));
-                path.Add(new Vector3(13f,0f,38f));
-                path.Add(new Vector3(13f,0f,17f));
-                path.Add(new Vector3(30f,0f,4.5f));
-                path.Add(new Vector3(0f,0f,0f));
-                path.Add(new Vector3(2f,0f,45f));
-                break;
-            case typePath.pruebaPathFollowing2:
-                path.Add(new Vector3(23f,0f,32f));
-                path.Add(new Vector3(23f,0f,46f));
-                path.Add(new Vector3(40f,0f,46f));
-                path.Add(new Vector3(40f,0f,32f));
-                break;
-            case typePath.rodeaCasasAzules:
-                path.Add(new Vector3(10f,0f,54f));
-                path.Add(new Vector3(2.5f,0f,60f));
-                path.Add(new Vector3(10f,0f,64.5f));
-                path.Add(new Vector3(19f,0f,59f));
-                path.Add(new Vector3(28f,0f,50f));
-                path.Add(new Vector3(36f,0f,57.5f));
-                path.Add(new Vector3(29f,0f,63f));
-                path.Add(new Vector3(19f,0f,59f));
-                break;
-
-            case typePath.rodeaCasasRojas:
-                path.Add(new Vector3(10f,0f,16f));
-                path.Add(new Vector3(2.5f,0f,9f));
-                path.Add(new Vector3(10f,0f,3f));
-                path.Add(new Vector3(19f,0f,8f));
-                path.Add(new Vector3(28f,0f,12f));
-                path.Add(new Vector3(36f,0f,6f));
-                path.Add(new Vector3(29f,0f,1.5f));
-                path.Add(new Vector3(19f,0f,8f));
-                break;
-
-            case typePath.patrullaPuenteAzul:
-                path.Add(new Vector3(4f,0f,39f));
-                path.Add(new Vector3(35f,0f,39f));
-                break;
-
-            case typePath.patrullaPuenteRojo:
-                path.Add(new Vector3(4f,0f,28f));
-                path.Add(new Vector3(35f,0f,28f));
-                break;
-
-            case typePath.liderAzul:
-                path.Add(new Vector3(28f,0f,42f));
-                path.Add(new Vector3(11f,0f,42f));
-                break;
-
-            case typePath.liderRojo:
-                path.Add(new Vector3(11f,0f,24f));
-                path.Add(new Vector3(28f,0f,24f));
-                break;
-
             case typePath.vigilaBaseRoja:
                 path.Add(new Vector3(67f,0f,22f));
                 path.Add(new Vector3(67f,0f,9f));
@@ -139,6 +86,36 @@ public class PathFollowingNoOffset : SeekCraig
                 path.Add(new Vector3(28.5f,0f,15f));
                 path.Add(new Vector3(28.5f,0f,8f));
                 path.Add(new Vector3(28.5f,0f,15f));
+                break;
+            case typePath.soldadoHospitalRojo:
+                path.Add(new Vector3(18.65f,0f,18.4f));
+                break;
+            case typePath.soldadoDesiertoRojo:
+                path.Add(new Vector3(74f,0f,50.5f));
+                break;
+            case typePath.Vikingo1Rojo:
+                path.Add(new Vector3(59f,0f,18f));
+                break;
+            case typePath.Vikingo2Rojo:
+                path.Add(new Vector3(74f,0f,28f));
+                break;
+            case typePath.ArqueroRojo:
+                path.Add(new Vector3(77.5f,0f,36.5f));
+                break;
+            case typePath.soldadoHospitalAzul:
+                path.Add(new Vector3(69.5f,0f,70f));
+                break;
+            case typePath.soldadoDesiertoAzul:
+                path.Add(new Vector3(20f,0f,47f));
+                break;
+            case typePath.Vikingo1Azul:
+                path.Add(new Vector3(16.5f,0f,54.5f));
+                break;
+            case typePath.Vikingo2Azul:
+                path.Add(new Vector3(29f,0f,64f));
+                break;
+            case typePath.ArqueroAzul:
+                path.Add(new Vector3(46f,0f,71.5f));
                 break;
             default:
                 break;    

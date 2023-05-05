@@ -95,6 +95,7 @@ public class ArchierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
+                        finalidadPathFinding = typeRecorrerCamino.aVigilar;
                         puntoInteres = getFirstPointPath(pathToFollow);
                         entrar(State.RecorriendoCamino);
                     }
@@ -140,9 +141,10 @@ public class ArchierAgentNPC : AgentNPC
                     }
 
                     //2. La primera transicion es comprobar si su vida esta llena y si es asi pasar al estado vigilar
-                    else if (Vida == 150)
+                    else if (Vida == VidaMax)
                     {
                         salir(estadoAct);
+                        finalidadPathFinding = typeRecorrerCamino.aVigilar;
                         puntoInteres = getFirstPointPath(pathToFollow);
                         entrar(State.RecorriendoCamino);
                     }
@@ -152,6 +154,7 @@ public class ArchierAgentNPC : AgentNPC
                     if (Vida == VidaMax)
                     {
                         salir(estadoAct);
+                        finalidadPathFinding = typeRecorrerCamino.reaparecer;
                         entrar(State.RecorriendoCamino);
                     }
                     break;
@@ -167,7 +170,12 @@ public class ArchierAgentNPC : AgentNPC
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        entrar(State.Vigilar);
+                        if (finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) {
+                            finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                            puntoInteres = getFirstPointPath(pathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
+                        else entrar(State.Vigilar);
                     }
                     //3. si veo algun enemigo
                     else if(veoEnemigo()) {
@@ -224,7 +232,15 @@ public class ArchierAgentNPC : AgentNPC
                     {
 
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        if (irATorre){
+                            entrar(State.Conquistar);
+                        }
+                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
                     break;
                 case State.Huir:
@@ -272,7 +288,15 @@ public class ArchierAgentNPC : AgentNPC
                     else if (Vida == 150)
                     {
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        if (irATorre){
+                            entrar(State.Conquistar);
+                        }
+                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
                     break;
                 case State.Muerto:
@@ -280,7 +304,13 @@ public class ArchierAgentNPC : AgentNPC
                     if (Vida == VidaMax)
                     {
                         salir(estadoAct);
-                        entrar(State.RecorriendoCamino);
+                        if (GuerraTotal) {
+                            entrar(State.Conquistar);
+                        }
+                        else {
+                            finalidadPathFinding = typeRecorrerCamino.reaparecer;
+                            entrar(State.RecorriendoCamino);
+                        }
                     }
                     break;
                 case State.RecorriendoCamino:
@@ -295,7 +325,13 @@ public class ArchierAgentNPC : AgentNPC
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        entrar(State.Conquistar);
+                        if ((finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario)) {
+                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                            puntoInteres = getFirstPointPath(pathToFollow);
+                            entrar(State.RecorriendoCamino);
+                        }
+                        //Vamos a la torre
+                        else entrar(State.Conquistar);
                     }
                     //3. si ve un enemigo
                     else if(veoEnemigo()) {

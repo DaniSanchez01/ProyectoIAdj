@@ -8,7 +8,7 @@ using TMPro;
 
 public enum typeRecorrerCamino {
     
-    reaperecer,
+    reaparecer,
     aVigilar,
     seleccionUsuario,
     aConquistar
@@ -284,8 +284,32 @@ public abstract class AgentNPC : Agent
                 return new Vector3(28f,0f,21f);
             case (typePath.vigilaRioAzul):
                 return new Vector3(23f,0f,35f);
+            case (typePath.hospitalRojo):
+                return new Vector3(28.5f,0f,15f);
+            case (typePath.hospitalAzul):
+                return new Vector3(65f,0f,70f);
+            case(typePath.soldadoHospitalRojo):
+                return new Vector3(18.65f,0f,18.4f);
+            case typePath.soldadoDesiertoRojo:
+                return new Vector3(74f,0f,50.5f);
+            case typePath.Vikingo1Rojo:
+                return new Vector3(59f,0f,18f);
+            case typePath.Vikingo2Rojo:
+                return new Vector3(74f,0f,28f);
+            case typePath.ArqueroRojo:
+                return new Vector3(77.5f,0f,36.5f);
+            case typePath.soldadoHospitalAzul:
+                return new Vector3(69.5f,0f,70f);
+            case typePath.soldadoDesiertoAzul:
+                return new Vector3(20f,0f,47f);
+            case typePath.Vikingo1Azul:
+                return new Vector3(16.5f,0f,54.5f);
+            case typePath.Vikingo2Azul:
+                return new Vector3(29f,0f,64f);
+            case typePath.ArqueroAzul:
+                return new Vector3(46f,0f,71.5f);
             default:
-                return new Vector3(0f,0f,0f);
+                return new Vector3(44.5f,0f,80f);
         }
     }
 
@@ -307,6 +331,7 @@ public abstract class AgentNPC : Agent
         modo = Modo.Ofensivo;
         agentState = State.Conquistar;
         paintBocadillo();
+        irATorre = true;
         entrar(State.Conquistar);
     }
 
@@ -364,8 +389,9 @@ public abstract class AgentNPC : Agent
         TMP_Text t = b.GetComponent<TMP_Text>();
         string frase;
         switch (agentState) {
-            case(State.LRTA):
-                frase = "Estoy haciendo A*";
+            case(State.Conquistar):
+                if (irATorre) frase = "A por la base enemiga!!";
+                else frase = "Patrullando en zona hostil";
                 break;
             case(State.Vigilar):
                 frase = "Estoy vigilando";
@@ -384,7 +410,7 @@ public abstract class AgentNPC : Agent
                 break;
             case(State.RecorriendoCamino):
                 switch (finalidadPathFinding){
-                    case(typeRecorrerCamino.reaperecer):
+                    case(typeRecorrerCamino.reaparecer):
                         frase = "Volviendo al punto de muerte";
                         break;
                     case(typeRecorrerCamino.seleccionUsuario):
@@ -400,6 +426,9 @@ public abstract class AgentNPC : Agent
                         frase = "falloRecorrerCamino";
                         break;
                 }
+                break;
+            case(State.Muerto):
+                frase = "Estoy muerto";
                 break;
             default:
                 frase = "Que habrá para comer?";
@@ -627,7 +656,6 @@ public abstract class AgentNPC : Agent
             {
                 //1.1 Cuando ataca inflinge dano e inmovilizate 2 segundos
                 int realDamage = calculateDamage();
-                if (console) Debug.Log(realDamage);
                 EnemigoActual.recibirDamage(realDamage);
                 //quedate quieto durante 2 segundos
                 Inmovil = true; //quedate quieto
@@ -688,7 +716,9 @@ public abstract class AgentNPC : Agent
                     algoritmo.A();
                 }
                 //en caso de que no estemos en guerra total con un 50% de probabilidad iremos a recorrer un camino ofensivo.
-                else GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, OffensivePathToFollow);
+                else {
+                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.RecorreCamino, this, null, OffensivePathToFollow);
+                }
                 agentState = estadoAEntrar;
                 break;
             case State.Atacar:
