@@ -215,18 +215,6 @@ public class SoldierAgentNPC : AgentNPC
         {
             switch (estadoAct)
             {
-                case State.Vigilar:
-                    salir(estadoAct);
-                    if (irATorre){
-                            entrar(State.Conquistar);
-                        }
-                        //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
-                        else {
-                            finalidadPathFinding = typeRecorrerCamino.aConquistar;
-                            puntoInteres = getFirstPointPath(OffensivePathToFollow);
-                            entrar(State.RecorriendoCamino);
-                        }
-                    break;
                 case State.Conquistar:
 
                     //1.Transicion que es comprobar si me han matado

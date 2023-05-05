@@ -200,12 +200,8 @@ public abstract class AgentNPC : Agent
     }
 
     public void changeMode() {
-        if (modo == Modo.Ofensivo) modo = Modo.Defensivo;
-        else {
-            modo = Modo.Ofensivo;
-            probIrATorre();
-        } 
-        paintBocadillo();
+        if (modo == Modo.Ofensivo) changeToDefensive();
+        else changeToOffensive(); 
     }
 
     //Decide aleatoriamente si al conquistar se irá a torre o se hará una patrulla en territorio enemigo
@@ -236,6 +232,12 @@ public abstract class AgentNPC : Agent
         if (modo!=Modo.Defensivo) {
             modo = Modo.Defensivo;
             paintBocadillo();
+            if (agentState == State.Conquistar || (agentState == State.RecorriendoCamino && finalidadPathFinding==typeRecorrerCamino.aConquistar)) {
+                salir(agentState);
+                finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                puntoInteres = getFirstPointPath(pathToFollow);
+                entrar(State.RecorriendoCamino);
+            }
         }
     }
 
@@ -243,6 +245,19 @@ public abstract class AgentNPC : Agent
         if (modo!=Modo.Ofensivo) {
             modo = Modo.Ofensivo;
             probIrATorre();
+            if (agentState == State.Vigilar || (agentState == State.RecorriendoCamino && finalidadPathFinding==typeRecorrerCamino.aVigilar)) {
+                salir(agentState);
+                if (irATorre){
+                    entrar(State.Conquistar);
+                }
+                //Si vamos a hacer una patrulla en territorio enemigo, ir al primer punto
+                else {
+                    finalidadPathFinding = typeRecorrerCamino.aConquistar;
+                    puntoInteres = getFirstPointPath(OffensivePathToFollow);
+                    entrar(State.RecorriendoCamino);
+                }
+                
+            }
             paintBocadillo();
         }
     }
@@ -326,11 +341,8 @@ public abstract class AgentNPC : Agent
 
         //si se cambia al modo ofensivo entonces volvemos al estado inicial y si cambiamos al modo guerra volvemos tambien al estado inicial en cualquier caso siempre nos quedamos en el automata
         //ofensivo
-        this.changeToOffensive();
+        changeToOffensive();
         salir(agentState);
-        modo = Modo.Ofensivo;
-        agentState = State.Conquistar;
-        paintBocadillo();
         irATorre = true;
         entrar(State.Conquistar);
     }
