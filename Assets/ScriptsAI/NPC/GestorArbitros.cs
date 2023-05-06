@@ -10,8 +10,8 @@ public enum typeArbitro {
     Quieto,
     Aleatorio,
     RecorreCamino,
-
     Observar,
+    VelocityMatch,
 }
 
 public class GestorArbitros
@@ -121,6 +121,16 @@ public class GestorArbitros
                 face.Weight = 1f;
                 face.FaceNewTarget(target);
                 steeringsDevueltos.Add(face);
+                break;
+            case typeArbitro.VelocityMatch:
+                VelocityMatching velc = agente.gameObject.AddComponent<VelocityMatching>();
+                velc.Weight = 1f;
+                velc.NewTarget(target);
+                steeringsDevueltos.Add(velc);
+
+                wall = agente.gameObject.AddComponent<WallAvoidance>();
+                wall.Weight = 50f;
+                steeringsDevueltos.Add(wall);
                 break;
         }
 

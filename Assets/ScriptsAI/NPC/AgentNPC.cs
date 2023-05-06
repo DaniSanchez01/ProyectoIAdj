@@ -55,7 +55,7 @@ public abstract class AgentNPC : Agent
     // Este será el steering final que se aplique al personaje.
     [SerializeField] protected Steering steer;
     // Todos los steering que tiene que calcular el agente.
-    private List<SteeringBehaviour> listSteerings;
+    protected List<SteeringBehaviour> listSteerings;
     public bool useArbitro = false;
 
     private Torre torre;
