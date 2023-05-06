@@ -458,7 +458,7 @@ public abstract class AgentNPC : Agent
                 frase = "No quiero morir!!!";
                 break;
             case(State.BuscandoCuracion):
-                frase = "Corriendo a la enfermería";
+                frase = "Necesito curarme urgentemente";
                 break;
             case(State.Curandose):
                 frase = "Recuperando vida :)";
@@ -954,10 +954,12 @@ public abstract class AgentNPC : Agent
             if (agentState == State.RecorriendoCamino  || agentState == State.BuscandoCuracion || (agentState == State.Conquistar && irATorre)) {
                 if (TryGetComponent<PathFollowingNoOffset>(out PathFollowingNoOffset p)) {
                     List<Vector3> path = p.getPath();
+                    Gizmos.color = Color.green;
                     if (path.Count>1) {
                         for (int i=0;i<path.Count-1;i++) {
                             Debug.DrawLine(path[i], path[i+1], Color.black);
                         }
+                        Gizmos.DrawSphere(path[path.Count-1], 0.4f);
                     }
                 }
                     

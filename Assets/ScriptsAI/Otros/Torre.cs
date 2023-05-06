@@ -70,6 +70,7 @@ public class Torre: MonoBehaviour
         //Hace que los 2 más cercanos vayan a defender la torre
         for (int i=0;i<2;i++) {
             AgentNPC npc = ejercito[i];
+            FindObjectOfType<LectorTeclado>().clearList(npc);
             // if (team == Team.Red) {
             //     Debug.Log(npc.gameObject.name);
             // }
