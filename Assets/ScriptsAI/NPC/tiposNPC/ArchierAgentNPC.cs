@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ArchierAgentNPC : AgentNPC
 {
+    private bool buenRangoAtaque = false; //variable para controlar que tenemos
+    //un buen rango de ataque
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -21,7 +23,7 @@ public class ArchierAgentNPC : AgentNPC
         Vida = 80;
         VidaMax = 80;
         Inmovil = false;
-        RangoAtaque = 1.5f;
+        RangoAtaque = 2.0f;
         CoAtaque = atacar();
         base.Start();
 
@@ -407,6 +409,40 @@ public class ArchierAgentNPC : AgentNPC
         {
             base.Update();
             transitar(agentState);
+        }
+
+        //en cualquier estado siempre inentaremos mantener la distancia
+        if (agentState == State.Atacar)
+        {
+            if (Vector3.Distance(EnemigoActual.Position, this.Position) <= (RangoAtaque * 0.80f))
+            {
+                Debug.Log(gameObject.name + "aaaa");
+                buenRangoAtaque = false;
+                this.deleteAllSteerings();
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
+            }
+            //si veo que estas muy lejos me acerco
+            else if (Vector3.Distance(EnemigoActual.Position, this.Position) > RangoAtaque)
+            {
+                buenRangoAtaque = false;
+                Debug.Log(gameObject.name + "bbbb");
+                this.deleteAllSteerings();
+                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+            }
+
+            //si la distancia del enemigo esta mas o menos entre un 80% del rango de ataque y el 100% del rango de ataque no me muevo la variable booleana buenRangoAtauqe
+            //Se usa para no estar reasignando todo el rato el velocity matching
+            else
+            {
+                Debug.Log(gameObject.name + "cccc");
+                if (!buenRangoAtaque)
+                {
+                    buenRangoAtaque = true;
+                    this.deleteAllSteerings();
+                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
+                }
+            }
+            Inmovil = false;
         }
     }
 

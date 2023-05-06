@@ -17,6 +17,10 @@ public class VelocityMatching : SteeringBehaviour
         this.nameSteering = "VelocityMatching";
     }
 
+    public override void NewTarget(Agent t)
+    {
+        target = t;
+    }
 
     public override Steering GetSteering(AgentNPC agent)
     {
