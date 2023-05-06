@@ -11,7 +11,8 @@ public enum typeRecorrerCamino {
     reaparecer,
     aVigilar,
     seleccionUsuario,
-    aConquistar
+    aConquistar,
+    aDefender
 
 }
 public enum State
@@ -111,6 +112,10 @@ public abstract class AgentNPC : Agent
         get { return vidaMax; }
     }
 
+    public int BaseDamage {
+        set { baseDamage = value;}
+        get { return baseDamage; }
+    }
     public State AgentState {
         get {return agentState;}
     }
@@ -443,6 +448,9 @@ public abstract class AgentNPC : Agent
                         break;
                     case(typeRecorrerCamino.aConquistar):
                         frase = "Volviendo a mi puesto de ataque";
+                        break;
+                    case(typeRecorrerCamino.aDefender):
+                        frase = "Están atacando nuestra base!!";
                         break;
                     default:
                         frase = "falloRecorrerCamino";
@@ -911,6 +919,22 @@ public abstract class AgentNPC : Agent
     {
 
     }
-
+    protected  override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        if (depuration) {
+            if (agentState == State.RecorriendoCamino  || agentState == State.BuscandoCuracion || (agentState == State.Conquistar && irATorre)) {
+                if (TryGetComponent<PathFollowingNoOffset>(out PathFollowingNoOffset p)) {
+                    List<Vector3> path = p.getPath();
+                    if (path.Count>1) {
+                        for (int i=0;i<path.Count-1;i++) {
+                            Debug.DrawLine(path[i], path[i+1], Color.black);
+                        }
+                    }
+                }
+                    
+            }
+        }
+    }
 
 }

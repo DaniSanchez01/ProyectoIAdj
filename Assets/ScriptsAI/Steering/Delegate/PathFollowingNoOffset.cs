@@ -48,6 +48,10 @@ public class PathFollowingNoOffset : SeekCraig
         DestroyPath();
     }
 
+    public List<Vector3> getPath() {
+        return path;
+    }
+
     public void setTypePath(typePath typePath) {
         type= typePath;
         path.Clear();

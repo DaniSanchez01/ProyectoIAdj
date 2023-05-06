@@ -1131,6 +1131,7 @@ MonoBehaviour:
   textoVictoria: {fileID: 1119328402}
   team: 0
   virtualAgent: {fileID: 0}
+  ejercito: []
 --- !u!1001 &105589241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1559,7 +1560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Vida = 300
+  m_text: Vida = 600
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5410,7 +5411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 69.5
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5418,7 +5419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6779,7 +6780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Vida = 300
+  m_text: Vida = 600
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7115,7 +7116,7 @@ PrefabInstance:
     - target: {fileID: 3713487093468128844, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa4a7e80e25d7ce49982511eac83810b, type: 2}
+      objectReference: {fileID: 2100000, guid: b2f520d8928beb3479fa3dbf5d843936, type: 2}
     - target: {fileID: 4661444496165361073, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
@@ -7123,7 +7124,7 @@ PrefabInstance:
     - target: {fileID: 6628310379519876932, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa4a7e80e25d7ce49982511eac83810b, type: 2}
+      objectReference: {fileID: 2100000, guid: b2f520d8928beb3479fa3dbf5d843936, type: 2}
     - target: {fileID: 7656683264261479027, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Name
       value: KingRojo
@@ -7131,7 +7132,7 @@ PrefabInstance:
     - target: {fileID: 8723028915310556889, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 078bd2f6fe45ec343884b4526b27dedf, type: 2}
+      objectReference: {fileID: 2100000, guid: b32888e7fd3d49d419a5a2df0f20b757, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
 --- !u!4 &802026520 stripped
@@ -8294,7 +8295,7 @@ MonoBehaviour:
   rangoAtaque: 0
   modo: 0
   grid: {fileID: 0}
-  console: 1
+  console: 0
 --- !u!4 &1078611094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -9796,7 +9797,7 @@ PrefabInstance:
     - target: {fileID: 3713487093468128844, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa4a7e80e25d7ce49982511eac83810b, type: 2}
+      objectReference: {fileID: 2100000, guid: 3329666f85cbd6a4daf51e9b704eb2a0, type: 2}
     - target: {fileID: 4661444496165361073, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
@@ -9804,7 +9805,7 @@ PrefabInstance:
     - target: {fileID: 6628310379519876932, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: aa4a7e80e25d7ce49982511eac83810b, type: 2}
+      objectReference: {fileID: 2100000, guid: 3329666f85cbd6a4daf51e9b704eb2a0, type: 2}
     - target: {fileID: 7656683264261479027, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Name
       value: KingAzul
@@ -9812,7 +9813,7 @@ PrefabInstance:
     - target: {fileID: 8723028915310556889, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 078bd2f6fe45ec343884b4526b27dedf, type: 2}
+      objectReference: {fileID: 2100000, guid: 70f1c38226be39e4f8340063fcaf3078, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5eb6f9fd53bcc04a9dfa7bec1a75792, type: 3}
 --- !u!4 &1209332893 stripped
@@ -12731,6 +12732,7 @@ MonoBehaviour:
   textoVictoria: {fileID: 1422348700}
   team: 1
   virtualAgent: {fileID: 0}
+  ejercito: []
 --- !u!1 &1698680623 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2245506464172409351, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}

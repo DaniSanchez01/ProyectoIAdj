@@ -55,7 +55,7 @@ public class GestorArbitros
 
                 wall = agente.gameObject.AddComponent<WallAvoidance>();
                 wall.Weight = 50f;
-                wall.gizmos = true;
+                //wall.gizmos = true;
                 steeringsDevueltos.Add(wall);
                 break;
 
@@ -107,7 +107,7 @@ public class GestorArbitros
                 steeringsDevueltos.Add(face);
                 wall = agente.gameObject.AddComponent<WallAvoidance>();
                 wall.Weight = 50f;
-                wall.gizmos = true;
+                //wall.gizmos = true;
                 steeringsDevueltos.Add(wall);
                 break;
 

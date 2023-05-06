@@ -204,6 +204,7 @@ public class LectorTeclado : MonoBehaviour
                 {
                     npc.GetComponent<AgentNPC>().changeDepuration();
                 }
+                FindObjectOfType<TerrainMap>().depuration = depuracion;
 
             }
             else if (Input.GetKeyDown(KeyCode.C))

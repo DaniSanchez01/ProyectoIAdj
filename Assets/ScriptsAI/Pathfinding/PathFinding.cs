@@ -161,6 +161,15 @@ public class PathFinding
             Vector2Int celdaActual = a.Celda;
             Vector2Int celdaDestino = b.Celda;
             if (mapas==null) mapas = GameObject.FindObjectOfType<MapasTacticos>();
+            float total = calcularInfluecia(celdaActual,celdaDestino);
+            total+= calcularVulnerabilidad(celdaActual,celdaDestino);
+            return total;
+        }
+        else return 0f;
+    }
+
+    //Calcula el coste de influencia entre dos puntos (valores entre -1 y 3)
+    public float calcularInfluecia(Vector2Int celdaActual, Vector2Int celdaDestino) {
             float inf1 = mapas.getInfluencia(celdaActual.x,celdaActual.y);
             float inf2 = mapas.getInfluencia(celdaActual.x,celdaActual.y);
             //Que haya enemigos cerca hace que el coste sea más alto, si hay amigos cerca hace que el coste sea más bajo
@@ -169,9 +178,16 @@ public class PathFinding
                 inf2 =-inf2;
             }
             float total = (float) System.Math.Round((inf1+inf2)/2,2);
-            return total;
-        }
-        else return 0f;
+            total = total*3;
+            return System.Math.Min(-1,total);
+    }
+
+    //Calcula el coste de vulnerabilidad (valores ente 0 y 6w)
+    public float calcularVulnerabilidad(Vector2Int celdaActual, Vector2Int celdaDestino) {
+            float inf1 = mapas.getVulnerabilidad(celdaActual.x,celdaActual.y);
+            float inf2 = mapas.getVulnerabilidad(celdaActual.x,celdaActual.y);
+            float total = (float) System.Math.Round((inf1+inf2)/2,2);
+            return total*3;
     }
 
     //Una vez encontrado el nodo final, reconstruye el camino

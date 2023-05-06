@@ -25,8 +25,8 @@ public class TankAgentNPC : AgentNPC
         }
         //atributos inicializados del tanque
         agentState = State.Vigilar;
-        Vida = 300;
-        VidaMax = 300;
+        Vida = 200;
+        VidaMax = 200;
         Inmovil = false;
         RangoAtaque = 1.2f;
         CoAtaque = atacar();
@@ -150,7 +150,7 @@ public class TankAgentNPC : AgentNPC
                     }
 
                     //2. Si tengo la vida maxima ya puedo volver a buscar enemigos
-                    else if (Vida == 300)
+                    else if (Vida == VidaMax)
                     {
                         salir(estadoAct);
                         finalidadPathFinding = typeRecorrerCamino.aVigilar;
@@ -180,7 +180,7 @@ public class TankAgentNPC : AgentNPC
                     else if (haLlegadoADestino(puntoInteres)) {
                         FindObjectOfType<LectorTeclado>().clearList(this);
                         salir(estadoAct);
-                        if (finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario) {
+                        if (finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario || finalidadPathFinding == typeRecorrerCamino.aDefender) {
                             finalidadPathFinding = typeRecorrerCamino.aVigilar;
                             puntoInteres = getFirstPointPath(pathToFollow);
                             entrar(State.RecorriendoCamino);
@@ -301,7 +301,7 @@ public class TankAgentNPC : AgentNPC
                     //2.
                     if (haLlegadoADestino(puntoInteres)) {
                         salir(estadoAct);
-                        if ((finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario)) {
+                        if ((finalidadPathFinding == typeRecorrerCamino.reaparecer || finalidadPathFinding == typeRecorrerCamino.seleccionUsuario || finalidadPathFinding == typeRecorrerCamino.aDefender)) {
                             finalidadPathFinding = typeRecorrerCamino.aConquistar;
                             puntoInteres = getFirstPointPath(pathToFollow);
                             entrar(State.RecorriendoCamino);

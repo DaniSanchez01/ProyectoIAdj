@@ -23,7 +23,7 @@ public class TerrainMap : MonoBehaviour
     public List<Vector3> waypointReaparicionRojo = new List<Vector3>();
     public List<Vector3> waypointReaparicionAzul = new List<Vector3>();
 
-    public bool giz = false;
+    public bool depuration = false;
     TypeTerrain[,] mapa;
     
     void Awake() {
@@ -509,7 +509,7 @@ public class TerrainMap : MonoBehaviour
 
     protected void OnDrawGizmos()
     {
-        if (giz == true) {    
+        if (depuration == true) {    
             Gizmos.color = Color.blue;
             foreach (var n in waypointBaseAzul){
                 Gizmos.DrawSphere(n, 1);
