@@ -1307,7 +1307,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 1
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 17
   team: 1
   firstTarget: {fileID: 107190052}
   influencia: 0
@@ -2516,7 +2516,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 12
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 21
   team: 1
   firstTarget: {fileID: 107190052}
   influencia: 0
@@ -2834,7 +2834,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 10
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 16
   team: 0
   firstTarget: {fileID: 1751643312}
   influencia: 0
@@ -2843,7 +2843,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &302693095 stripped
@@ -3077,7 +3077,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &317103532 stripped
@@ -4386,7 +4386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 510990027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.02, y: 0, z: 70.2}
+  m_LocalPosition: {x: 55.09, y: 0, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4962,7 +4962,7 @@ MonoBehaviour:
   waypointBaseAzul: []
   waypointReaparicionRojo: []
   waypointReaparicionAzul: []
-  giz: 1
+  depuration: 0
 --- !u!4 &548941006
 Transform:
   m_ObjectHideFlags: 0
@@ -6078,7 +6078,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 3
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 2
   team: 1
   firstTarget: {fileID: 107190052}
   influencia: 0
@@ -6297,7 +6297,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 15
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 21
   team: 1
   firstTarget: {fileID: 107190052}
   influencia: 0
@@ -6306,7 +6306,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &718678506 stripped
@@ -8284,7 +8284,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 7
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 18
   team: 0
   firstTarget: {fileID: 1751643312}
   influencia: 0
@@ -8428,7 +8428,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &1101587009 stripped
@@ -12164,7 +12164,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 2
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 3
   team: 0
   firstTarget: {fileID: 1664759829}
   influencia: 0
@@ -12229,8 +12229,8 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 3
-  OffensivePathToFollow: 5
+  pathToFollow: 23
+  OffensivePathToFollow: 22
   team: 1
   firstTarget: {fileID: 1664874837}
   influencia: 0
@@ -12511,7 +12511,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 3
   pathToFollow: 14
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 17
   team: 1
   firstTarget: {fileID: 1680084009}
   influencia: 0
@@ -12520,7 +12520,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &1680084013 stripped
@@ -12770,7 +12770,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 3
   pathToFollow: 8
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 16
   team: 0
   firstTarget: {fileID: 1698680624}
   influencia: 0
@@ -12779,7 +12779,7 @@ MonoBehaviour:
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 0
+  modo: 1
   grid: {fileID: 0}
   console: 0
 --- !u!4 &1698680628 stripped
@@ -13440,7 +13440,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 5
   pathToFollow: 0
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 20
   team: 0
   firstTarget: {fileID: 1751643312}
   influencia: 0
@@ -13929,7 +13929,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 6
-  OffensivePathToFollow: 4
+  OffensivePathToFollow: 20
   team: 0
   firstTarget: {fileID: 1751643312}
   influencia: 0
@@ -15298,8 +15298,8 @@ MonoBehaviour:
   useArbitro: 1
   agentState: 0
   arbitro: 5
-  pathToFollow: 2
-  OffensivePathToFollow: 4
+  pathToFollow: 22
+  OffensivePathToFollow: 23
   team: 0
   firstTarget: {fileID: 1751643312}
   influencia: 0
@@ -16566,7 +16566,7 @@ MonoBehaviour:
   agentState: 0
   arbitro: 6
   pathToFollow: 11
-  OffensivePathToFollow: 5
+  OffensivePathToFollow: 19
   team: 1
   firstTarget: {fileID: 107190052}
   influencia: 0

@@ -19,6 +19,15 @@ public enum typePath {
     Vikingo1Azul,
     Vikingo2Azul,
     ArqueroAzul,
+    CaminoOfensivoAzul1,
+    CaminoOfensivoRojo1,
+    CaminoOfensivoAzul2,
+    CaminoOfensivoRojo2,
+    CaminoOfensivoAzul3,
+    CaminoOfensivoRojo3,
+    vigilaRioRojo2,
+    vigilaRioAzul2,
+
 
     
 }
@@ -31,7 +40,7 @@ public class PathFollowingNoOffset : SeekCraig
     int pathDir = 1;
     int currentNode = 0;
     public int mode = 1;
-    public bool giz = true;
+    public bool giz = false;
     public float intRadius = 1.5f;
     public typePath type;
 
@@ -74,10 +83,17 @@ public class PathFollowingNoOffset : SeekCraig
                 path.Add(new Vector3(28f,0f,21f));
                 path.Add(new Vector3(65f,0f,53.5f));
                 break;
-
+            case typePath.vigilaRioRojo2:
+                path.Add(new Vector3(65f,0f,53.5f));
+                path.Add(new Vector3(28f,0f,21f));
+                break;
             case typePath.vigilaRioAzul:
                 path.Add(new Vector3(23f,0f,35f));
                 path.Add(new Vector3(59f,0f,66f));
+                break;
+            case typePath.vigilaRioAzul2:
+                path.Add(new Vector3(59f,0f,66f));
+                path.Add(new Vector3(23f,0f,35f));
                 break;
             case typePath.hospitalAzul:
                 path.Add(new Vector3(77f,0f,70f));
@@ -121,6 +137,48 @@ public class PathFollowingNoOffset : SeekCraig
             case typePath.ArqueroAzul:
                 path.Add(new Vector3(46f,0f,71.5f));
                 break;
+            //Este camino guarda el puente izquierdo
+            case typePath.CaminoOfensivoAzul1:
+                path.Add(new Vector3(25.5f,0f,38f));
+                path.Add(new Vector3(12f,0f,38f));
+                break;
+            //Psa por el camino de la base a la curacion azul
+            case typePath.CaminoOfensivoAzul2:
+                path.Add(new Vector3(46.5f,0f,65f));
+                path.Add(new Vector3(46.5f,0f,80f));
+                path.Add(new Vector3(46.5f,0f,65f));
+                path.Add(new Vector3(22.5f,0f,65f));
+                break;
+            //Este camino da vueltas por la motaña de la zona azul
+            case typePath.CaminoOfensivoAzul3:
+                path.Add(new Vector3(36f,0f,49f));
+                path.Add(new Vector3(36f,0f,59f));
+                path.Add(new Vector3(22f,0f,59f));
+                path.Add(new Vector3(22f,0f,49f));
+                break;
+            //Desierto de la zona roja
+            case typePath.CaminoOfensivoRojo1:
+                path.Add(new Vector3(62f,0f,34.5f));
+                path.Add(new Vector3(72.5f,0f,34.5f));
+                path.Add(new Vector3(72.5f,0f,31.5f));               
+                path.Add(new Vector3(62f,0f,31.5f));
+                
+                break;
+            //Puente derecho
+            case typePath.CaminoOfensivoRojo2:
+                path.Add(new Vector3(67f,0f,50f));
+                path.Add(new Vector3(82f,0f,50f));
+                break;
+            //Centro zona roja
+            case typePath.CaminoOfensivoRojo3:
+                path.Add(new Vector3(55f,0f,17f));
+                path.Add(new Vector3(44f,0f,17f));
+                path.Add(new Vector3(44f,0f,27f));
+                path.Add(new Vector3(36f,0f,27f));
+                path.Add(new Vector3(44f,0f,27f));
+                path.Add(new Vector3(44f,0f,17f));
+                break;
+            
             default:
                 break;    
         }

@@ -90,7 +90,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
-    [SerializeField] private Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
+    [SerializeField] public Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     [SerializeField] protected GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
     public bool console = false;
 
@@ -192,11 +192,11 @@ public abstract class AgentNPC : Agent
     protected virtual void Start()
     {
         this.Velocity = Vector3.zero;
-        if (useArbitro) 
-            {
-                firstArbitro = arbitro;
-                listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
-            }
+        // if (useArbitro) 
+        //     {
+        //         firstArbitro = arbitro;
+        //         listSteerings = GestorArbitros.GetArbitraje(arbitro,this,firstTarget, pathToFollow); //he puesto vagante
+        //     }
         Torre[] torres = FindObjectsOfType<Torre>();
         for (int i = 0; i < torres.Length; i++){
             if (torres[i].team == this.team) torre = torres[i];
@@ -211,6 +211,18 @@ public abstract class AgentNPC : Agent
         mapaTerrenos = GameObject.FindObjectOfType<TerrainMap>();
         grid = gameObject.AddComponent<GridPathFinding>();
         grid.inicializarGrid(30,30,3,typeHeuristica.Manhattan,false);
+        //Se usa un pequeño truco para establecer el comportamiento inicial. Se pone el modo contrario y se usa la
+        //correspondiente función ChangeToDefensive/Offensive que establece el comportamiento que queremos.
+        if (modo == Modo.Defensivo) {
+            agentState = State.Conquistar;
+            modo = Modo.Ofensivo;
+            changeToDefensive();
+        }
+        else {
+            agentState = State.Vigilar;   
+            modo = Modo.Defensivo;
+            changeToOffensive();
+        }
 
     }
 
@@ -314,6 +326,10 @@ public abstract class AgentNPC : Agent
                 return new Vector3(28f,0f,21f);
             case (typePath.vigilaRioAzul):
                 return new Vector3(23f,0f,35f);
+            case typePath.vigilaRioRojo2:
+                return new Vector3(65f,0f,53.5f);       
+            case typePath.vigilaRioAzul2:
+                return new Vector3(59f,0f,66f);
             case (typePath.hospitalRojo):
                 return new Vector3(28.5f,0f,15f);
             case (typePath.hospitalAzul):
@@ -338,6 +354,18 @@ public abstract class AgentNPC : Agent
                 return new Vector3(29f,0f,64f);
             case typePath.ArqueroAzul:
                 return new Vector3(46f,0f,71.5f);
+            case typePath.CaminoOfensivoAzul1:
+                return new Vector3(25.5f,0f,38f);
+            case typePath.CaminoOfensivoAzul2:
+                return new Vector3(46.5f,0f,65f);
+            case typePath.CaminoOfensivoAzul3:
+                return new Vector3(36f,0f,49f);
+            case typePath.CaminoOfensivoRojo1:
+                return new Vector3(62f,0f,34.5f);
+            case typePath.CaminoOfensivoRojo2:
+                return new Vector3(67f,0f,50f);
+            case typePath.CaminoOfensivoRojo3:
+                return new Vector3(51.5f,0f,17f);
             default:
                 return new Vector3(44.5f,0f,80f);
         }

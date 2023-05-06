@@ -24,13 +24,11 @@ public class TankAgentNPC : AgentNPC
             this.Orientation = 180f;
         }
         //atributos inicializados del tanque
-        agentState = State.Vigilar;
         Vida = 200;
         VidaMax = 200;
         Inmovil = false;
         RangoAtaque = 1.2f;
         CoAtaque = atacar();
-        modoNPC = Modo.Defensivo;
         base.Start();
 
     }

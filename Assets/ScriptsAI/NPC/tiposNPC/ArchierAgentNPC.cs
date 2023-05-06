@@ -18,13 +18,11 @@ public class ArchierAgentNPC : AgentNPC
             this.Orientation = 180f;
         }
         //inicializacion de atributos
-        agentState = State.Vigilar;
         Vida = 80;
         VidaMax = 80;
         Inmovil = false;
         RangoAtaque = 1.5f;
         CoAtaque = atacar();
-        modoNPC = Modo.Defensivo;
         base.Start();
 
         

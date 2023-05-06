@@ -21,14 +21,11 @@ public class SoldierAgentNPC : AgentNPC
         if (team == Team.Blue){
             this.Orientation = 180f;
         }
-        agentState = State.Vigilar; //el estado normal del soldier
         Vida = 140;
         VidaMax = 140;
         Inmovil = false;
         RangoAtaque = 1.2f;
         CoAtaque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
-        modoNPC = Modo.Defensivo; //al principio los NPC comenzaran en un modo defensivo
-        entrar(State.Vigilar);
         base.Start();
 
 

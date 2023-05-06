@@ -60,7 +60,7 @@ public class MapasTacticos : MonoBehaviour {
         return vulnerabilidad[x,y];
     }
     
-    void Start() {
+    void Awake() {
 
         // Inicializar los arrays de distancia y colores
         array_rojo = new float[30, 30]; // Inicializamos el array a 0
@@ -157,7 +157,8 @@ public class MapasTacticos : MonoBehaviour {
             Vector2Int celda = getCeldaDePuntoPlano(npc.Position);
             int x = celda.x;
             int y = celda.y;
-
+            x = System.Math.Clamp(x,0,29);
+            y = System.Math.Clamp(y,0,29);
             if (mapa[x, y] < npc.influencia){    
                 mapa[x, y] = npc.influencia;
                 if (npc.influencia > reduccion_influencia) expandir(mapa,celda, npc.influencia-reduccion_influencia);
