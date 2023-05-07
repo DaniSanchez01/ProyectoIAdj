@@ -239,8 +239,11 @@ public class TankAgentNPC : AgentNPC
                     //3.Si tu vida<=40 y ves un aliado
                     else if(Vida<=40)
                     {
+                        
+                       
                         EnemigoActual = veoAliado();
-                        if(EnemigoActual)
+                       
+                        if (EnemigoActual)
                         {
                             salir(estadoAct);
                             entrar(State.Atacar);

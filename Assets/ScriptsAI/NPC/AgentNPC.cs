@@ -716,7 +716,7 @@ public abstract class AgentNPC : Agent
     {
         //Si es la torre rival y la vemos con nuestro rango
         Vector3 positionTorre = torreEnemiga.gameObject.transform.position;
-        if ((Vector3.Distance(Position, positionTorre) <= arrivalRadius+12)) {
+        if ((Vector3.Distance(Position, positionTorre) <= rangoVision+12)) {
             //Devolver true
             veoTorre = true;
             return true;
@@ -730,13 +730,14 @@ public abstract class AgentNPC : Agent
 
     public AgentNPC veoAliado()
     {
-        Collider[] colisiones = Physics.OverlapSphere(this.Position, this.arrivalRadius);
+        Collider[] colisiones = Physics.OverlapSphere(this.Position, this.rangoVision);
 
         foreach (Collider obj in colisiones)
         {
             AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
 
-            if (componenteNPC != null && componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius))
+            //hay que comprobar que haya detectado a un NPC, que no sea yo mismo, que sea de mi equipo y que este en mi rango de vision
+            if (componenteNPC != null && this!=componenteNPC && componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.rangoVision))
                 return componenteNPC;
         }
         return null;
