@@ -25,6 +25,7 @@ public class SoldierAgentNPC : AgentNPC
         VidaMax = 140;
         Inmovil = false;
         RangoAtaque = 1.2f;
+        RangoVision = 4f;
         CoAtaque = atacar(); //guarda un identificador que distingue a una instancia de la corutina atacar()
         base.Start();
 

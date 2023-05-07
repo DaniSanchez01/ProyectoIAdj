@@ -28,6 +28,7 @@ public class TankAgentNPC : AgentNPC
         VidaMax = 200;
         Inmovil = false;
         RangoAtaque = 1.2f;
+        RangoVision = 4f;
         CoAtaque = atacar();
         base.Start();
 

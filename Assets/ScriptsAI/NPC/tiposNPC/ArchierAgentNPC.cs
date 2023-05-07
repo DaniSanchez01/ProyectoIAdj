@@ -23,7 +23,9 @@ public class ArchierAgentNPC : AgentNPC
         Vida = 80;
         VidaMax = 80;
         Inmovil = false;
-        RangoAtaque = 2.0f;
+        RangoAtaque = 7.0f;
+        RangoVision = 8.0f;
+        tipoAtaque = typeAtaque.persiguiendo;
         CoAtaque = atacar();
         base.Start();
 
@@ -70,6 +72,7 @@ public class ArchierAgentNPC : AgentNPC
                    else  if(veoEnemigo()) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
+                        tipoAtaque = typeAtaque.persiguiendo;
                         entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
                     }
                     break;
@@ -85,7 +88,7 @@ public class ArchierAgentNPC : AgentNPC
                     }
 
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
-                    else if (Vida <= 50) //si nos falta vida huimos
+                    else if (Vida <= 30) //si nos falta vida huimos
                     {
                         veoTorre = false;
                         salir(estadoAct);
@@ -101,6 +104,50 @@ public class ArchierAgentNPC : AgentNPC
                         puntoInteres = getFirstPointPath(pathToFollow);
                         entrar(State.RecorriendoCamino);
                     }
+                    //Si no es ninguna de estas opciones
+                    else {
+                        switch(tipoAtaque) {
+                            //Si el Arquero esta persiguiendo al enemigo
+                            case typeAtaque.persiguiendo:
+                                //Si ya lo tiene a rango, mantener distancia
+                                if (estaARangoEnemigoAct()) {
+                                    tipoAtaque = typeAtaque.manteniendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            case typeAtaque.retrocediendo:
+                                //Si ya se ha alejado lo suficiente, mantener distancia
+                                if (Vector3.Distance(EnemigoActual.Position, this.Position) >= (RangoAtaque * 0.90f))
+                                {
+                                    //Debug.Log(gameObject.name + "aaaa");
+                                    tipoAtaque = typeAtaque.manteniendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            case typeAtaque.manteniendo:
+                                //Si se ha acercado mucho el enemigo retroceder
+                                if (Vector3.Distance(EnemigoActual.Position, this.Position) <= (RangoAtaque * 0.50f))
+                                {
+                                    //Debug.Log(gameObject.name + "aaaa");
+                                    tipoAtaque = typeAtaque.retrocediendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
+                                }
+                                //Si se ha alejado mucho el enemigo perseguir
+                                else if (Vector3.Distance(EnemigoActual.Position, this.Position) > RangoAtaque)
+                                {
+                                    //Debug.Log(gameObject.name + "bbbb");
+                                    tipoAtaque = typeAtaque.persiguiendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            default:
+                                break;      
+                        }
+                    }           
                     break;
                 case State.Huir:
 
@@ -184,12 +231,14 @@ public class ArchierAgentNPC : AgentNPC
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
+                            tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     //4. si veo algun enemigo
                     else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
+                            tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     break;
@@ -215,12 +264,14 @@ public class ArchierAgentNPC : AgentNPC
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
+                            tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     //2. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
                     else if (veoEnemigo()) //1 transicion de Vigilar
                     {
                         salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
+                        tipoAtaque = typeAtaque.persiguiendo;
                         entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
                     }
                     break;
@@ -259,6 +310,50 @@ public class ArchierAgentNPC : AgentNPC
                             entrar(State.RecorriendoCamino);
                         }
                     }
+                    //Si no es ninguna de estas opciones
+                    else {
+                        switch(tipoAtaque) {
+                            //Si el Arquero esta persiguiendo al enemigo
+                            case typeAtaque.persiguiendo:
+                                //Si ya lo tiene a rango, mantener distancia
+                                if (estaARangoEnemigoAct()) {
+                                    tipoAtaque = typeAtaque.manteniendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            case typeAtaque.retrocediendo:
+                                //Si ya se ha alejado lo suficiente, mantener distancia
+                                if (Vector3.Distance(EnemigoActual.Position, this.Position) >= (RangoAtaque * 0.90f))
+                                {
+                                    //Debug.Log(gameObject.name + "aaaa");
+                                    tipoAtaque = typeAtaque.manteniendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            case typeAtaque.manteniendo:
+                                //Si se ha acercado mucho el enemigo retroceder
+                                if (Vector3.Distance(EnemigoActual.Position, this.Position) <= (RangoAtaque * 0.50f))
+                                {
+                                    //Debug.Log(gameObject.name + "aaaa");
+                                    tipoAtaque = typeAtaque.retrocediendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
+                                }
+                                //Si se ha alejado mucho el enemigo perseguir
+                                else if (Vector3.Distance(EnemigoActual.Position, this.Position) > RangoAtaque)
+                                {
+                                    //Debug.Log(gameObject.name + "bbbb");
+                                    tipoAtaque = typeAtaque.persiguiendo;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
+                                }
+                                break;
+                            default:
+                                break;      
+                        }
+                    } 
                     break;
                 case State.Huir:
 
@@ -355,12 +450,14 @@ public class ArchierAgentNPC : AgentNPC
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
+                            tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     //3. si ve un enemigo
                     else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
+                            tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     break;
@@ -409,40 +506,6 @@ public class ArchierAgentNPC : AgentNPC
         {
             base.Update();
             transitar(agentState);
-        }
-
-        //en cualquier estado siempre inentaremos mantener la distancia
-        if (agentState == State.Atacar)
-        {
-            if (Vector3.Distance(EnemigoActual.Position, this.Position) <= (RangoAtaque * 0.80f))
-            {
-                Debug.Log(gameObject.name + "aaaa");
-                buenRangoAtaque = false;
-                this.deleteAllSteerings();
-                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Huidizo, this, EnemigoActual, pathToFollow);
-            }
-            //si veo que estas muy lejos me acerco
-            else if (Vector3.Distance(EnemigoActual.Position, this.Position) > RangoAtaque)
-            {
-                buenRangoAtaque = false;
-                Debug.Log(gameObject.name + "bbbb");
-                this.deleteAllSteerings();
-                listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Perseguidor, this, EnemigoActual, pathToFollow);
-            }
-
-            //si la distancia del enemigo esta mas o menos entre un 80% del rango de ataque y el 100% del rango de ataque no me muevo la variable booleana buenRangoAtauqe
-            //Se usa para no estar reasignando todo el rato el velocity matching
-            else
-            {
-                Debug.Log(gameObject.name + "cccc");
-                if (!buenRangoAtaque)
-                {
-                    buenRangoAtaque = true;
-                    this.deleteAllSteerings();
-                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);
-                }
-            }
-            Inmovil = false;
         }
     }
 

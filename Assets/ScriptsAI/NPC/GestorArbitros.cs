@@ -128,6 +128,11 @@ public class GestorArbitros
                 velc.NewTarget(target);
                 steeringsDevueltos.Add(velc);
 
+                face = agente.gameObject.AddComponent<Face>();
+                face.Weight = 1f;
+                face.FaceNewTarget(target);
+                steeringsDevueltos.Add(face);
+
                 wall = agente.gameObject.AddComponent<WallAvoidance>();
                 wall.Weight = 50f;
                 steeringsDevueltos.Add(wall);

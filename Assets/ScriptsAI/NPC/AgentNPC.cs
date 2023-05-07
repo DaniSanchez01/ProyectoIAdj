@@ -6,6 +6,12 @@ using System;
 using TMPro;
 
 
+public enum typeAtaque {
+    persiguiendo,
+    retrocediendo,
+    manteniendo
+}
+
 public enum typeRecorrerCamino {
     
     reaparecer,
@@ -79,6 +85,7 @@ public abstract class AgentNPC : Agent
     private GameObject bocadillo;
     protected TerrainMap mapaTerrenos;
     public typeRecorrerCamino finalidadPathFinding;
+    public typeAtaque tipoAtaque;
     protected int baseDamage = 10;
     private TMP_Text contador;
     protected Vector3 puntoInteres;
@@ -89,6 +96,8 @@ public abstract class AgentNPC : Agent
     [SerializeField] private AgentNPC enemigoActual = null;  //enemigo actual que se ha detectado
     [SerializeField] private bool inmovil; //indica si se queda totalmente inmovil o no debido a que ha atacado
     [SerializeField] private float rangoAtaque; //simboliza el rango de ataque de una unidad
+    [SerializeField] private float rangoVision; //simboliza el rango de vision de una unidad
+
     [SerializeField] private IEnumerator coataque; //corutina de ataque que solo se activara cuando se este en modo ataque.
     [SerializeField] public Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     [SerializeField] protected GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
@@ -156,6 +165,14 @@ public abstract class AgentNPC : Agent
         get { return rangoAtaque; }
         protected set { rangoAtaque = value; }
     }
+
+    //Propiedad que simboliza el rango de vision de una unidad determinada
+    public float RangoVision
+    {
+        get { return rangoVision; }
+        protected set { rangoVision = value; }
+    }
+
 
     //usado para acceder a la corutina de ataque del NPC
     public IEnumerator CoAtaque
@@ -453,6 +470,19 @@ public abstract class AgentNPC : Agent
                 break;
             case(State.Atacar):
                 frase = "Al ataque!";
+                if (this is ArchierAgentNPC) {
+                    switch (tipoAtaque) {
+                        case (typeAtaque.manteniendo):
+                            frase = "Mantengo distancia";
+                            break;
+                        case (typeAtaque.persiguiendo):
+                            frase = "No te escapes!";
+                            break;
+                        case (typeAtaque.retrocediendo):
+                            frase = "Está demasiado cerca!";
+                            break;
+                    }
+                } 
                 break;
             case(State.Huir):
                 frase = "No quiero morir!!!";
@@ -644,7 +674,7 @@ public abstract class AgentNPC : Agent
      */
     public bool sigoViendoEnemigo(AgentNPC enemigo)
     {
-        return Vector3.Distance(enemigo.Position, this.Position) <= this.arrivalRadius;
+        return Vector3.Distance(enemigo.Position, this.Position) <= this.rangoVision;
     }
 
     //Funciones relacionadas con el ataque
@@ -668,12 +698,12 @@ public abstract class AgentNPC : Agent
      */
     public bool veoEnemigo()
     {
-        Collider[] colisiones = Physics.OverlapSphere(this.Position, this.arrivalRadius);
+        Collider[] colisiones = Physics.OverlapSphere(this.Position, this.rangoVision);
 
         foreach (Collider obj in colisiones)
         {
             AgentNPC componenteNPC = obj.GetComponent<AgentNPC>();
-            if (componenteNPC != null && !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.arrivalRadius)) {            
+            if (componenteNPC != null && !componenteNPC.team.Equals(this.team) && (Vector3.Distance(componenteNPC.Position, this.Position) <= this.rangoVision)) {            
                 //if (console) Debug.Log(componenteNPC.gameObject.name);
                 EnemigoActual = componenteNPC;
                 return true;
@@ -734,11 +764,14 @@ public abstract class AgentNPC : Agent
                 if (estaARangoTorre()) {
                     torreEnemiga.recibirDamage(baseDamage);
                     //quedate quieto durante 2 segundos
-                    Inmovil = true; //quedate quieto
-                    this.Acceleration = Vector3.zero;
-                    this.AngularAcc = 0;
-                    this.Velocity = Vector3.zero;
-                    this.Rotation = 0;
+                    if (this is not ArchierAgentNPC) {
+                        Inmovil = true; //quedate quieto
+                        this.Acceleration = Vector3.zero;
+                        this.AngularAcc = 0;
+                        this.Velocity = Vector3.zero;
+                        this.Rotation = 0;
+                    } 
+                    
                     yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
 
                     //1.2 Despues de haber esperado indicamos que ya se puede mover
@@ -753,11 +786,13 @@ public abstract class AgentNPC : Agent
                 int realDamage = calculateDamage();
                 EnemigoActual.recibirDamage(realDamage);
                 //quedate quieto durante 2 segundos
-                Inmovil = true; //quedate quieto
-                this.Acceleration = Vector3.zero;
-                this.AngularAcc = 0;
-                this.Velocity = Vector3.zero;
-                this.Rotation = 0;
+                if (this is not ArchierAgentNPC) {
+                        Inmovil = true; //quedate quieto
+                        this.Acceleration = Vector3.zero;
+                        this.AngularAcc = 0;
+                        this.Velocity = Vector3.zero;
+                        this.Rotation = 0;
+                    } 
                 yield return new WaitForSeconds(2); //Esperate 2 segundos quieto
 
                 //1.2 Despues de haber esperado indicamos que ya se puede mover
@@ -951,6 +986,9 @@ public abstract class AgentNPC : Agent
     {
         base.OnDrawGizmos();
         if (depuration) {
+            if (team == Team.Red) {Gizmos.color = Color.red;}
+            else Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(this.Position,rangoVision);
             if (agentState == State.RecorriendoCamino  || agentState == State.BuscandoCuracion || (agentState == State.Conquistar && irATorre)) {
                 if (TryGetComponent<PathFollowingNoOffset>(out PathFollowingNoOffset p)) {
                     List<Vector3> path = p.getPath();
