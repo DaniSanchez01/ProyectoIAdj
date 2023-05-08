@@ -166,6 +166,28 @@ public class MapasTacticos : MonoBehaviour {
         }
     }
 
+    public bool hayMasInfluenciaEquipo(Team equipo,Vector3 posicion)
+    {
+        //1. Obtener celda
+        Vector2Int celda = getCeldaDePuntoPlano(posicion);
+        int x = celda.x;
+        int y = celda.y;
+        
+        x = System.Math.Clamp(x, 0, 29);
+        y = System.Math.Clamp(y, 0, 29);
+        //2.Se comprueba el valor de la celda en el mapa de influencia
+        float valorCelda = influencia[x, y];
+
+        //3. segun tu equipo se comprueba si este domina la celda o no
+        if (valorCelda == 0) return true; //si es 0 es un valor valido seas del equipo que seas
+        //si el valor de la celda es mayor o igual a-0.6 se admite como que podemos ir a curarnos porque no hay suficiente influencia del equipo rojo
+        else if (equipo == Team.Blue && valorCelda >= -0.6f) return true;
+        //si el valor de la celda es menor o igual a 0.6f se admite como que podemos ir a curarnos porque no hay suficiente influencia del equipo azul
+        else if (equipo == Team.Red && valorCelda <= 0.6f) return true;
+        //en otro caso es decir si  (equipo == Team.Blue && valorCelda < -0.6) || (equipo == Team.Red && valorCelda > 0.6) y valorCelda!=0
+        else return false;
+    }
+
     
     // Coger con pinzas, ver nodos, listas_coordenadas... // Ver GridPathFinding
     void expandir(float[,] mapa,Vector2Int celda, float influencia){

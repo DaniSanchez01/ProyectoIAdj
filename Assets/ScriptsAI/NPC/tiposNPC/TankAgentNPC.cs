@@ -91,7 +91,7 @@ public class TankAgentNPC : AgentNPC
                     }
 
                     //2. La primera transicion para el tanque es comprobar si le queda poca vida para huir
-                    else if (Vida <= 40)
+                    else if (Vida <= 40 && zonaCuracionSegura())
                     {
                         veoTorre = false;
                         salir(estadoAct);

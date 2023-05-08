@@ -102,7 +102,7 @@ public abstract class AgentNPC : Agent
     [SerializeField] public Modo modo; //indica si esta en modo ofensivo o defensivo y segune esto cambiara su comportamiento tactico
     [SerializeField] protected GridPathFinding grid; //grid que maneja el NPC para poder hacer pathfinding
     public bool console = false;
-
+    [SerializeField] private  MapasTacticos   mapatactico; //es una referencia al mapa tactico que se manipula 
     private int vidaMax;
     
     Color lightRed = new Color(1f, 0.5f, 0.5f, 1f);
@@ -240,7 +240,7 @@ public abstract class AgentNPC : Agent
             modo = Modo.Defensivo;
             changeToOffensive();
         }
-
+        mapatactico = GameObject.FindObjectOfType<MapasTacticos>();
     }
 
     public void changeMode() {
@@ -394,6 +394,21 @@ public abstract class AgentNPC : Agent
         depuration = !depuration;
         bocadillo.SetActive(depuration);
 
+    }
+
+    /*
+     * Metodo que pregunta si en el punto de curacion del equipo del personaje hay mas influencia de su equipo o no.
+     */
+    public bool zonaCuracionSegura()
+    {
+        Vector3 puntoCuracion;
+        //Segun el equipo me fijo en un punto de curacion o otro
+        if (team == Team.Blue) puntoCuracion = mapaTerrenos.waypointCuracionAzul[0];
+        else puntoCuracion = mapaTerrenos.waypointCuracionRojo[0];
+
+        
+        return mapatactico.hayMasInfluenciaEquipo(team, puntoCuracion);
+        
     }
 
     public void changeGuerraTotal() {

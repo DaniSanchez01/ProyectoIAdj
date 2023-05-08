@@ -77,7 +77,7 @@ public class SoldierAgentNPC : AgentNPC
                     }
                     break;
                 case State.Atacar:
-
+                    
                     //1.Transicion que es comprobar si me han matado
                     if (Vida == 0)
                     {
@@ -88,7 +88,8 @@ public class SoldierAgentNPC : AgentNPC
 
 
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
-                   else  if (Vida <= 20) //si nos falta vida huimos
+                    
+                   else  if (Vida <= 20 && zonaCuracionSegura()) //si nos falta vida y la zona de curacion de nuestro equipo es segura huimos
                     {
                         veoTorre = false;
                         salir(estadoAct);
@@ -248,7 +249,7 @@ public class SoldierAgentNPC : AgentNPC
                     }
 
                     //2. La primera transicion que se comprueba es la de huir pues si nos falta vida tendremos que huir para evitar un comportamiento anti-suicida
-                    else if (Vida <= 20 && !GuerraTotal) //si nos falta vida huimos y si no estamos en guerra total
+                    else if (Vida <= 20 && !GuerraTotal && zonaCuracionSegura()) //si nos falta vida huimos y si no estamos en guerra total y si la zona de curacion es segura
                     {
                         veoTorre = false;
                         salir(estadoAct);
