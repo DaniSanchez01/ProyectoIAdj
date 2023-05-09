@@ -97,16 +97,16 @@ public class SoldierAgentNPC : AgentNPC
                     }
 
                     //3. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
-                    else if (!veoTorre) {
-                        if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
+                    
+                   else if (!veoTorre && (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
                         {
-                            veoTorre = false;
-                            salir(estadoAct);
-                            finalidadPathFinding = typeRecorrerCamino.aVigilar;
-                            puntoInteres = getFirstPointPath(pathToFollow);
-                            entrar(State.RecorriendoCamino);
+                          veoTorre = false;
+                          salir(estadoAct);
+                          finalidadPathFinding = typeRecorrerCamino.aVigilar;
+                          puntoInteres = getFirstPointPath(pathToFollow);
+                          entrar(State.RecorriendoCamino);
                         }
-                    }
+                    
 
                     //en otro caso pues no se hace nada y se ejecutaria cada cierto tiempo la rutina atacar()
                     break;
@@ -190,20 +190,13 @@ public class SoldierAgentNPC : AgentNPC
                         }
                         else entrar(State.Vigilar);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //3.Si veo la torre enemiga a mitad de camino o a un enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);
                         }
-                    //4.Si veo a un enemigo a mitad de camino
-                    else if(veoEnemigo()) {
-                            FindObjectOfType<LectorTeclado>().clearList(this);
-                            salir(estadoAct);
-                            entrar(State.Atacar);
-                        }
-                    
                     break;
                 default:
                     break;
@@ -223,20 +216,13 @@ public class SoldierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //2.Si veo la torre enemiga a mitad de camino o a un enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);
                         }
-                    //2. La primera transición del estado Wander se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    else if (veoEnemigo()) //1 transicion de WanderSoldier
-                    {
-
-                        salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
-                        entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
-                    }
                     break;
                 case State.Atacar:
 
@@ -367,15 +353,9 @@ public class SoldierAgentNPC : AgentNPC
                         //Vamos a la torre
                         else entrar(State.Conquistar);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //3.Si veo la torre enemiga a mitad de camino o a un enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
-                            FindObjectOfType<LectorTeclado>().clearList(this);
-                            salir(estadoAct);
-                            entrar(State.Atacar);
-                        }
-                    //si veo al enemigo
-                    else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             entrar(State.Atacar);

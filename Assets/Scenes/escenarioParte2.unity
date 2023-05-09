@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17975011, g: 0.22506611, b: 0.3065676, a: 1}
+  m_IndirectSpecularColor: {r: 0.17974961, g: 0.22506526, b: 0.30656594, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1409,13 +1409,16 @@ MonoBehaviour:
   firstTarget: {fileID: 107190052}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &107190056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -2618,13 +2621,16 @@ MonoBehaviour:
   firstTarget: {fileID: 107190052}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &250084702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -2936,13 +2942,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1751643312}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
-  modo: 1
+  rangoVision: 0
+  modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &302693095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -3170,13 +3179,16 @@ MonoBehaviour:
   firstTarget: {fileID: 317103528}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 1
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &317103532 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -6180,13 +6192,16 @@ MonoBehaviour:
   firstTarget: {fileID: 107190052}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &700741181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -6399,13 +6414,16 @@ MonoBehaviour:
   firstTarget: {fileID: 107190052}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 1
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &718678506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -8368,13 +8386,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1751643312}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1078611094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -8503,13 +8524,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1101587005}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 1
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1101587009 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -12248,13 +12272,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1664759829}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1664759833 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -12314,13 +12341,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1664874837}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1664874841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -12596,13 +12626,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1680084009}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 1
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1680084013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -12855,13 +12888,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1698680624}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 1
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1698680628 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: c05f9c2621b54304a88daaa0d2ad5895, type: 3}
@@ -13525,13 +13561,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1751643312}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1751643316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -14014,13 +14053,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1751643312}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1801564832 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}
@@ -15384,13 +15426,16 @@ MonoBehaviour:
   firstTarget: {fileID: 1751643312}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &1909517007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 02d3f7304aa7a2341bc37de2cef1e968, type: 3}
@@ -16651,13 +16696,16 @@ MonoBehaviour:
   firstTarget: {fileID: 107190052}
   influencia: 0
   finalidadPathFinding: 0
+  tipoAtaque: 0
   vida: 0
   enemigoActual: {fileID: 0}
   inmovil: 0
   rangoAtaque: 0
+  rangoVision: 0
   modo: 0
   grid: {fileID: 0}
   console: 0
+  mapatactico: {fileID: 0}
 --- !u!4 &2063818895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7249367459015126640, guid: 588f0601e968a02449ff20a0d7fdc9a5, type: 3}

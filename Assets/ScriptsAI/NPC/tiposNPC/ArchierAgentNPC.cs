@@ -96,7 +96,7 @@ public class ArchierAgentNPC : AgentNPC
                     }
 
                     //3. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
-                    else if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
+                    else if (!veoTorre && (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
                     {
                         veoTorre = false;
                         salir(estadoAct);
@@ -226,16 +226,9 @@ public class ArchierAgentNPC : AgentNPC
                         }
                         else entrar(State.Vigilar);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //3.Si veo la torre enemiga a mitad de camino o algun enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
-                            FindObjectOfType<LectorTeclado>().clearList(this);
-                            salir(estadoAct);
-                            tipoAtaque = typeAtaque.persiguiendo;
-                            entrar(State.Atacar);
-                        }
-                    //4. si veo algun enemigo
-                    else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             tipoAtaque = typeAtaque.persiguiendo;
@@ -259,21 +252,14 @@ public class ArchierAgentNPC : AgentNPC
                         salir(estadoAct);
                         entrar(State.Muerto);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //2.Si veo la torre enemiga a mitad de camino o a un enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
-                    //2. La primera transicion del estado Vigilar se corresponde a cambiar a estado de ataque si se ve un enemigo.
-                    else if (veoEnemigo()) //1 transicion de Vigilar
-                    {
-                        salir(estadoAct); //Me quedo quieto despues de salir no tengo steerings
-                        tipoAtaque = typeAtaque.persiguiendo;
-                        entrar(State.Atacar); //voy a entrar en ataque y digo el enemigo que he detectado
-                    }
                     break;
 
                 case State.Atacar:
@@ -445,16 +431,9 @@ public class ArchierAgentNPC : AgentNPC
                         //Vamos a la torre
                         else entrar(State.Conquistar);
                     }
-                    //3.Si veo la torre enemiga a mitad de camino
-                    else if(veoTorreEnemiga()) {
+                    //3.Si veo la torre enemiga a mitad de camino o aun enemigo
+                    else if(veoTorreEnemiga() || veoEnemigo()) {
                             
-                            FindObjectOfType<LectorTeclado>().clearList(this);
-                            salir(estadoAct);
-                            tipoAtaque = typeAtaque.persiguiendo;
-                            entrar(State.Atacar);
-                        }
-                    //3. si ve un enemigo
-                    else if(veoEnemigo()) {
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
                             tipoAtaque = typeAtaque.persiguiendo;
