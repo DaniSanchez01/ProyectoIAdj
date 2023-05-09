@@ -173,8 +173,6 @@ public class MapasTacticos : MonoBehaviour {
         int x = celda.x;
         int y = celda.y;
         
-        x = System.Math.Clamp(x, 0, 29);
-        y = System.Math.Clamp(y, 0, 29);
         //2.Se comprueba el valor de la celda en el mapa de influencia
         float valorCelda = influencia[x, y];
 
