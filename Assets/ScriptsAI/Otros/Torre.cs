@@ -14,6 +14,8 @@ public class Torre: MonoBehaviour
     TerrainMap mapa;
     bool puedoPedirAyuda = true;
     bool guerraTotal = false;
+    public GameObject musica;
+    public AudioClip cancionVictoria;
 
     public List<AgentNPC> ejercito;
     // Start is called before the first frame update
@@ -22,7 +24,7 @@ public class Torre: MonoBehaviour
         mapa = FindObjectOfType<TerrainMap>();
         contador = transform.Find("ContadorVida").GetComponent<TMP_Text>();
         UpdateContador();
-        virtualAgent = Agent.CreateStaticVirtual(this.gameObject.transform.position);
+        virtualAgent = Agent.CreateStaticVirtual(this.gameObject.transform.position,paint: false);
         AgentNPC[] listaNPCs = FindObjectsOfType<AgentNPC>();
         foreach (var npc in listaNPCs) {
             if (npc.team == this.team) {
@@ -53,9 +55,14 @@ public class Torre: MonoBehaviour
         AgentNPC[] listaNPCs = FindObjectsOfType<AgentNPC>();
         foreach (var npc in listaNPCs) {
             npc.Inmovil = true;
-            npc.BaseDamage = 0;
+            npc.StopAllCoroutines();
         }
         textoVictoria.SetActive(true);
+        AudioSource m = musica.GetComponent<AudioSource>();
+        m.Stop();
+        m.clip = cancionVictoria;
+        m.loop = false;
+        m.Play();
         gameObject.SetActive(false);
         
     }
@@ -91,6 +98,9 @@ public class Torre: MonoBehaviour
             yield return new WaitForSeconds(15f);
         }
     }
+//     public void OnDrawGizmos(){
+//     Gizmos.DrawWireSphere(this.gameObject.transform.position,8);
+// }
 }
 class ComparadorPorDistancia : IComparer<AgentNPC> {
     public Torre torre;
@@ -105,4 +115,6 @@ class ComparadorPorDistancia : IComparer<AgentNPC> {
         }
         return distA.CompareTo(distB);
     }
+
+
 }

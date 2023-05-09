@@ -18,7 +18,8 @@ public class SpeedAgentNPC : AgentNPC
         }
         base.Start();
     }
-
+    public override void determineMaxSpeedTerrain() {
+    }
     public override float getTerrainCost(Nodo a) {
         return 1;
     }

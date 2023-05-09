@@ -9,7 +9,8 @@ using TMPro;
 public enum typeAtaque {
     persiguiendo,
     retrocediendo,
-    manteniendo
+    manteniendo,
+    torre
 }
 
 public enum typeRecorrerCamino {
@@ -65,7 +66,7 @@ public abstract class AgentNPC : Agent
     public bool useArbitro = false;
 
     private Torre torre;
-    private Torre torreEnemiga;
+    protected Torre torreEnemiga;
 
     protected bool veoTorre;
     public State agentState = State.Normal;
@@ -493,6 +494,9 @@ public abstract class AgentNPC : Agent
                         case (typeAtaque.persiguiendo):
                             frase = "No te escapes!";
                             break;
+                        case (typeAtaque.torre):
+                            frase = "Disparando a la torre!";
+                            break;
                         case (typeAtaque.retrocediendo):
                             frase = "Está demasiado cerca!";
                             break;
@@ -556,7 +560,7 @@ public abstract class AgentNPC : Agent
 
         if (!useArbitro) this.listSteerings = GetComponents<SteeringBehaviour>().ToList();
         finishTimer();
-
+        determineMaxSpeedTerrain();
         ApplySteering(Time.deltaTime);
 
         putBocadillo();
@@ -573,7 +577,7 @@ public abstract class AgentNPC : Agent
         Velocity += Acceleration * deltaTime;
         Rotation += AngularAcc * deltaTime; 
         Position += Velocity * deltaTime; 
-        Orientation += Rotation * deltaTime; 
+        Orientation += Rotation * deltaTime;
         // Pasar los valores Position y Orientation a Unity.
         // Posición no es necesario. Ver observación final.
         transform.rotation = new Quaternion(); //Quaternion.identity;
@@ -583,7 +587,7 @@ public abstract class AgentNPC : Agent
 
     }
 
-
+    public abstract void determineMaxSpeedTerrain();
 
     public virtual void LateUpdate()
     {
@@ -731,7 +735,7 @@ public abstract class AgentNPC : Agent
     {
         //Si es la torre rival y la vemos con nuestro rango
         Vector3 positionTorre = torreEnemiga.gameObject.transform.position;
-        if ((Vector3.Distance(Position, positionTorre) <= rangoVision+12)) {
+        if ((Vector3.Distance(Position, positionTorre) <= rangoVision+8)) {
             //Devolver true
             veoTorre = true;
             return true;

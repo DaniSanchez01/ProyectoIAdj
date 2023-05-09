@@ -10,6 +10,7 @@ public class ArchierAgentNPC : AgentNPC
     protected override void Start()
     {
         this.MaxSpeed = 7f;
+        this.MaxSpeedTerrain = 7f;
         this.MaxAcceleration = 20f;
         this.MaxRotation = 180f;
         this.MaxForce = 30f;
@@ -31,6 +32,29 @@ public class ArchierAgentNPC : AgentNPC
 
         
 
+    }
+    public override void determineMaxSpeedTerrain() {
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+            float mult;
+            switch (t) {
+                case (TypeTerrain.camino):
+                    mult = 1;
+                    break;
+                case (TypeTerrain.llanura):
+                    mult = 0.8f;
+                    break;
+                case (TypeTerrain.bosque):
+                    mult = 1.3f;
+                    break;
+                case (TypeTerrain.desierto):
+                    mult = 0.3f;
+                    break;
+                default:
+                    mult = 1;  
+                    break;           
+            }
+            MaxSpeedTerrain = MaxSpeed*mult;
     }
 
     public override float getTerrainCost(Nodo a) {
@@ -105,7 +129,7 @@ public class ArchierAgentNPC : AgentNPC
                         entrar(State.RecorriendoCamino);
                     }
                     //Si no es ninguna de estas opciones
-                    else {
+                    else if (!veoTorre){
                         switch(tipoAtaque) {
                             //Si el Arquero esta persiguiendo al enemigo
                             case typeAtaque.persiguiendo:
@@ -231,7 +255,8 @@ public class ArchierAgentNPC : AgentNPC
                             
                             FindObjectOfType<LectorTeclado>().clearList(this);
                             salir(estadoAct);
-                            tipoAtaque = typeAtaque.persiguiendo;
+                            if(veoTorreEnemiga()) tipoAtaque = typeAtaque.torre;
+                            else tipoAtaque = typeAtaque.persiguiendo;
                             entrar(State.Atacar);
                         }
                     break;
@@ -281,7 +306,7 @@ public class ArchierAgentNPC : AgentNPC
                     }
 
                     //3. La segunda es si tenemos vida suficiente y enemigo esta muerto o no lo seguimos viendo  o ambas deberemos pasar a un estado de vigilar.
-                    else if ((EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
+                    else if (!veoTorre && (EnemigoActual.estaMuerto() || !sigoViendoEnemigo(EnemigoActual)))
                     {
 
                         veoTorre = false;
@@ -302,7 +327,13 @@ public class ArchierAgentNPC : AgentNPC
                             //Si el Arquero esta persiguiendo al enemigo
                             case typeAtaque.persiguiendo:
                                 //Si ya lo tiene a rango, mantener distancia
-                                if (estaARangoEnemigoAct()) {
+                                if (estaARangoTorre()) {
+                                    Debug.Log(gameObject.name);
+                                    tipoAtaque = typeAtaque.torre;
+                                    this.deleteAllSteerings();
+                                    listSteerings = GestorArbitros.GetArbitraje(typeArbitro.Quieto, this, torreEnemiga.virtualAgent, pathToFollow);
+                                }
+                                else if (estaARangoEnemigoAct() && (EnemigoActual.gameObject.name!=gameObject.name)) {
                                     tipoAtaque = typeAtaque.manteniendo;
                                     this.deleteAllSteerings();
                                     listSteerings = GestorArbitros.GetArbitraje(typeArbitro.VelocityMatch, this, EnemigoActual, pathToFollow);

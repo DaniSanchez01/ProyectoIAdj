@@ -14,6 +14,7 @@ public class TankAgentNPC : AgentNPC
     protected override void Start()
     {
         this.MaxSpeed = 3f;
+        this.MaxSpeedTerrain = 3f;
         this.MaxAcceleration = 12f;
         this.MaxRotation = 140f;
         this.MaxForce = 30f;
@@ -34,6 +35,29 @@ public class TankAgentNPC : AgentNPC
 
     }
 
+    public override void determineMaxSpeedTerrain() {
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+            float mult;
+            switch (t) {
+                case (TypeTerrain.camino):
+                    mult = 1;
+                    break;
+                case (TypeTerrain.llanura):
+                    mult = 0.8f;
+                    break;
+                case (TypeTerrain.bosque):
+                    mult = 0.5f;
+                    break;
+                case (TypeTerrain.desierto):
+                    mult = 1f;
+                    break;
+                default:
+                    mult = 1;  
+                    break;           
+            }
+            MaxSpeedTerrain = MaxSpeed*mult;
+    }
     public override float getTerrainCost(Nodo a) {
             
             TypeTerrain t = mapaTerrenos.getTerrenoCasilla(a.Celda.x,a.Celda.y);
@@ -51,12 +75,6 @@ public class TankAgentNPC : AgentNPC
             }
 
     }
-
-
-    
-
-
-
 
     public override void transitar(State estadoAct)
     {

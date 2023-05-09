@@ -9,6 +9,7 @@ public class Bodi : MonoBehaviour
 
     [SerializeField] protected float _mass = 1;
     [SerializeField] protected float _maxSpeed = 1;
+    [SerializeField] protected float _maxSpeedTerrain = 1;
     [SerializeField] protected float _maxRotation = 1;
     [SerializeField] protected float _maxAcceleration = 1;
     [SerializeField] protected float _maxAngularAcc = 1;
@@ -44,10 +45,16 @@ public class Bodi : MonoBehaviour
         get { return _maxSpeed; }
         set { _maxSpeed = Mathf.Max(0, value); }
     }
+    public float MaxSpeedTerrain
+    {
+        get { return _maxSpeedTerrain; }
+        set { _maxSpeedTerrain = Mathf.Max(0, value); }
+    }
+
     public float Speed
     {
         get { return _speed; }
-        set { float sp = Mathf.Max(0, _maxSpeed);
+        set { float sp = Mathf.Max(0, _maxSpeedTerrain);
                 if (sp < 0.03) _speed = 0f;
                 else _speed = sp;
         }
@@ -56,7 +63,7 @@ public class Bodi : MonoBehaviour
     public Vector3 Velocity
     {
         get { return new Vector3(_velocity.x, _velocity.y, _velocity.z); } // Devuelve una copia del vector
-        set {  Vector3 vel = Vector3.ClampMagnitude(value, _maxSpeed);
+        set {  Vector3 vel = Vector3.ClampMagnitude(value, _maxSpeedTerrain);
                 if (vel.magnitude < 0.03) _velocity = Vector3.zero;
                 else _velocity = vel;
         }

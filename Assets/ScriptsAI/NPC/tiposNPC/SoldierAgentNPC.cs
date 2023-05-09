@@ -12,6 +12,7 @@ public class SoldierAgentNPC : AgentNPC
     protected override void Start()
     {
         this.MaxSpeed = 5f;
+        this.MaxSpeedTerrain = 5f;
         this.MaxAcceleration = 16f;
         this.MaxRotation = 180f;
         this.MaxForce = 30f;
@@ -32,6 +33,29 @@ public class SoldierAgentNPC : AgentNPC
 
     }
 
+    public override void determineMaxSpeedTerrain() {
+        Vector2Int celdaActual = grid.getCeldaDePuntoPlano(this.Position);
+        TypeTerrain t = mapaTerrenos.getTerrenoCasilla(celdaActual.x,celdaActual.y);
+            float mult;
+            switch (t) {
+                case (TypeTerrain.camino):
+                    mult = 1;
+                    break;
+                case (TypeTerrain.llanura):
+                    mult = 0.8f;
+                    break;
+                case (TypeTerrain.bosque):
+                    mult = 0.6f;
+                    break;
+                case (TypeTerrain.desierto):
+                    mult = 0.4f;
+                    break;
+                default:
+                    mult = 1;  
+                    break;           
+            }
+            MaxSpeedTerrain = MaxSpeed*mult;
+    }
     public override float getTerrainCost(Nodo a) {
             
             TypeTerrain t = mapaTerrenos.getTerrenoCasilla(a.Celda.x,a.Celda.y);
@@ -419,13 +443,6 @@ public class SoldierAgentNPC : AgentNPC
     public override void LateUpdate()
     {
         base.LateUpdate();
-    }
-
-    protected  override void OnDrawGizmos()
-    {
-        base.OnDrawGizmos();
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(transform.position, (float) RangoAtaque);
     }
 
 

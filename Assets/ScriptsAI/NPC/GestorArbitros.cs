@@ -80,10 +80,10 @@ public class GestorArbitros
                 arrive.Weight = 1f;
                 arrive.NewTarget(agente);
                 steeringsDevueltos.Add(arrive);
-                align = agente.gameObject.AddComponent<Align>();
-                align.Weight = 1f;
-                align.NewTarget(agente);
-                steeringsDevueltos.Add(align);
+                face = agente.gameObject.AddComponent<Face>();
+                face.Weight = 1f;
+                face.FaceNewTarget(target);
+                steeringsDevueltos.Add(face);
                 break;
 
             case typeArbitro.Aleatorio:

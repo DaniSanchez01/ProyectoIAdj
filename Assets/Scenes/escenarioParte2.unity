@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17974961, g: 0.22506526, b: 0.30656594, a: 1}
+  m_IndirectSpecularColor: {r: 0.17975011, g: 0.22506611, b: 0.3065676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1386,6 +1386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -2598,6 +2599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -2919,6 +2921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -3156,6 +3159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -6169,6 +6173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -6391,6 +6396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -8363,6 +8369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -8501,6 +8508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -12249,6 +12257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -12318,6 +12327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -12603,6 +12613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -12865,6 +12876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -13538,6 +13550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -14030,6 +14043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -15403,6 +15417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
@@ -16673,6 +16688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mass: 1
   _maxSpeed: 1
+  _maxSpeedTerrain: 1
   _maxRotation: 1
   _maxAcceleration: 1
   _maxAngularAcc: 1
